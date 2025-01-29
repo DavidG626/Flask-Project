@@ -1,0 +1,126 @@
+.registration-container {
+    background: white;
+    border-radius: 8px;
+    padding: 20px;
+    margin: 20px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.registration-container h2 {
+    color: #5f6368;
+    margin-bottom: 20px;
+    font-size: 1.5rem;
+}
+
+fieldset {
+    border: 1px solid #e1e4e8;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+    background: #f8f9fa;
+}
+
+legend {
+    color: #1a73e8;
+    font-weight: 500;
+    padding: 0 10px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    color: #5f6368;
+    font-weight: 500;
+}
+
+.form-input {
+    width: 100%;
+    padding: 8px 12px;
+    border: 1px solid #e1e4e8;
+    border-radius: 4px;
+    font-size: 14px;
+    background: white;
+}
+
+/* Date fields styling */
+.date-group {
+    display: flex;
+    gap: 10px;
+}
+
+.date-group .form-input {
+    width: 33%;
+    text-align: center;
+}
+
+/* Button styling */
+.buttons {
+    margin-top: 20px;
+    display: flex;
+    gap: 10px;
+}
+
+.save-btn {
+    background: #1a73e8;
+    color: white;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 500;
+    text-decoration: none;
+}
+
+.save-btn:hover {
+    background: #1557b0;
+}
+
+.cancel-btn {
+    background: #f1f3f4;
+    color: #5f6368;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.cancel-btn:hover {
+    background: #e3e6e8;
+}
+
+
+/* Responsive adjustments */
+@media (max-width: 1600px) {
+    html {
+        font-size: 16px;
+    }
+}
+
+@media (max-width: 1200px) {
+    html {
+        font-size: 16px;
+    }
+}
+
+@media (max-width: 992px) {
+    html {
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 768px) {
+    html {
+        font-size: 12px;
+    }
+}
+
+@media (max-width: 600px) {
+    html {
+        font-size: 10px;
+    }
+}

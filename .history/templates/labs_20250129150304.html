@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patient Labs</title>
+    <link rel="stylesheet" type="text/css" href="/static/dashboard.css">
+    <link rel="stylesheet" type="text/css" href="/static/labs.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="logo">Holliston EHR</div>
+            <div class="logged-user">
+                {{ current_user.first_name }} {{ current_user.last_name }}, {{ current_user.medical_title }} 
+                <a href="{{ url_for('dashboard.logout') }}" class="logout-link">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </a>
+            </div>
+            <nav>
+                <!-- rest of your navigation -->
+                <ul>
+                    <li class="active">
+                        <a href="{{ url_for('dashboard.my_patients') }}">
+                            <i class="fas fa-user-injured"></i>My Patients
+                        </a>
+                    </li>
+                </ul>
+                <br>
+            
+                <ul>
+                    <li class="active">
+                        <a href="{{ url_for('dashboard.create_patient') }}">
+                            <i class="fas fa-user-plus"></i>Create New Patient
+                        </a>
+                    </li>
+                </ul>
+                <br>
+                <ul>
+                    <li class="active"><a href=""><i class="fas fa-calendar-alt"></i>Office Schedule</a></li>
+                </ul>
+                <br>
+                
+                <ul>
+                    <li class="active"><a href=""><i class="fas fa-procedures"></i>OR Schedule</a></li>
+                </ul>
+                <br>
+                
+                <ul>
+                    <li class="active"><a href=""><i class="fas fa-dollar-sign"></i>Billing</a></li>
+                </ul>
+                <br>
+                
+                <ul>
+                    <li class="active"><a href=""><i class="fas fa-syringe"></i>CPT</a></li>
+                </ul>
+                <br>
+
+                <ul>
+                    <li class="active"><a href=""><i class="far fa-plus-square"></i>ICD 10 Codes</a></li>
+                </ul>
+                <br>
+                
+                <ul>
+                    <li class="active">
+                        <a href="{{ url_for('dashboard.my_info') }}">
+                            <i class="fas fa-user-md"></i>My Info
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+
+                <!-- Main Content -->
+                <main>
+                    <!-- Header -->
+                    <header>
+                        <div class="search-bar">
+                            <i class="fas fa-search"></i>
+                            <form action="{{ url_for('dashboard.my_patients') }}" method="get">
+                                <input type="text" name="search" placeholder="Search Patients or Claim Number" value="{{ search_query or '' }}">
+                            </form>
+                        </div>
+                    </header>
+                    <!-- At the top of your patient info content -->
+                    <div class="patient-tabs">
+                        <a href="{{ url_for('dashboard.patient_detail', patient_id=patient.id) }}" class="tab active">Patient Info</a>
+                        <a href="{{ url_for('dashboard.patient_medical_history', patient_id=patient.id) }}" class="tab">Medical History</a>
+                        <a href="#" class="tab">Progress Notes</a>
+                        <a href="{{ url_for('dashboard.patient_labs', patient_id=patient.id) }}" class="tab">Labs</a>
+                        <a href="{{ url_for('dashboard.patient_labs', patient_id=patient.id) }}" class="tab">Labs</a>
+                        <a href="#" class="tab">Imaging</a>
+                    </div>
+                   
+                    <!-- Content Area -->
+                    <div class="content">
+                        <div class="toolbar">
+                            {% with messages = get_flashed_messages(with_categories=true) %}
+                                {% if messages %}
+                                    <ul>
+                                        {% for category, message in messages %}
+                                            <div class="{{ category }}">{{ message }}</div>
+                                        {% endfor %}
+                                    </ul>
+                                {% endif %}
+                            {% endwith %}
+                    </div>
+                   
+                
+
+                    <div class="patient-list">
+                        <h2>Lab Results - {{ patient.patient_last_name }}, {{ patient.patient_first_name }}</h2>
+                        <div class="buttons">
+                            <a href="{{ url_for('dashboard.upload_lab', patient_id=patient.id) }}" class="edit-btn">
+                                <i class="fas fa-upload"></i> Upload New Lab
+                            </a>
+                        </div>
+        
+                    {% if patient.lab_results %}
+                    <div class="patients-grid">
+                        {% for lab in patient.lab_results|sort(attribute='upload_date', reverse=true) %}
+                        <div class="patient-card">
+                            <i class="fa fa-file-pdf" aria-hidden="true"></i>
+                            <div>
+                                <span class="patient-name">{{ lab.description or 'Lab Result' }}</span>
+                                <div class="small-text">
+                                    Uploaded: {{ lab.upload_date.strftime('%m/%d/%Y') }}
+                                </div>
+                            </div>
+                            <div class="patient-details">
+                                <a href="{{ url_for('dashboard.view_lab', lab_id=lab.id) }}" class="view-link">
+                                    <i class="fas fa-eye"></i> View
+                                </a>
+                                <a href="{{ url_for('dashboard.download_lab', lab_id=lab.id) }}" class="view-link">
+                                    <i class="fas fa-download"></i> Download
+                                </a>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                        <p>No lab results uploaded yet.</p>
+                    {% endif %}
+                </div>
+</div>

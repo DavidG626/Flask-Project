@@ -1,0 +1,152 @@
+/* labs.css */
+* {
+    /* color: pink; */
+}
+/* Use your existing base styles from dashboard.css */
+.patient-card {
+    background: white;
+    border-radius: 8px;
+    padding: 20px;
+    margin: 10px 0;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: inherit;
+    transition: all 0.2s ease;
+}
+
+.patient-card:hover {
+    background: #f8f9fa;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+/* Lab specific styles */
+.patient-card .fa-file-pdf {
+    color: #e74c3c;  /* red color for PDF icon */
+    font-size: 24px;
+    margin-right: 15px;
+}
+
+.lab-date {
+    font-weight: bold;
+    color: #1a73e8;
+    margin-bottom: 5px;
+}
+
+.lab-description {
+    color: #5f6368;
+    font-size: 14px;
+}
+
+.lab-actions {
+    margin-left: auto;
+    display: flex;
+    gap: 10px;
+}
+
+.view-link {
+    color: #4a90e2;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.view-link i {
+    font-size: 14px;
+}
+
+.view-link:hover {
+    text-decoration: underline;
+}
+
+/* Upload button styling */
+.edit-btn {
+    background: #1a73e8;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 4px;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 20px;
+}
+
+.edit-btn i {
+    font-size: 14px;
+}
+
+.edit-btn:hover {
+    background: #1557b0;
+}
+
+/* No results message */
+.no-results {
+    text-align: center;
+    color: #5f6368;
+    padding: 40px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* Patient tabs styling */
+.patient-tabs {
+    display: flex;
+    gap: 5px;
+    padding: 10px 10px 0;
+    background: #f8f9fa;
+    border-bottom: 1px solid #e1e4e8;
+}
+
+.tab {
+    padding: 10px 20px;
+    text-decoration: none;
+    color: #5f6368;
+    background: #f8f9fa;
+    border: 1px solid transparent;
+    border-radius: 4px 4px 0 0;
+}
+
+.tab.active {
+    background: white;
+    border-color: #e1e4e8;
+    border-bottom-color: white;
+    color: #1a73e8;
+    margin-bottom: -1px;
+}
+
+.tab:hover {
+    color: #1a73e8;
+}
+
+/* START @MEDIA BASE FONT SIZE 16PX*/
+@media (max-width: 1600px) {
+    html {
+        font-size: 16px;
+    }
+}
+@media (max-width: 1200px) {
+    html {
+        font-size: 16px;
+    }
+}
+@media (max-width: 992px) {
+    html {
+        font-size: 14px;
+    }
+}
+@media (max-width: 768px) {
+    html {
+        font-size: 12px;
+    }
+}
+@media (max-width: 600px) {
+    html {
+        font-size: 10px;
+    }
+}
+/* END @MEDIA */
