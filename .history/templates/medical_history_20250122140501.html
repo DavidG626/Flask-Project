@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patient Medical History</title>
+    <link rel="stylesheet" type="text/css" href="/static/dashboard.css">
+    <link rel="stylesheet" type="text/css" href="/static/patient_info.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar (Same as your other templates) -->
+        <aside class="sidebar">
+            <div class="logo">Holliston EHR</div>
+            <div class="logged-user">
+                {{ current_user.first_name }} {{ current_user.last_name }}, {{ current_user.medical_title }}
+                <a href="{{ url_for('dashboard.logout') }}" class="logout-link">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </a>
+            </div>
+            <nav>
+                <ul>
+                    <li class="active">
+                        <a href="{{ url_for('dashboard.my_patients') }}">
+                            <i class="fas fa-user-injured"></i>My Patients
+                        </a>
+                    </li>
+                </ul>
+                <!-- Rest of your navigation -->
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main>
+            <!-- Header -->
+            <header>
+                <div class="search-bar">
+                    <i class="fas fa-search"></i>
+                    <form action="{{ url_for('dashboard.my_patients') }}" method="get">
+                        <input type="text" name="search" placeholder="Search Patients or Claim Number" value="{{ search_query or '' }}">
+                    </form>
+                </div>
+            </header>
+
+            <!-- Patient Tabs -->
+            <div class="patient-tabs">
+                <a href="{{ url_for('dashboard.patient_detail', patient_id=patient.id) }}" class="tab">Patient Info</a>
+                <a href="#" class="tab active">Medical History</a>
+                <a href="#" class="tab">Progress Notes</a>
+                <a href="#" class="tab">Labs</a>
+                <a href="#" class="tab">Prescriptions</a>
+            </div>
+
+            <!-- Content Area -->
+            <div class="content">
+                <div class="registration-container">
+                    <h2>Medical History - {{ patient.patient_last_name }}, {{ patient.patient_first_name }}</h2>
+                    
+                    <fieldset>
+                        <legend>Medical Conditions</legend>
+                        <div class="form-group">
+                            {% if patient.medical_history %}
+                                {% if patient.medical_history.no_medical_history %}
+                                    <div class="form-input">☑️ No medical history to report</div>
+                                {% else %}
+                                    <div class="medical-conditions">
+                                        {% if patient.medical_history.allergies %}<div>☑️ Allergies</div>{% endif %}
+                                        {% if patient.medical_history.anemia %}<div>☑️ Anemia</div>{% endif %}
+                                        {% if patient.medical_history.anxiety %}<div>☑️ Anxiety</div>{% endif %}
+                                        {% if patient.medical_history.arthritis %}<div>☑️ Arthritis</div>{% endif %}
+                                        {% if patient.medical_history.asthma %}<div>☑️ Asthma</div>{% endif %}
+                                        {% if patient.medical_history.blood_transfusion %}<div>☑️ Blood Transfusion</div>{% endif %}
+                                        {% if patient.medical_history.cancer %}<div>☑️ Cancer</div>{% endif %}
+                                        {% if patient.medical_history.congestive_heart_failure %}<div>☑️ Congestive Heart Failure</div>{% endif %}
+                                        {% if patient.medical_history.nerve_muscle_disease %}<div>☑️ Nerve/Muscle Disease</div>{% endif %}
+                                        {% if patient.medical_history.lung_disease %}<div>☑️ Lung Disease</div>{% endif %}
+                                        {% if patient.medical_history.meningitis %}<div>☑️ Meningitis</div>{% endif %}
+                                        {% if patient.medical_history.depression %}<div>☑️ Depression</div>{% endif %}
+                                        {% if patient.medical_history.hiv_aids %}<div>☑️ HIV/AIDS</div>{% endif %}
+                                        {% if patient.medical_history.kidney_disease %}<div>☑️ Kidney Disease</div>{% endif %}
+                                        {% if patient.medical_history.diabetes %}<div>☑️ Diabetes</div>{% endif %}
+                                        {% if patient.medical_history.clotting_disorder %}<div>☑️ Clotting Disorder</div>{% endif %}
+                                        {% if patient.medical_history.high_blood_pressure %}<div>☑️ High Blood Pressure</div>{% endif %}
+                                        {% if patient.medical_history.acid_reflux %}<div>☑️ Acid Reflux</div>{% endif %}
+                                        {% if patient.medical_history.glaucoma %}<div>☑️ Glaucoma</div>{% endif %}
+                                        {% if patient.medical_history.gout %}<div>☑️ Gout</div>{% endif %}
+                                        {% if patient.medical_history.heart_attack %}<div>☑️ Heart Attack</div>{% endif %}
+                                        {% if patient.medical_history.high_cholesterol %}<div>☑️ High Cholesterol</div>{% endif %}
+                                        {% if patient.medical_history.osteoporosis %}<div>☑️ Osteoporosis</div>{% endif %}
+                                        {% if patient.medical_history.seizures %}<div>☑️ Seizures</div>{% endif %}
+                                        {% if patient.medical_history.sickle_cell %}<div>☑️ Sickle Cell</div>{% endif %}
+                                        {% if patient.medical_history.stroke %}<div>☑️ Stroke</div>{% endif %}
+                                        {% if patient.medical_history.substance_abuse %}<div>☑️ Substance Abuse</div>{% endif %}
+                                        {% if patient.medical_history.thyroid_disease %}<div>☑️ Thyroid Disease</div>{% endif %}
+                                        {% if patient.medical_history.tuberculosis %}<div>☑️ Tuberculosis</div>{% endif %}
+                                        {% if patient.medical_history.ulcers %}<div>☑️ Ulcers</div>{% endif %}
+                                        {% if patient.medical_history.anesthetic_complications %}<div>☑️ Anesthetic Complications</div>{% endif %}
+                                        {% if patient.medical_history.cataracts %}<div>☑️ Cataracts</div>{% endif %}
+                                        {% if patient.medical_history.other_medical %}<div>☑️ Other: {{ patient.medical_history.other_medical }}</div>{% endif %}
+                                    </div>
+                                {% endif %}
+                            {% else %}
+                                <div class="form-input">No medical history recorded</div>
+                            {% endif %}
+                        </div>
+                    </fieldset>
+                    
+                    <fieldset>
+                        <legend>Surgical History</legend>
+                        <div class="form-group">
+                            {% if patient.medical_history %}
+                                {% if patient.medical_history.never_had_surgery %}
+                                    <div class="form-input">☑️ Never had surgery</div>
+                                {% else %}
+                                    <div class="surgery-conditions">
+                                        {% if patient.medical_history.appendix %}<div>☑️ Appendix</div>{% endif %}
+                                        {% if patient.medical_history.brain_surgery %}<div>☑️ Brain Surgery</div>{% endif %}
+                                        {% if patient.medical_history.breast_surgery %}<div>☑️ Breast Surgery</div>{% endif %}
+                                        {% if patient.medical_history.heart_bypass %}<div>☑️ Heart Bypass</div>{% endif %}
+                                        {% if patient.medical_history.gall_bladder %}<div>☑️ Gall Bladder</div>{% endif %}
+                                        {% if patient.medical_history.colon_surgery %}<div>☑️ Colon Surgery</div>{% endif %}
+                                        {% if patient.medical_history.fracture_surgery %}<div>☑️ Fracture Surgery</div>{% endif %}
+                                        {% if patient.medical_history.hernia_repair %}<div>☑️ Hernia Repair</div>{% endif %}
+                                        {% if patient.medical_history.c_section %}<div>☑️ C-Section</div>{% endif %}
+                                        {% if patient.medical_history.eye_surgery %}<div>☑️ Eye Surgery</div>{% endif %}
+                                        {% if patient.medical_history.hysterectomy %}<div>☑️ Hysterectomy</div>{% endif %}
+                                        {% if patient.medical_history.joint_replacement %}<div>☑️ Joint Replacement</div>{% endif %}
+                                        {% if patient.medical_history.small_intestine %}<div>☑️ Small Intestine Surgery</div>{% endif %}
+                                        {% if patient.medical_history.spine_surgery %}<div>☑️ Spine Surgery</div>{% endif %}
+                                        {% if patient.medical_history.tubes_tied %}<div>☑️ Tubes Tied</div>{% endif %}
+                                        {% if patient.medical_history.valve_replacement %}<div>☑️ Valve Replacement</div>{% endif %}
+                                        {% if patient.medical_history.cosmetic_surgery %}<div>☑️ Cosmetic Surgery</div>{% endif %}
+                                        {% if patient.medical_history.orthopedic_surgery %}<div>☑️ Orthopedic Surgery: {{ patient.medical_history.orthopedic_surgery }}</div>{% endif %}
+                                        {% if patient.medical_history.other_surgery %}<div>☑️ Other: {{ patient.medical_history.other_surgery }}</div>{% endif %}
+                                    </div>
+                                {% endif %}
+                            {% endif %}
+                        </div>
+                    </fieldset>
+                    
+                    <fieldset>
+                        <legend>Social History</legend>
+                        <div class="form-group">
+                            {% if patient.medical_history %}
+                                <div class="social-history">
+                                    <!-- Smoking Status -->
+                                    <div class="smoking-section">
+                                        <h4>Smoking Status:</h4>
+                                        {% if patient.medical_history.current_smoker %}
+                                            <div>☑️ Current Smoker</div>
+                                        {% endif %}
+                                        {% if patient.medical_history.former_smoker %}
+                                            <div>☑️ Former Smoker
+                                                {% if patient.medical_history.quit_date %}
+                                                    (Quit Date: {{ patient.medical_history.quit_date.strftime('%m/%d/%Y') }})
+                                                {% endif %}
+                                            </div>
+                                        {% endif %}
+                                        {% if patient.medical_history.never_smoker %}
+                                            <div>☑️ Never Smoker</div>
+                                        {% endif %}
+                                        {% if patient.medical_history.passive_smoker %}
+                                            <div>☑️ Passive Smoker</div>
+                                        {% endif %}
+                                        {% if patient.medical_history.vaping %}
+                                            <div>☑️ Vaping</div>
+                                        {% endif %}
+                                    </div>
+                    
+                                    <!-- Alcohol Use -->
+                                    <div class="alcohol-section">
+                                        <h4>Alcohol Use (per week):</h4>
+                                        <div>Wine: {{ patient.medical_history.wine_per_week or 0 }} glasses</div>
+                                        <div>Beer: {{ patient.medical_history.beer_per_week or 0 }} cans</div>
+                                        <div>Liquor: {{ patient.medical_history.liquor_per_week or 0 }} shots</div>
+                                    </div>
+                    
+                                    <!-- Drug Use -->
+                                    <div class="drug-section">
+                                        <h4>Drug Use:</h4>
+                                        {% if patient.medical_history.marijuana %}<div>☑️ Marijuana</div>{% endif %}
+                                        {% if patient.medical_history.cocaine %}<div>☑️ Cocaine</div>{% endif %}
+                                        {% if patient.medical_history.meth %}<div>☑️ Methamphetamines</div>{% endif %}
+                                        {% if patient.medical_history.iv_drugs %}<div>☑️ IV Drugs</div>{% endif %}
+                                    </div>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </fieldset>
+
+                    <div class="buttons">
+                        <a href="{{ url_for('dashboard.update_medical_history', patient_id=patient.id) }}" class="save-btn">Edit Medical History</a>
+                        <a href="{{ url_for('dashboard.patient_detail', patient_id=patient.id) }}" class="cancel-btn">Back to Patient</a>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html>

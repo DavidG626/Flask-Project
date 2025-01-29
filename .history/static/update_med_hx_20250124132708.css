@@ -1,0 +1,52 @@
+/* medical_history.css */
+* 
+
+.update-form {
+    max-width: 800px;  /* Wider than regular update form due to more fields */
+    margin: 50px auto;
+    padding: 20px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.update-form h2 {
+    color: #1a73e8;
+    margin-bottom: 20px;
+}
+
+.update-form h3 {
+    color: #5f6368;
+    margin-top: 30px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #e1e4e8;
+}
+
+.form-section {
+    background: #f8f9fa;
+    padding: 15px;
+    border-radius: 4px;
+    margin-bottom: 15px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 500;
+    color: #5f6368;
+}
+
+.form-group input[type="text"],
+.form-group input[type="date"],
+.form-group input[type="number"] {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+}
+

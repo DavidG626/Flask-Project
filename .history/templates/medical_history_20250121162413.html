@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EHR Dashboard</title>
+    <link rel="stylesheet" type="text/css" href="/static/pmh.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+
+<form action="{{ url_for('dashboard.update_medical_history', patient_id=patient.id) }}" method="POST">
+    <h2>Medical History</h2>
+    
+    <!-- Medical Conditions -->
+    <div>
+        <input type="checkbox" name="no_medical_history" id="no_medical_history" {% if patient.medical_history.no_medical_history %} checked {% endif %}>
+        <label for="no_medical_history">No medical history to report</label>
+    </div>
+
+    <div>
+        <input type="checkbox" name="allergies" id="allergies" {% if patient.medical_history.allergies %} checked {% endif %}>
+        <label for="allergies">Allergies</label>
+    </div>
+
+    <div>
+        <input type="checkbox" name="anemia" id="anemia" {% if patient.medical_history.anemia %} checked {% endif %}>
+        <label for="anemia">Anemia</label>
+    </div>
+
+    <div>
+        <input type="checkbox" name="anxiety" id="anxiety" {% if patient.medical_history.anxiety %} checked {% endif %}>
+        <label for="anxiety">Anxiety</label>
+    </div>
+
+    <div>
+        <input type="checkbox" name="arthritis" id="arthritis" {% if patient.medical_history.arthritis %} checked {% endif %}>
+        <label for="arthritis">Arthritis</label>
+    </div>
+
+    <div>
+        <input type="checkbox" name="asthma" id="asthma" {% if patient.medical_history.asthma %} checked {% endif %}>
+        <label for="asthma">Asthma</label>
+    </div>
+
+    <div>
+        <input type="checkbox" name="blood_transfusion" id="blood_transfusion" {% if patient.medical_history.blood_transfusion %} checked {% endif %}>
+        <label for="blood_transfusion">Blood Transfusion</label>
+    </div>
+
+    <div>
+        <input type="checkbox" name="cancer" id="cancer" {% if patient.medical_history.cancer %} checked {% endif %}>
+        <label for="cancer">Cancer</label>
+    </div>
+
+    <div>
+        <input type="checkbox" name="congestive_heart_failure" id="congestive_heart_failure" {% if patient.medical_history.congestive_heart_failure %} checked {% endif %}>
+        <label for="congestive_heart_failure">Congestive Heart Failure</label>
+    </div>
+
+    <!-- Add more conditions here as needed -->
+
+    <!-- Surgical History -->
+    <h2>Surgical History</h2>
+    <div>
+        <input type="checkbox" name="never_had_surgery" id="never_had_surgery" {% if patient.medical_history.never_had_surgery %} checked {% endif %}>
+        <label for="never_had_surgery">Never had surgery</label>
+    </div>
+
+    <div>
+        <input type="checkbox" name="appendix" id="appendix" {% if patient.medical_history.appendix %} checked {% endif %}>
+        <label for="appendix">Appendix Surgery</label>
+    </div>
+
+    <div>
+        <input type="checkbox" name="brain_surgery" id="brain_surgery" {% if patient.medical_history.brain_surgery %} checked {% endif %}>
+        <label for="brain_surgery">Brain Surgery</label>
+    </div>
+
+    <!-- Add more surgeries here as needed -->
+
+    <!-- Social History -->
+    <h2>Social History</h2>
+    <div>
+        <input type="checkbox" name="current_smoker" id="current_smoker" {% if patient.medical_history.current_smoker %} checked {% endif %}>
+        <label for="current_smoker">Current Smoker</label>
+    </div>
+
+    <div>
+        <input type="checkbox" name="former_smoker" id="former_smoker" {% if patient.medical_history.former_smoker %} checked {% endif %}>
+        <label for="former_smoker">Former Smoker</label>
+    </div>
+
+    <div>
+        <input type="checkbox" name="never_smoker" id="never_smoker" {% if patient.medical_history.never_smoker %} checked {% endif %}>
+        <label for="never_smoker">Never Smoker</label>
+    </div>
+
+    <div>
+        <input type="checkbox" name="passive_smoker" id="passive_smoker" {% if patient.medical_history.passive_smoker %} checked {% endif %}>
+        <label for="passive_smoker">Passive Smoker</label>
+    </div>
+
+    <div>
+        <input type="checkbox" name="vaping" id="vaping" {% if patient.medical_history.vaping %} checked {% endif %}>
+        <label for="vaping">Vaping</label>
+    </div>
+
+    <!-- Alcohol Intake -->
+    <h2>Alcohol Intake</h2>
+    <div>
+        <label for="wine_per_week">Wine (per week):</label>
+        <input type="number" name="wine_per_week" id="wine_per_week" value="{{ patient.medical_history.wine_per_week }}">
+    </div>
+
+    <div>
+        <label for="beer_per_week">Beer (per week):</label>
+        <input type="number" name="beer_per_week" id="beer_per_week" value="{{ patient.medical_history.beer_per_week }}">
+    </div>
+
+    <div>
+        <label for="liquor_per_week">Liquor (per week):</label>
+        <input type="number" name="liquor_per_week" id="liquor_per_week" value="{{ patient.medical_history.liquor_per_week }}">
+    </div>
+
+    <!-- Drug Use -->
+    <h2>Drug Use</h2>
+    <div>
+        <input type="checkbox" name="marijuana" id="marijuana" {% if patient.medical_history.marijuana %} checked {% endif %}>
+        <label for="marijuana">Marijuana</label>
+    </div>
+
+    <div>
+        <input type="checkbox" name="cocaine" id="cocaine" {% if patient.medical_history.cocaine %} checked {% endif %}>
+        <label for="cocaine">Cocaine</label>
+    </div>
+
+    <div>
+        <input type="checkbox" name="meth" id="meth" {% if patient.medical_history.meth %} checked {% endif %}>
+        <label for="meth">Meth</label>
+    </div>
+
+    <div>
+        <input type="checkbox" name="iv_drugs" id="iv_drugs" {% if patient.medical_history.iv_drugs %} checked {% endif %}>
+        <label for="iv_drugs">IV Drugs</label>
+    </div>
+
+    <!-- Other Medical and Surgical History -->
+    <h2>Other Medical History</h2>
+    <div>
+        <label for="other_medical">Other Medical Conditions:</label>
+        <input type="text" name="other_medical" id="other_medical" value="{{ patient.medical_history.other_medical }}">
+    </div>
+
+    <h2>Other Surgical History</h2>
+    <div>
+        <label for="other_surgery">Other Surgeries:</label>
+        <input type="text" name="other_surgery" id="other_surgery" value="{{ patient.medical_history.other_surgery }}">
+    </div>
+
+    <!-- Submit Button -->
+    <button type="submit">Update Medical History</button>
+</form>

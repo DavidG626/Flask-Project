@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="/static/registration.css">
+
+    <title>Provider Registeration</title>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <a href="{{ url_for('home') }}">Home</a><br>
+        <a href="{{ url_for('login_register.login') }}">Back to Login</a><br>
+    </nav>
+
+    <!-- Registration Form -->
+    <h1>Provider Registeration</h1>
+
+    <!-- Add this block to show form-wide errors -->
+    {% for field in form if field.errors %}
+        <div class="errors">
+            {% for error in field.errors %}
+                <p>{{ error }}</p>
+            {% endfor %}
+        </div>
+    {% endfor %}
+    
+    <form method="POST" action="">
+        {{ form.hidden_tag() }}
+       
+            
+
+            <!--  First Name  -->
+            <div>
+                {{ form.first_name.label(class="form-label") }}<br>
+                {{ form.first_name(class="form-input") }}
+            </div>
+
+            <!--  Last Name  -->
+            <div>
+                {{ form.last_name.label(class="form-label") }}<br>
+                {{ form.last_name(class="form-input") }}
+            </div>
+
+            <!--  Username  -->
+            <div>
+                {{ form.username.label(class="form-label") }}<br>
+                {{ form.username(class="form-input") }}
+            </div>
+
+            <!--  Password  -->
+            <div>
+                {{ form.password.label(class="form-label") }}<br>
+                {{ form.password(class="form-input") }}
+            </div>
+            <!-- Confirm Password -->
+            <div>
+                {{ form.confirm_password.label(class="form-label") }}<br>
+                {{ form.confirm_password(class="form-input") }}
+                {% if form.confirm_password.errors %}
+                    <ul class="errors">
+                        {% for error in form.confirm_password.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div><br>
+
+            <!--  Email  -->
+            <div>
+                {{ form.email.label(class="form-label") }}<br>
+                {{ form.email(class="form-input") }}
+            </div>
+
+            <!--  Practice Name  -->
+            <div>
+                {{ form.practice_name.label(class="form-label") }}<br>
+                {{ form.practice_name(class="form-input") }}
+            </div>
+
+             <!--  Specialty & License Info -->    
+            <div>
+                {{ form.specialty.label(class="form-label") }}<br>
+                {{ form.specialty(class="form-input") }}
+            </div>
+
+            <div>
+                {{ form.npi.label(class="form-label") }}<br>
+                {{ form.npi(class="form-input") }}
+            </div>
+
+            <div>
+                {{ form.medical_license.label(class="form-label") }}<br>
+                {{ form.medical_license(class="form-input") }}
+            </div>
+            <div>
+                {{ form.medical_title.label(class="form-label") }}<br>
+                {{ form.medical_title(class="form-input") }}
+            </div>
+
+            <!--  Address  -->
+            <div>
+                {{ form.address.label(class="form-label") }}<br>
+                {{ form.address(class="form-input") }}
+            </div>
+
+            <div>
+                {{ form.city.label(class="form-label") }}<br>
+                {{ form.city(class="form-input") }}
+            </div>
+            
+            <div>
+                {{ form.zip_code.label(class="form-label") }}<br>
+                {{ form.zip_code(class="form-input") }}
+            </div>
+
+            <div>
+                {{ form.state.label(class="form-label") }}<br>
+                {{ form.state(class="form-input") }}
+            </div>
+
+            <!--  Phone Numbers  -->
+            <div>
+                {{ form.phone.label(class="form-label") }}<br>
+                {{ form.phone(class="form-input") }}
+            </div>
+
+            <div>
+                {{ form.fax.label(class="form-label") }}<br>
+                {{ form.fax(class="form-input") }}
+            </div>
+
+            <!--  Contact MA  -->
+            <div>
+                {{ form.contact_name.label(class="form-label") }}<br>
+                {{ form.contact_name(class="form-input") }}
+            </div><br>
+            
+            <!--  Contact Biller  -->
+            <div>
+                {{ form.biller_name.label(class="form-label") }}<br>
+                {{ form.biller_name(class="form-input") }}
+            </div><br>
+            <div>
+                {{ form.biller_email.label(class="form-label") }}<br>
+                {{ form.biller_email(class="form-input") }}
+            </div><br>
+            
+
+            <!-- Submit Button -->
+            <div>
+                {{ form.submit(class="form-button") }}
+            </div>
+    
+    </form>
+
+  
+</body>
+</html>

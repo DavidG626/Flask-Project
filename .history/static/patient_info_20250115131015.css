@@ -1,0 +1,124 @@
+/* Main container styling - similar to registration-container */
+.patient-info-container {
+    background: white;
+    border-radius: 8px;
+    padding: 20px;
+    margin: 20px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.patient-info-container h2 {
+    color: #5f6368;
+    margin-bottom: 20px;
+    font-size: 1.5rem;
+}
+
+/* Using fieldset style for info groups */
+.info-group {
+    border: 1px solid #e1e4e8;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+    background: #f8f9fa;
+}
+
+/* Using legend style for section headers */
+.info-group h3 {
+    color: #1a73e8;
+    font-weight: 500;
+    padding: 0 10px;
+    margin-bottom: 15px;
+}
+
+/* Info item styling */
+.info-item {
+    margin-bottom: 15px;
+}
+
+.info-item strong {
+    display: block;
+    margin-bottom: 5px;
+    color: #5f6368;
+    font-weight: 500;
+}
+
+/* Grid layout for information sections */
+.info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+/* Button styling */
+.view-link, .edit-btn {
+    background: #1a73e8;
+    color: white;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 500;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.view-link:hover, .edit-btn:hover {
+    background: #1557b0;
+}
+
+.back-btn {
+    background: #f1f3f4;
+    color: #5f6368;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: 500;
+    display: inline-block;
+    margin-right: 10px;
+}
+
+.back-btn:hover {
+    background: #e3e6e8;
+}
+
+/* Responsive design */
+@media (max-width: 1600px) {
+    html {
+        font-size: 16px;
+    }
+}
+
+@media (max-width: 1200px) {
+    html {
+        font-size: 16px;
+    }
+}
+
+@media (max-width: 992px) {
+    html {
+        font-size: 14px;
+    }
+    .info-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    html {
+        font-size: 12px;
+    }
+    .info-grid {
+        grid-template-columns: 1fr;
+    }
+    .patient-info-container {
+        margin: 10px;
+        padding: 15px;
+    }
+}
+
+@media (max-width: 600px) {
+    html {
+        font-size: 10px;
+    }
+}

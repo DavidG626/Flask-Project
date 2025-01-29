@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="/static/patient_portal.css">
+
+    <title>Work Comp Patient Registration</title>
+</head>
+<body>
+    <a class=home href="{{ url_for('home') }}">Home</a>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      <ul>
+        {% for category, message in messages %}
+          <div class="{{ category }}">{{ message }}</div>
+        {% endfor %}
+      </ul>
+    {% endif %}
+  {% endwith %}
+    <h1>Work Comp Patient Registration</h1>
+    <form method="POST" action="">
+        {{ form.hidden_tag() }}
+          
+       
+     <!-- Provider Information -->
+    <fieldset>
+        <legend>Treating Provider</legend>
+            <div>
+                {{ form.provider_first_name.label }}<br>
+                {{ form.provider_first_name(class="form-input") }}
+            </div>
+        <div>
+            {{ form.provider_last_name.label }}<br>
+            {{ form.provider_last_name(class="form-input") }}
+        </div>
+    </fieldset>
+
+        <!-- Patient Name -->
+        <div>
+            {{ form.patient_first_name.label }}<br>
+            {{ form.patient_first_name(class="form-input") }}
+        </div>
+        <div>
+            {{ form.patient_last_name.label }}<br>
+            {{ form.patient_last_name(class="form-input") }}
+        </div>
+
+        <!-- Patient Address -->
+        <div>
+            {{ form.patient_address.label }}<br>
+            {{ form.patient_address(class="form-input") }}
+        </div>
+        <div>
+            {{ form.patient_city.label }}<br>
+            {{ form.patient_city(class="form-input") }}
+        </div>
+        <div>
+            {{ form.patient_zip_code.label }}<br>
+            {{ form.patient_zip_code(class="form-input") }}
+        </div>
+        <div>
+            {{ form.patient_state.label }}<br>
+            {{ form.patient_state(class="form-input") }}
+        </div>
+
+        <!-- Date of Birth -->
+        <fieldset>
+            <legend>Date of Birth</legend>
+            <div>
+                {{ form.patient_dob_month.label }}<br>
+                {{ form.patient_dob_month(class="form-input", placeholder="MM") }}
+            </div>
+            <div>
+                {{ form.patient_dob_day.label }}<br>
+                {{ form.patient_dob_day(class="form-input", placeholder="DD") }}
+            </div>
+            <div>
+                {{ form.patient_dob_year.label }}<br>
+                {{ form.patient_dob_year(class="form-input", placeholder="YYYY") }}
+            </div>
+        </fieldset>
+
+        <!-- Date of Injury -->
+        <fieldset>
+            <legend>Date of Injury</legend>
+            <div>
+                {{ form.doi_month.label }}<br>
+                {{ form.doi_month(class="form-input", placeholder="MM") }}
+            </div>
+            <div>
+                {{ form.doi_day.label }}<br>
+                {{ form.doi_day(class="form-input", placeholder="DD") }}
+            </div>
+            <div>
+                {{ form.doi_year.label }}<br>
+                {{ form.doi_year(class="form-input", placeholder="YYYY") }}
+            </div>
+        </fieldset>
+
+        <!-- Body Parts -->
+        <fieldset>
+            <legend>Injured Body Parts</legend>
+            <div>
+                {{ form.body_part_1.label }}<br>
+                {{ form.body_part_1(class="form-input") }}
+            </div>
+            <div>
+                {{ form.body_part_2.label }}<br>
+                {{ form.body_part_2(class="form-input") }}
+            </div>
+            <div>
+                {{ form.body_part_3.label }}<br>
+                {{ form.body_part_3(class="form-input") }}
+            </div>
+            <div>
+                {{ form.body_part_4.label }}<br>
+                {{ form.body_part_4(class="form-input") }}
+            </div>
+            <div>
+                {{ form.body_part_5.label }}<br>
+                {{ form.body_part_5(class="form-input") }}
+            </div>
+            <div>
+                {{ form.body_part_6.label }}<br>
+                {{ form.body_part_6(class="form-input") }}
+            </div>
+            <!-- Add more body parts as needed -->
+        </fieldset>
+
+        <!-- Claim Information -->
+        <div>
+            {{ form.claim_number.label }}<br>
+            {{ form.claim_number(class="form-input") }}
+        </div>
+
+        <!-- Employer Information -->
+        <fieldset>
+            <legend>Employer Details</legend>
+            <div>
+                {{ form.employer.label }}<br>
+                {{ form.employer(class="form-input") }}
+            </div>
+            <div>
+                {{ form.employer_address.label }}<br>
+                {{ form.employer_address(class="form-input") }}
+            </div>
+            <div>
+                {{ form.employer_city.label }}<br>
+                {{ form.employer_city(class="form-input") }}
+            </div>
+            <div>
+                {{ form.employer_zip_code.label }}<br>
+                {{ form.employer_zip_code(class="form-input") }}
+            </div>
+            <div>
+                {{ form.employer_state.label }}<br>
+                {{ form.employer_state(class="form-input") }}
+            </div>
+            <div>
+                {{ form.employer_phone.label }}<br>
+                {{ form.employer_phone(class="form-input") }}
+            </div>
+            <div>
+                {{ form.employer_fax.label }}<br>
+                {{ form.employer_fax(class="form-input") }}
+            </div>
+        </fieldset>
+
+        <!-- Claims Administrator Information -->
+     
+<fieldset>
+    <legend>Claims Administrator</legend>
+    <div>
+        {{ form.admin_name.label }}<br>
+        {{ form.admin_name(class="form-input") }}
+    </div>
+
+    <div>
+        {{ form.adjustor.label }}<br>
+        {{ form.adjustor(class="form-input") }}
+    </div>
+  
+    <div>
+        {{ form.adjustor_address.label }}<br>
+        {{ form.adjustor_address(class="form-input") }}
+    </div>
+    <div>
+        {{ form.adjustor_city.label }}<br>
+        {{ form.adjustor_city(class="form-input") }}
+    </div>
+    <div>
+        {{ form.adjustor_zip_code.label }}<br>
+        {{ form.adjustor_zip_code(class="form-input") }}
+    </div>
+    <div>
+        {{ form.adjustor_state.label }}<br>
+        {{ form.adjustor_state(class="form-input") }}
+    </div>
+    <div>
+        {{ form.adjustor_phone.label }}<br>
+        {{ form.adjustor_phone(class="form-input") }}
+    </div>
+    <div>
+        {{ form.adjustor_fax.label }}<br>
+        {{ form.adjustor_fax(class="form-input") }}
+    </div>
+    <div>
+        {{ form.adjustor_email.label }}<br>
+        {{ form.adjustor_email(class="form-input") }}
+    </div>
+</fieldset>
+
+     <!-- Lawyer Information (Optional) -->
+<fieldset>
+    <legend>Lawyer Details (If Litigated)</legend>
+    <div>
+        {{ form.lawyer_name.label }}<br>
+        {{ form.lawyer_name(class="form-input") }}
+    </div>
+    <div>
+        {{ form.lawyer_address.label }}<br>
+        {{ form.lawyer_address(class="form-input") }}
+    </div>
+    <div>
+        {{ form.lawyer_city.label }}<br>
+        {{ form.lawyer_city(class="form-input") }}
+    </div>
+    <div>
+        {{ form.lawyer_zip_code.label }}<br>
+        {{ form.lawyer_zip_code(class="form-input") }}
+    </div>
+    <div>
+        {{ form.lawyer_state.label }}<br>
+        {{ form.lawyer_state(class="form-input") }}
+    </div>
+    <div>
+        {{ form.lawyer_phone.label }}<br>
+        {{ form.lawyer_phone(class="form-input") }}
+    </div>
+    <div>
+        {{ form.lawyer_fax.label }}<br>
+        {{ form.lawyer_fax(class="form-input") }}
+    </div>
+    <div>
+        {{ form.lawyer_email.label }}<br>
+        {{ form.lawyer_email(class="form-input") }}
+    </div>
+</fieldset>
+
+        <!-- Submit Button -->
+        <div>
+            {{ form.submit(class="form-button") }}
+        </div>
+    </form>
+
+    
+</body>
+</html>

@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EHR Dashboard</title>
+    <link rel="stylesheet" type="text/css" href="/static/dashboard.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="logo">Holliston EHR</div>
+            <div class="logged-user">
+                 {{ current_user.first_name }} {{ current_user.last_name }} {{ current_user.medical_title }}
+            </div>
+            <nav>
+                <ul>
+                    <li class="active">
+                        <a href="{{ url_for('dashboard.my_patients') }}">
+                            <i class="fas fa-user-injured"></i>My Patients
+                        </a>
+                    </li>
+                </ul>
+                <br>
+            
+                <ul>
+                    <li class="active">
+                        <a href="{{ url_for('dashboard.create_patient') }}">
+                            <i class="fas fa-user-plus"></i>Create New Patient
+                        </a>
+                    </li>
+                </ul>
+                <br>
+                <ul>
+                    <li class="active"><a href=""><i class="fas fa-calendar-alt"></i>Office Schedule</a></li>
+                </ul>
+                <br>
+                
+                <ul>
+                    <li class="active"><a href=""><i class="fas fa-procedures"></i>OR Schedule</a></li>
+                </ul>
+                <br>
+                
+                <ul>
+                    <li class="active"><a href=""><i class="fas fa-dollar-sign"></i>Billing</a></li>
+                </ul>
+                <br>
+                
+                <ul>
+                    <li class="active"><a href=""><i class="fas fa-syringe"></i>CPT</a></li>
+                </ul>
+                <br>
+
+                <ul>
+                    <li class="active"><a href=""><i class="far fa-plus-square"></i>ICD 10 Codes</a></li>
+                </ul>
+                <br>
+                
+                <ul>
+                    <li class="active">
+                        <a href="{{ url_for('dashboard.my_info') }}">
+                            <i class="fas fa-user-md"></i>My Info
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main>
+            <!-- Header -->
+            <header>
+                <div class="search-bar">
+                    <i class="fas fa-search"></i>
+                    <form action="{{ url_for('dashboard.my_patients') }}" method="get">
+                        <input type="text" name="search" placeholder="Search Patients or Claim Number" value="{{ search_query or '' }}">
+                    </form>
+                </div>
+            </header>
+
+            <!-- Content Area -->
+            <div class="content">
+                <div class="toolbar">
+                    {% with messages = get_flashed_messages(with_categories=true) %}
+                        {% if messages %}
+                            <ul>
+                                {% for category, message in messages %}
+                                    <div class="{{ category }}">{{ message }}</div>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                    {% endwith %}
+                    
+                    <!-- Logout Button -->
+                    <div class="view-options">
+                        <a href="{{ url_for('dashboard.logout') }}" class="btn btn-logout">Logout</a>
+                    </div>
+                </div>
+
+                {% if show_info and provider %}
+                <div class="provider-info">
+                    <h2>Your Information</h2><br>
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <strong>Your Name:</strong> 
+                            {{ provider.first_name }} {{ provider.last_name }} {{ provider.medical_title }}
+                        </div><br>
+                        <div>
+                            <strong>Username:</strong>
+                            {{ provider.username }}
+                        </div><br>
+                        <div>
+                            <strong>Contact Email:</strong>
+                            {{ provider.email }}
+                        </div><br>
+                        <div>
+                            <strong>Medical Title:</strong>
+                            {{ provider.medical_title }}
+                        </div><br>
+                        <div>
+                            <strong>Specialty:</strong>
+                            {{ provider.specialty }}
+                        </div><br>
+                        <div>
+                            <strong>NPI:</strong>
+                            {{ provider.npi }}
+                        </div><br>
+                        <div>
+                            <strong>Medical License:</strong>
+                            {{ provider.medical_license }}
+                        </div><br>
+                        <div>
+                            <strong>Practice Name:</strong>
+                            {{ provider.practice_name }}
+                        </div><br>
+                        <div class="info-item">
+                            <strong>Address:</strong> 
+                            {{ provider.address }}<br>
+                            {{ provider.city }}, {{ provider.state }} {{ provider.zip_code }}
+                        </div><br>
+                        <div>
+                            <strong>Phone Number:</strong>
+                            {{ provider.phone }}
+                        </div><br>
+                        <div>
+                            <strong>Fax:</strong>
+                            {{ provider.fax }}
+                        </div><br>
+                        <div class="info-item">
+                            <strong>Medical Assistant:</strong> 
+                            {{ provider.contact_name }}
+                        </div><br>
+                        <div>
+                            <strong>Biller:</strong>
+                            {{ provider.biller_name }}
+                        </div><br>
+                        <div>
+                            <strong>Biller Email:</strong>
+                            {{ provider.biller_email }}
+                        </div>
+                    </div>
+                </div><br>
+                <div class="provider-info">
+                    <a href="{{ url_for('dashboard.update_info') }}" class="edit-btn">Edit Information</a>
+                </div>
+                {% endif %}
+
+                {% if not show_info and show_patients %}
+    <div class="patient-list">
+        <h2>My Patients</h2>
+        {% if patients %}
+        <div class="patients-grid">
+            {% for patient in patients %}
+            <a href="{{ url_for('dashboard.patient_detail', patient_id=patient.id) }}" class="patient-card">
+                <i class="fa fa-folder-open" aria-hidden="true"></i>
+                <div>
+                    <span class="patient-name">{{ patient.patient_last_name }}, {{ patient.patient_first_name }}</span>
+                    <div class="body-parts small ">
+                        {% if patient.body_parts %}
+                            {% set body_parts = patient.body_parts|map(attribute='body_part_name')|list %}
+                            {{ body_parts[:2]|join(', ') }}
+                            {% if body_parts|length > 2 %}...{% endif %}
+                        {% else %}
+                            None specified
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="patient-details">
+                    <div><strong>Claim #:</strong> {{ patient.patient_claim_number }}</div>
+                    <div><strong>DOB:</strong> {{ patient.patient_date_of_birth.strftime('%m/%d/%Y') }}</div>
+                </div>
+            </a>
+            {% endfor %}
+        </div>
+        {% else %}
+            {% if search_query %}
+            <p>No patients found matching your search.</p>
+            {% else %}
+            <p>No patients found.</p>
+            {% endif %}
+        {% endif %}
+    </div>
+{% endif %}
+</div>
+</main>
+</div>

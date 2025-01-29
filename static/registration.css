@@ -1,0 +1,128 @@
+/* static/registration.css */
+html {
+    font-size: 16px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background-color: #f8f9fa;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px 20px;
+}
+
+nav {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+}
+
+nav a {
+    text-decoration: none;
+    color: #1a73e8;
+    margin-right: 15px;
+    font-size: 0.9rem;
+}
+
+nav a:hover {
+    text-decoration: underline;
+}
+
+h1 {
+    color: #5f6368;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+form {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 40px;
+    width: 100%;
+    max-width: 600px;
+}
+
+.form-label {
+    color: #5f6368;
+    font-size: 0.9rem;
+    margin-bottom: 8px;
+    display: block;
+}
+
+.form-input {
+    width: 100%;
+    padding: 12px 16px;
+    border: 1px solid #e1e4e8;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    background-color: #f1f3f4;
+    margin-bottom: 15px;
+    transition: border-color 0.3s ease;
+}
+
+.form-input:focus {
+    outline: none;
+    border-color: #1a73e8;
+    box-shadow: 0 0 0 3px rgba(26, 115, 232, 0.1);
+}
+
+.form-button {
+    width: 100%;
+    padding: 12px;
+    background: #1a73e8;
+    color: white;
+    border: none;
+    border-radius: 24px;
+    cursor: pointer;
+    font-weight: 500;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+}
+
+.form-button:hover {
+    background-color: #185abc;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1600px) {
+    html {
+        font-size: 16px;
+    }
+}
+
+@media (max-width: 1200px) {
+    html {
+        font-size: 16px;
+    }
+}
+
+@media (max-width: 992px) {
+    html {
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 768px) {
+    html {
+        font-size: 12px;
+    }
+    
+    form {
+        padding: 20px;
+        width: 95%;
+    }
+}
+
+@media (max-width: 600px) {
+    html {
+        font-size: 10px;
+    }
+}

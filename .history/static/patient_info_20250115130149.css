@@ -1,0 +1,104 @@
+/* Main container styling */
+.patient-info-container {
+    background: white;
+    border-radius: 8px;
+    padding: 20px;
+    margin: 20px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.patient-name-header {
+    color: #5f6368;
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #e1e4e8;
+}
+
+/* Info grid styling */
+.info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+.info-group {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid #e1e4e8;
+}
+
+.info-group h3 {
+    color: #1a73e8;
+    font-size: 1.1rem;
+    margin-bottom: 15px;
+    padding-bottom: 5px;
+    border-bottom: 2px solid #1a73e8;
+}
+
+.info-group p {
+    margin: 10px 0;
+    color: #5f6368;
+    line-height: 1.5;
+}
+
+.info-group strong {
+    color: #3c4043;
+    font-weight: 500;
+}
+
+/* Edit button styling */
+.edit-btn {
+    display: inline-block;
+    background: #1a73e8;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: 500;
+    margin-top: 20px;
+}
+
+.edit-btn:hover {
+    background: #1557b0;
+}
+
+/* Back button styling */
+.back-button {
+    display: inline-block;
+    background: #f1f3f4;
+    color: #5f6368;
+    padding: 8px 16px;
+    border-radius: 4px;
+    text-decoration: none;
+    margin-bottom: 20px;
+}
+
+.back-button:hover {
+    background: #e3e6e8;
+}
+
+.back-button i {
+    margin-right: 5px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .patient-info-container {
+        margin: 10px;
+        padding: 15px;
+    }
+    
+    .info-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .info-group {
+        padding: 15px;
+    }
+    
+    .patient-name-header {
+        font-size: 1.3rem;
+    }
+}

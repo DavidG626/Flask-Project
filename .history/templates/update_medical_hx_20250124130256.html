@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Medical History</title>
+    <link rel="stylesheet" type="text/css" href="/static/dashboard.css">
+    <link rel="stylesheet" type="text/css" href="/static/patient_info.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="logo">Holliston EHR</div>
+            <div class="logged-user">
+                {{ current_user.first_name }} {{ current_user.last_name }}, {{ current_user.medical_title }}
+                <a href="{{ url_for('dashboard.logout') }}" class="logout-link">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </a>
+            </div>
+            <nav>
+                <ul>
+                    <li class="active">
+                        <a href="{{ url_for('dashboard.my_patients') }}">
+                            <i class="fas fa-user-injured"></i>My Patients
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main>
+            <header>
+                <div class="search-bar">
+                    <i class="fas fa-search"></i>
+                    <form action="{{ url_for('dashboard.my_patients') }}" method="get">
+                        <input type="text" name="search" placeholder="Search Patients or Claim Number" value="{{ search_query or '' }}">
+                    </form>
+                </div>
+            </header>
+            {% extends "base.html" %}
+{% block content %}
+<div class="container mt-5">
+    <h2>Update Medical History</h2>
+    <form method="POST" action="{{ url_for('update_medical_history') }}">
+        {{ form.csrf_token }}
+        
+        <!-- Patient Information -->
+        <div class="form-group">
+            {{ form.patient_id.label }}
+            {{ form.patient_id(class="form-control") }}
+        </div>
+        <div class="form-group">
+            {{ form.date.label }}
+            {{ form.date(class="form-control", type="date") }}
+        </div>
+
+        <!-- Allergies Section -->
+        <h3 class="mt-4">Allergies</h3>
+        {% for allergy_form in form.allergies %}
+        <div class="border p-3 mb-3">
+            {{ allergy_form.csrf_token }}
+            <div class="form-group">
+                {{ allergy_form.allergy_name.label }}
+                {{ allergy_form.allergy_name(class="form-control") }}
+            </div>
+            <div class="form-group">
+                {{ allergy_form.allergy_severity.label }}
+                {{ allergy_form.allergy_severity(class="form-control") }}
+            </div>
+            <div class="form-group">
+                {{ allergy_form.reaction.label }}
+                {{ allergy_form.reaction(class="form-control") }}
+            </div>
+        </div>
+        {% endfor %}
+
+        <!-- Medical Conditions Section -->
+        <h3 class="mt-4">Medical Conditions</h3>
+        {% for condition_form in form.medical_conditions %}
+        <div class="border p-3 mb-3">
+            {{ condition_form.csrf_token }}
+            <div class="form-group">
+                {{ condition_form.condition_name.label }}
+                {{ condition_form.condition_name(class="form-control") }}
+            </div>
+        </div>
+        {% endfor %}
+
+        <!-- Surgeries Section -->
+        <h3 class="mt-4">Surgeries</h3>
+        {% for surgery_form in form.surgeries %}
+        <div class="border p-3 mb-3">
+            {{ surgery_form.csrf_token }}
+            <div class="form-group">
+                {{ surgery_form.surgery_name.label }}
+                {{ surgery_form.surgery_name(class="form-control") }}
+            </div>
+            <div class="form-group">
+                {{ surgery_form.surgery_date.label }}
+                {{ surgery_form.surgery_date(class="form-control", type="date") }}
+            </div>
+        </div>
+        {% endfor %}
+
+        <!-- Medications Section -->
+        <h3 class="mt-4">Medications</h3>
+        {% for medication_form in form.medications %}
+        <div class="border p-3 mb-3">
+            {{ medication_form.csrf_token }}
+            <div class="form-group">
+                {{ medication_form.medication_name.label }}
+                {{ medication_form.medication_name(class="form-control") }}
+            </div>
+            <div class="form-group">
+                {{ medication_form.dosage.label }}
+                {{ medication_form.dosage(class="form-control") }}
+            </div>
+            <div class="form-group">
+                {{ medication_form.frequency.label }}
+                {{ medication_form.frequency(class="form-control") }}
+            </div>
+        </div>
+        {% endfor %}
+
+        <!-- Smoking History -->
+        <h3 class="mt-4">Smoking History</h3>
+        <div class="form-check">
+            {{ form.current_smoker(class="form-check-input") }}
+            {{ form.current_smoker.label(class="form-check-label") }}
+        </div>
+        <div class="form-check">
+            {{ form.former_smoker(class="form-check-input") }}
+            {{ form.former_smoker.label(class="form-check-label") }}
+        </div>
+        <div class="form-group">
+            {{ form.quit_date.label }}
+            {{ form.quit_date(class="form-control", type="date") }}
+        </div>
+        <div class="form-check">
+            {{ form.never_smoker(class="form-check-input") }}
+            {{ form.never_smoker.label(class="form-check-label") }}
+        </div>
+        <div class="form-check">
+            {{ form.passive_smoker(class="form-check-input") }}
+            {{ form.passive_smoker.label(class="form-check-label") }}
+        </div>
+        <div class="form-check">
+            {{ form.vaping(class="form-check-input") }}
+            {{ form.vaping.label(class="form-check-label") }}
+        </div>
+
+        <!-- Alcohol Consumption -->
+        <h3 class="mt-4">Alcohol Consumption</h3>
+        <div class="form-group">
+            {{ form.wine_per_week.label }}
+            {{ form.wine_per_week(class="form-control", type="number") }}
+        </div>
+        <div class="form-group">
+            {{ form.beer_per_week.label }}
+            {{ form.beer_per_week(class="form-control", type="number") }}
+        </div>
+        <div class="form-group">
+            {{ form.liquor_per_week.label }}
+            {{ form.liquor_per_week(class="form-control", type="number") }}
+        </div>
+
+        <!-- Substance Use -->
+        <h3 class="mt-4">Substance Use</h3>
+        <div class="form-check">
+            {{ form.marijuana(class="form-check-input") }}
+            {{ form.marijuana.label(class="form-check-label") }}
+        </div>
+        <div class="form-check">
+            {{ form.cocaine(class="form-check-input") }}
+            {{ form.cocaine.label(class="form-check-label") }}
+        </div>
+        <div class="form-check">
+            {{ form.meth(class="form-check-input") }}
+            {{ form.meth.label(class="form-check-label") }}
+        </div>
+        <div class="form-check">
+            {{ form.iv_drugs(class="form-check-input") }}
+            {{ form.iv_drugs.label(class="form-check-label") }}
+        </div>
+
+        <button type="submit" class="btn btn-primary mt-4">Update Medical History</button>
+    </form>
+</div>
+{% endblock %}
+            
+        </main>
+    </div>
+</body>
+</html>

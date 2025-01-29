@@ -1,0 +1,333 @@
+/* static/style.css */
+html {
+    font-size: 16px;
+}
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+.container {
+    display: flex;
+    height: 100vh;
+}
+.logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #1a73e8;
+    margin-bottom: 20px;
+    text-align: center;
+   
+}
+/* Sidebar Styles */
+
+.logged-user {
+    text-align: center;
+    color: #5f6368;
+    font-size: 0.9rem;
+    margin-bottom: 20px;
+    padding: 0 10px;
+    font-weight: 500;
+}
+
+/* Adjust logo margin */
+.logo {
+    margin-bottom: 10px;
+}
+.sidebar {
+    width: 260px;
+    background: white;
+    padding: 20px;
+    border-right: 1px solid #e1e4e8;
+}
+
+.new-button button {
+    width: 100%;
+    padding: 12px;
+    background: #e8f0fe;
+    color: #1a73e8;
+    border: none;
+    border-radius: 24px;
+    cursor: pointer;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: 20px;
+}
+
+.sidebar nav ul a {
+    list-style: none;
+    text-decoration: none;  
+    color: inherit; 
+}
+
+.sidebar nav ul li  {
+    padding: 10px 12px;
+    border-radius: 24px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: #5f6368;
+}
+
+
+.sidebar nav ul li.active {
+    background: #e8f0fe;
+    color: #1a73e8;
+}
+.sidebar nav ul li,
+.sidebar nav ul li a {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.sidebar nav ul li a {
+    text-decoration: none;
+    color: inherit;
+    width: 100%; /* Ensure the link takes full width of the list item */
+}
+/* Main Content Styles */
+main {
+    flex: 1;
+    background: #f8f9fa;
+    display: flex;
+    flex-direction: column;
+}
+
+header {
+    background: white;
+    padding: 8px 20px;
+    border-bottom: 1px solid #e1e4e8;
+}
+
+.search-bar {
+    position: relative;
+    max-width: 720px;
+}
+
+.search-bar input {
+    width: 100%;
+    padding: 12px 16px 12px 40px;
+    border: none;
+    background: #f1f3f4;
+    border-radius: 8px;
+    font-size: 14px;
+}
+
+.search-bar i {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #5f6368;
+}
+
+.content {
+    padding: 20px;
+    flex: 1;
+}
+
+.toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.view-options a {
+    padding: 8px;
+    cursor: pointer;
+    color: #1a73e8;
+    text-decoration: none;
+    
+}
+
+.view-options a:visited {
+    color: #1a73e8;
+    text-decoration: none;
+    
+}
+
+.view-options a:hover {
+    color: #1a73e8;
+    text-decoration: underline;
+    
+}
+
+/* Table Styles */
+.files-table {
+    width: 100%;
+    background: white;
+    border-radius: 8px;
+    border-collapse: collapse;
+}
+
+.files-table th,
+.files-table td {
+    padding: 12px 20px;
+    text-align: left;
+    border-bottom: 1px solid #e1e4e8;
+}
+
+.files-table th {
+    color: #5f6368;
+    font-weight: 500;
+    font-size: 14px;
+}
+
+.file-cell {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.file-cell i {
+    color: #5f6368;
+}
+
+.files-table tr:hover {
+    background: #f8f9fa;
+}
+
+/* update.html */
+.update-form {
+    max-width: 500px;
+    margin: 50px auto;
+    padding: 20px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.buttons {
+    margin-top: 20px;
+}
+
+.save-btn {
+    background: #1a73e8;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.cancel-btn {
+    background: #f1f3f4;
+    color: #5f6368;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    text-decoration: none;
+    margin-left: 10px;
+}
+.edit-btn {
+    background: #1a73e8;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 4px;
+    text-decoration: none;
+    display: inline-block;
+    margin-bottom: 20px;
+}
+
+
+.patient-card {
+    background: white;
+    border-radius: 8px;
+    padding: 20px;
+    margin: 10px 0;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    display: flex;
+    align-items: center;
+    text-decoration: none;  /* Remove default link underline */
+    color: inherit;  /* Keep default text color */
+    transition: all 0.2s ease;  /* Smooth hover effect */
+}
+.small-text {
+    font-size: 1px;
+    color: #5f6368;  /* matches your theme's gray color */
+}
+
+.patient-card:hover {
+    background: #f8f9fa;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.patient-card .fa-folder-open {
+    color: #4a90e2;
+    font-size: 24px;
+    margin-right: 15px;
+}
+
+.patient-name {
+    font-weight: bold;
+    font-size: 16px;
+    margin-right: 20px;
+}
+
+.patient-details {
+    margin-left: auto;
+}
+
+.view-link {
+    color: #4a90e2;
+    text-decoration: none;
+    margin-left: 15px;
+}
+
+.view-link:hover {
+    text-decoration: underline;
+}
+
+/* START @MEDIA BASE FONT SIZE 16PX*/
+@media (max-width: 1600px) {
+    html {
+        font-size: 16px;
+    }
+}
+@media (max-width: 1200px) {
+    html {
+        font-size: 16px;
+    }
+}
+@media (max-width: 992px) {
+    html {
+        font-size: 14px;
+    }
+}
+@media (max-width: 768px) {
+    html {
+        font-size: 12px;
+    }
+}
+@media (max-width: 600px) {
+    html {
+        font-size: 10px;
+    }
+}
+/* END @MEDIA */
