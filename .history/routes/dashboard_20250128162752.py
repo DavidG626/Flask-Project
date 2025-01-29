@@ -558,49 +558,6 @@ def upload_lab(patient_id):
             
     return render_template('upload_lab.html', patient=patient)
 
-
-@dashboard_bp.route('/view_lab/<int:lab_id>')
-@login_required
-@check_session_timeout
-def view_lab(lab_id):
-    """
-    Display a specific lab result
-    """
-    lab_result = LabResult.query.get_or_404(lab_id)
-    patient = Patient.query.get(lab_result.patient_id)
-    
-    # Verify this patient belongs to the current provider
-    if (patient.provider_first_name != current_user.first_name or 
-        patient.provider_last_name != current_user.last_name):
-        flash('You do not have permission to view this lab.', 'error')
-        return redirect(url_for('dashboard.my_patients'))
-
-    # You can use send_file to display the PDF
-    return send_file(lab_result.file_path, mimetype='application/pdf')
-
-@dashboard_bp.route('/download_lab/<int:lab_id>')
-@login_required
-@check_session_timeout
-def download_lab(lab_id):
-    """
-    Download a specific lab result
-    """
-    lab_result = LabResult.query.get_or_404(lab_id)
-    patient = Patient.query.get(lab_result.patient_id)
-    
-    # Verify this patient belongs to the current provider
-    if (patient.provider_first_name != current_user.first_name or 
-        patient.provider_last_name != current_user.last_name):
-        flash('You do not have permission to download this lab.', 'error')
-        return redirect(url_for('dashboard.my_patients'))
-
-    # Send file as attachment for download
-    return send_file(
-        lab_result.file_path,
-        as_attachment=True,
-        download_name=lab_result.file_name
-    )
-
 @dashboard_bp.route('/logout')
 @login_required
 def logout():
