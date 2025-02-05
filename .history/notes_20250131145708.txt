@@ -1,0 +1,7 @@
+ # Relationships to other tables  
+   body_parts = db.relationship('BodyPart', backref='patient', cascade='all, delete-orphan')
+   employer = db.relationship('Employer', backref='patient', uselist=False, cascade='all, delete-orphan')
+   claims_admin = db.relationship('ClaimsAdmin', backref='patient', uselist=False, cascade='all, delete-orphan')
+   lawyer = db.relationship('Lawyer', backref='patient', uselist=False, cascade='all, delete-orphan')
+   medical_history = db.relationship('PastMedicalHistory', backref='patient', uselist=False, cascade='all, delete-orphan')
+   lab_results = db.relationship('LabResult', backref='patient', cascade='all, delete-orphan')
