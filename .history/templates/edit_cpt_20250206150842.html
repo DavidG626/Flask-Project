@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit CPT Code</title>
+    <link rel="stylesheet" type="text/css" href="/static/dashboard.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="logo">Holliston EHR</div>
+            <div class="logged-user">
+                {{ current_user.first_name }} {{ current_user.last_name }}, {{ current_user.medical_title }}
+                <a href="{{ url_for('dashboard.logout') }}" class="logout-link">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </a>
+            </div>
+            <nav>
+                <ul>
+                    <li class="active">
+                        <a href="{{ url_for('dashboard.my_patients') }}">
+                            <i class="fas fa-user-injured"></i>My Patients
+                        </a>
+                    </li>
+                </ul>
+                <br>
+                <ul>
+                    <li class="active">
+                        <a href="{{ url_for('dashboard.create_patient') }}">
+                            <i class="fas fa-user-plus"></i>Create New Patient
+                        </a>
+                    </li>
+                </ul>
+                <br>
+                <ul>
+                    <li class="active"><a href=""><i class="fas fa-calendar-alt"></i>Office Schedule</a></li>
+                </ul>
+                <br>
+                <ul>
+                    <li class="active"><a href=""><i class="fas fa-procedures"></i>OR Schedule</a></li>
+                </ul>
+                <br>
+                <ul>
+                    <li class="active"><a href=""><i class="fas fa-dollar-sign"></i>Billing</a></li>
+                </ul>
+                <br>
+                <ul>
+                    <li class="active">
+                        <a href="{{ url_for('cpt.cpt_codes') }}">
+                            <i class="fas fa-syringe"></i>CPT
+                        </a>
+                    </li>
+                </ul>
+                <br>
+                <li class="active">
+                    <a href="{{ url_for('icd10.icd10_codes') }}">
+                        <i class="fas fa-user-plus"></i>ICD-10 Codes
+                    </a>
+                </li>
+                <br>
+                <ul>
+                    <li class="active">
+                        <a href="{{ url_for('dashboard.my_info') }}">
+                            <i class="fas fa-user-md"></i>My Info
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main>
+            <header>
+                <div class="search-bar">
+                    <i class="fas fa-search"></i>
+                    <form action="{{ url_for('dashboard.my_patients') }}" method="get">
+                        <input type="text" name="search" placeholder="Search CPT Codes">
+                    </form>
+                </div>
+            </header>
+
+            <div class="content">
+                <div class="update-form">
+                    <h2>Edit CPT Code</h2>
+                    <form action="{{ url_for('cpt.edit_cpt', code_id=cpt.id) }}" method="POST">
+                        <div class="form-group">
+                            <label>CPT Code:</label>
+                            <input type="text" name="code" value="{{ cpt.code }}" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Description:</label>
+                            <input type="text" name="description" value="{{ cpt.description }}" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Price:</label>
+                            <input type="number" name="price" step="0.01" value="{{ cpt.price or '' }}">
+                        </div>
+                        <div class="form-group">
+                            <label>Category:</label>
+                            <select name="category">
+                                <option value="Surgery" {% if cpt.category == 'Surgery' %}selected{% endif %}>Surgery</option>
+                                <option value="Evaluation" {% if cpt.category == 'Evaluation' %}selected{% endif %}>Evaluation</option>
+                                <option value="Radiology" {% if cpt.category == 'Radiology' %}selected{% endif %}>Radiology</option>
+                                <option value="Laboratory" {% if cpt.category == 'Laboratory' %}selected{% endif %}>Laboratory</option>
+                            </select>
+                        </div>
+                        <div class="buttons">
+                            <button type="submit" class="save-btn">Update Code</button>
+                            <a href="{{ url_for('cpt.cpt_codes') }}" class="cancel-btn">Cancel</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EHR Dashboard</title>
+    <link rel="stylesheet" type="text/css" href="/static/dashboard.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+
+<!-- templates/cpt_codes.html -->
+{% extends ".html" %}
+{% block content %}
+<div class="container mx-auto p-4">
+    <h1 class="text-2xl mb-4">CPT Code Management</h1>
+
+    <!-- Add New CPT Code Form -->
+    <div class="bg-white p-4 rounded shadow mb-6">
+        <h2 class="text-xl mb-4">Add New CPT Code</h2>
+        <form action="{{ url_for('cpt.add_cpt') }}" method="POST">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                <input type="text" name="code" placeholder="CPT Code" required
+                       class="border p-2 rounded">
+                <input type="text" name="description" placeholder="Description" required
+                       class="border p-2 rounded">
+                <input type="number" name="price" placeholder="Price" step="0.01"
+                       class="border p-2 rounded">
+                <select name="category" class="border p-2 rounded">
+                    <option value="Surgery">Surgery</option>
+                    <option value="Evaluation">Evaluation</option>
+                    <option value="Radiology">Radiology</option>
+                    <option value="Laboratory">Laboratory</option>
+                </select>
+                <button type="submit" 
+                        class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+                    Add Code
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <!-- CPT Codes Table -->
+    <div class="bg-white rounded shadow overflow-x-auto">
+        <table class="w-full">
+            <thead>
+                <tr class="bg-gray-100">
+                    <th class="px-4 py-2">Code</th>
+                    <th class="px-4 py-2">Description</th>
+                    <th class="px-4 py-2">Price</th>
+                    <th class="px-4 py-2">Category</th>
+                    <th class="px-4 py-2">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for code in cpt_codes %}
+                <tr class="border-t">
+                    <td class="px-4 py-2">{{ code.code }}</td>
+                    <td class="px-4 py-2">{{ code.description }}</td>
+                    <td class="px-4 py-2">${{ "%.2f"|format(code.price or 0) }}</td>
+                    <td class="px-4 py-2">{{ code.category }}</td>
+                    <td class="px-4 py-2">
+                        <button onclick="editCode('{{ code.id }}')"
+                                class="text-blue-500 hover:text-blue-700">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button onclick="deleteCode('{{ code.id }}')"
+                                class="text-red-500 hover:text-red-700 ml-2">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

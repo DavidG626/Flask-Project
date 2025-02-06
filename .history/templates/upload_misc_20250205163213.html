@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Authorization</title>
+    <link rel="stylesheet" type="text/css" href="/static/dashboard.css">
+    <link rel="stylesheet" type="text/css" href="/static/patient_info.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <!-- sidebar -->
+         <aside class="sidebar">
+            <div class="logo">Holliston EHR</div>
+            <div class="logged-user">
+                {{ current_user.first_name }} {{ current_user.last_name }}, {{ current_user.medical_title }}
+                <a href="{{ url_for('dashboard.logout') }}" class="logout-link">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </a>
+            </div>
+            <nav>
+                <ul>
+                    <li class="active">
+                        <a href="{{ url_for('dashboard.my_patients') }}">
+                            <i class="fas fa-user-injured"></i>My Patients
+                        </a>
+                    </li>
+                </ul>
+                <br>
+                <ul>
+                    <li class="active">
+                        <a href="{{ url_for('dashboard.create_patient') }}">
+                            <i class="fas fa-user-plus"></i>Create New Patient
+                        </a>
+                    </li>
+                </ul>
+                <br>
+                <ul>
+                    <li class="active"><a href=""><i class="fas fa-calendar-alt"></i>Office Schedule</a></li>
+                </ul>
+                <br>
+                <ul>
+                    <li class="active"><a href=""><i class="fas fa-procedures"></i>OR Schedule</a></li>
+                </ul>
+                <br>
+                <ul>
+                    <li class="active"><a href=""><i class="fas fa-dollar-sign"></i>Billing</a></li>
+                </ul>
+                <br>
+                <ul>
+                    <li class="active"><a href=""><i class="fas fa-syringe"></i>CPT</a></li>
+                </ul>
+                <br>
+                <ul>
+                    <li class="active"><a
+                    href=""><i class="far fa-plus-square"></i>ICD 10 Codes</a></li>
+                </ul>
+                <br>
+                <ul>
+                    <li class="active">
+                        <a href="{{ url_for('dashboard.my_info') }}">
+                            <i class="fas fa-user-cog"></i>My Info
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+        <!-- main content -->
+        <main>
+            <!-- Header -->
+            <header>
+                <div class="search-bar">
+                    <i class="fas fa-search"></i>
+                    <form action="{{ url_for('dashboard.my_patients') }}" method="get">
+                        <input type="text" name="search" placeholder="Search Patients or Claim Number">
+                    </form>
+                </div>
+            </header>
+
+            <!-- Patient Tabs -->
+            <div class="patient-tabs">
+                <a href="{{ url_for('dashboard.patient_detail', patient_id=patient.id) }}" class="tab">Patient Info</a>
+                <a href="{{ url_for('dashboard.patient_medical_history', patient_id=patient.id) }}" class="tab">Medical History</a>
+                <a href="#" class="tab">Progress Notes</a>
+                <a href="{{ url_for('labs.patient_labs', patient_id=patient.id) }}" class="tab">Labs</a>
+                <a href="{{ url_for('imaging.patient_imaging', patient_id=patient.id) }}" class="tab">Imaging Reports</a>
+                <a href="{{ url_for('operative.patient_operative_reports', patient_id=patient.id) }}" class="tab">Operative Reports</a>
+                <a href="{{ url_for('auth.patient_authorizations', patient_id=patient.id) }}" class="tab">Authorizations</a>
+                <a href="{{ url_for('misc.patient_misc', patient_id=patient.id) }}" class="tab">Miscellaneous</a>
+            </div>
+
+            <div class="content">
+                <div class="update-form">
+                    <h2>Upload Miscellaneous</h2>
+                    <p class="small-text">Patient: {{ patient.first_name }} {{ patient.last_name }}</p>
+
+                    <form method="POST" enctype="multipart/form-data">
+                        <div class="form-group">
+                            <label>Select PDF File:</label>
+                            <input type="file" name="misc_file" accept=".pdf" required>                        
+                        </div>
+
+                        <div class="form-group">
+                            <label>Description:</label>
+                            <input type="text" name="description" placeholder="e.g., Physical Therapy Authorization 2/3/2025">
+                        </div>
+
+                        <div class="buttons">
+                            <button type="submit" class="save-btn">Upload Miscellaneous</button>
+                            <a href="{{ url_for('misc.patient_misc', patient_id=patient.id) }}" class="cancel-btn">Cancel</a>                        </div>
+                    </form>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html>
+

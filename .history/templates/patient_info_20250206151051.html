@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patient Information</title>
+    <link rel="stylesheet" type="text/css" href="/static/dashboard.css">
+    <link rel="stylesheet" type="text/css" href="/static/patient_info.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+             <!-- Sidebar -->
+             <aside class="sidebar">
+                <div class="logo">Holliston EHR</div>
+                <div class="logged-user">
+                    {{ current_user.first_name }} {{ current_user.last_name }}, {{ current_user.medical_title }}
+                    <a href="{{ url_for('dashboard.logout') }}" class="logout-link">
+                        <i class="fas fa-sign-out-alt"></i> Logout
+                    </a>
+                </div>
+                <nav>
+                    <!-- rest of your navigation -->
+                <ul>
+                    <li class="active">
+                        <a href="{{ url_for('dashboard.my_patients') }}">
+                            <i class="fas fa-user-injured"></i>My Patients
+                        </a>
+                    </li>
+                </ul>
+                <br>
+            
+                <ul>
+                    <li class="active">
+                        <a href="{{ url_for('dashboard.create_patient') }}">
+                            <i class="fas fa-user-plus"></i>Create New Patient
+                        </a>
+                    </li>
+                </ul>
+                <br>
+                <ul>
+                    <li class="active"><a href=""><i class="fas fa-calendar-alt"></i>Office Schedule</a></li>
+                </ul>
+                <br>
+                
+                <ul>
+                    <li class="active"><a href=""><i class="fas fa-procedures"></i>OR Schedule</a></li>
+                </ul>
+                <br>
+                
+                <ul>
+                    <li class="active"><a href=""><i class="fas fa-dollar-sign"></i>Billing</a></li>
+                </ul>
+                <br>
+                
+                <ul>
+                    <li class="active"><a href=""><i class="fas fa-syringe"></i>CPT</a></li>
+                </ul>
+                <br>
+
+                <li class="active">
+                    <a href="{{ url_for('icd10.icd10_codes') }}">
+                        <i class="fas fa-user-plus"></i>ICD-10 Codes
+                    </a>
+                </li>
+                <br>
+                
+                <ul>
+                    <li class="active">
+                        <a href="{{ url_for('dashboard.my_info') }}">
+                            <i class="fas fa-user-md"></i>My Info
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main>
+            <!-- Header -->
+            <header>
+                <div class="search-bar">
+                    <i class="fas fa-search"></i>
+                    <form action="{{ url_for('dashboard.my_patients') }}" method="get">
+                        <input type="text" name="search" placeholder="Search Patients or Claim Number" value="{{ search_query or '' }}">
+                    </form>
+                </div>
+            </header>
+             <!-- At the top of your patient info content -->
+             <div class="patient-tabs">
+                <a href="{{ url_for('dashboard.patient_detail', patient_id=patient.id) }}" class="tab">Patient Info</a>
+                <a href="{{ url_for('dashboard.patient_medical_history', patient_id=patient.id) }}" class="tab">Medical History</a>
+                <a href="#" class="tab">Progress Notes</a>
+                <a href="{{ url_for('labs.patient_labs', patient_id=patient.id) }}" class="tab">Labs</a>
+                <a href="{{ url_for('imaging.patient_imaging', patient_id=patient.id) }}" class="tab">Imaging Reports</a>
+                <a href="{{ url_for('operative.patient_operative_reports', patient_id=patient.id) }}" class="tab">Operative Reports</a>
+                <a href="{{ url_for('auth.patient_authorizations', patient_id=patient.id) }}" class="tab">Authorizations</a>
+                <a href="{{ url_for('misc.patient_misc', patient_id=patient.id) }}" class="tab">Miscellaneous</a>
+            </div>
+
+            <div class="tab-content">
+                <div id="info" class="tab-pane">
+                    <!-- Your existing patient info content -->
+                </div>
+
+                <div id="history" class="tab-pane">
+                    <h3>Past Medical History</h3>
+                    <a href="{{ url_for('dashboard.update_medical_history', patient_id=patient.id) }}">Edit Medical History</a>
+
+                    <!-- Add your history content -->
+                </div>
+
+                <div id="notes" class="tab-pane">
+                    <h3>Progress Notes</h3>
+                    <!-- Add your notes content -->
+                </div>
+
+                <div id="labs" class="tab-pane">
+                    <h3>Labs</h3>
+                    <!-- Add your labs content -->
+                </div>
+
+                <div id="rx" class="tab-pane">
+                    <h3>Prescriptions</h3>
+                    <!-- Add your prescriptions content -->
+                </div>
+            </div>
+            <!-- Content Area -->
+            <div class="content">
+                <div class="toolbar">
+                   
+                </div>
+
+                <div class="registration-container">
+                    <h2>Patient Information</h2>
+                    
+                    <fieldset>
+                        <legend>Personal Information</legend>
+                        <div class="form-group">
+                            <label>Name</label>
+                            <div class="form-input">{{ patient.patient_first_name }} {{ patient.patient_last_name }}</div>
+                        </div>
+                       
+                        <div class="form-group">
+                            <label>Address</label>
+                            <div class="form-input">{{ patient.patient_address }}</div>
+                        </div>
+                        <div class="form-group">
+                            <label>City</label>
+                            <div class="form-input">{{ patient.patient_city }}</div>
+                        </div>
+                        <div class="form-group">
+                            <label>State</label>
+                            <div class="form-input">{{ patient.patient_state }}</div>
+                        </div>
+                        <div class="form-group">
+                            <label>ZIP Code</label>
+                            <div class="form-input">{{ patient.patient_zip_code }}</div>
+                        </div>
+                    </fieldset>
+
+                    <fieldset>
+                        <legend>Date of Birth</legend>
+                        <div class="date-group">
+                            <div class="form-input">{{ patient.patient_date_of_birth.strftime('%m') }}</div>
+                            <div class="form-input">{{ patient.patient_date_of_birth.strftime('%d') }}</div>
+                            <div class="form-input">{{ patient.patient_date_of_birth.strftime('%Y') }}</div>
+                        </div>
+                    </fieldset>
+
+                    <fieldset>
+                        <legend>Date of Injury</legend>
+                        <div class="date-group">
+                            <div class="form-input">{{ patient.patient_date_of_injury.strftime('%m') }}</div>
+                            <div class="form-input">{{ patient.patient_date_of_injury.strftime('%d') }}</div>
+                            <div class="form-input">{{ patient.patient_date_of_injury.strftime('%Y') }}</div>
+                        </div>
+                    </fieldset>
+
+                    <fieldset>
+                        <legend>Injured Body Parts</legend>
+                        {% for body_part in patient.body_parts %}
+                        <div class="form-group">
+                            <label>Body Part {{ loop.index }}</label>
+                            <div class="form-input">{{ body_part.body_part_name }}</div>
+                        </div>
+                        {% endfor %}
+                    </fieldset>
+
+                    <fieldset>
+                        <legend>Claim Information</legend>
+                        <div class="form-group">
+                            <label>Claim Number</label>
+                            <div class="form-input">{{ patient.patient_claim_number }}</div>
+                        </div>
+                    </fieldset>
+
+                    {% if patient.employer %}
+                    <fieldset>
+                        <legend>Employer Information</legend>
+                        <div class="form-group">
+                            <label>Employer Name</label>
+                            <div class="form-input">{{ patient.employer.employer_name }}</div>
+                        </div>
+                        <div class="form-group">
+                            <label>Address</label>
+                            <div class="form-input">{{ patient.employer.employer_address }}</div>
+                        </div>
+                        <div class="form-group">
+                            <label>City</label>
+                            <div class="form-input">{{ patient.employer.employer_city }}</div>
+                        </div>
+                        <div class="form-group">
+                            <label>State</label>
+                            <div class="form-input">{{ patient.employer.employer_state }}</div>
+                        </div>
+                        <div class="form-group">
+                            <label>ZIP Code</label>
+                            <div class="form-input">{{ patient.employer.employer_zip_code }}</div>
+                        </div>
+                        <div class="form-group">
+                            <label>Phone</label>
+                            <div class="form-input">{{ patient.employer.employer_phone }}</div>
+                        </div>
+                        <div class="form-group">
+                            <label>Fax</label>
+                            <div class="form-input">{{ patient.employer.employer_fax or 'N/A' }}</div>
+                        </div>
+                    </fieldset>
+                    {% endif %}
+
+                    {% if patient.claims_admin %}
+                    <fieldset>
+                        <legend>Claims Administrator</legend>
+                        <div class="form-group">
+                            <label>Administrator Name</label>
+                            <div class="form-input">{{ patient.claims_admin.admin_name }}</div>
+                        </div>
+                        <div class="form-group">
+                            <label>Adjustor</label>
+                            <div class="form-input">{{ patient.claims_admin.adjustor }}</div>
+                        </div>
+                        <div class="form-group">
+                            <label>Address</label>
+                            <div class="form-input">{{ patient.claims_admin.adjustor_address }}</div>
+                        </div>
+                        <div class="form-group">
+                            <label>City</label>
+                            <div class="form-input">{{ patient.claims_admin.adjustor_city }}</div>
+                        </div>
+                        <div class="form-group">
+                            <label>State</label>
+                            <div class="form-input">{{ patient.claims_admin.adjustor_state }}</div>
+                        </div>
+                        <div class="form-group">
+                            <label>ZIP Code</label>
+                            <div class="form-input">{{ patient.claims_admin.adjustor_zip_code }}</div>
+                        </div>
+                        <div class="form-group">
+                            <label>Phone</label>
+                            <div class="form-input">{{ patient.claims_admin.adjustor_phone }}</div>
+                        </div>
+                        <div class="form-group">
+                            <label>Fax</label>
+                            <div class="form-input">{{ patient.claims_admin.adjustor_fax or 'N/A' }}</div>
+                        </div>
+                        <div class="form-group">
+                            <label>Email</label>
+                            <div class="form-input">{{ patient.claims_admin.adjustor_email or 'N/A' }}</div>
+                        </div>
+                    </fieldset>
+                    {% endif %}
+
+                    {% if patient.lawyer %}
+                    <fieldset>
+                        <legend>Legal Representation</legend>
+                        <div class="form-group">
+                            <label>Lawyer Name</label>
+                            <div class="form-input">{{ patient.lawyer.lawyer_name }}</div>
+                        </div>
+                        <div class="form-group">
+                            <label>Address</label>
+                            <div class="form-input">{{ patient.lawyer.lawyer_address }}</div>
+                        </div>
+                        <div class="form-group">
+                            <label>City</label>
+                            <div class="form-input">{{ patient.lawyer.lawyer_city }}</div>
+                        </div>
+                        <div class="form-group">
+                            <label>State</label>
+                            <div class="form-input">{{ patient.lawyer.lawyer_state }}</div>
+                        </div>
+                        <div class="form-group">
+                            <label>ZIP Code</label>
+                            <div class="form-input">{{ patient.lawyer.lawyer_zip_code }}</div>
+                        </div>
+                        <div class="form-group">
+                            <label>Phone</label>
+                            <div class="form-input">{{ patient.lawyer.lawyer_phone }}</div>
+                        </div>
+                        <div class="form-group">
+                            <label>Fax</label>
+                            <div class="form-input">{{ patient.lawyer.lawyer_fax or 'N/A' }}</div>
+                        </div>
+                        <div class="form-group">
+                            <label>Email</label>
+                            <div class="form-input">{{ patient.lawyer.lawyer_email or 'N/A' }}</div>
+                        </div>
+                    </fieldset>
+                    {% endif %}
+
+                    <div class="buttons">
+                        <a href="{{ url_for('dashboard.update_patient', patient_id=patient.id) }}" class="save-btn">Edit Patient</a>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html>
