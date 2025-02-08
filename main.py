@@ -14,6 +14,7 @@ from models.lab_model import LabResult
 from models.misc_model import Misc
 from models.operative_model import OperativeReport
 from models.patient_medical_hx_models import Allergy, MedicalCondition, Surgery, Medication, PastMedicalHistory
+from models.pr2_model import ProgressNote
 from models.provider_info_models import Provider
 from models.wc_patient_models import Patient, BodyPart, Employer, ClaimsAdmin, Lawyer
 
@@ -27,6 +28,7 @@ from routes.lab_routes import labs_bp
 from routes.login_register import login_register
 from routes.misc_routes import misc_bp
 from routes.operative_routes import operative_bp
+from routes.progress_note_route import progress_note_bp
 from routes.wc_patient_portal_routes import wc_patient_portal_bp
 
 
@@ -69,6 +71,7 @@ app.register_blueprint(labs_bp, url_prefix='/labs')
 app.register_blueprint(login_register)
 app.register_blueprint(misc_bp, url_prefix='/misc')
 app.register_blueprint(operative_bp, url_prefix='/operative')  
+app.register_blueprint(progress_note_bp, url_prefix='/progress_note')
 app.register_blueprint(wc_patient_portal_bp, url_prefix='/wc_patient_portal')
 
 # Home route
@@ -82,4 +85,4 @@ with app.app_context():
 
 # Run the app
 if __name__ == "__main__":
-    app.run(debug=True, port=5004)
+    app.run(debug=True, port=5005)
