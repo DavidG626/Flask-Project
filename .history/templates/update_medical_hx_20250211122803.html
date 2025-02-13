@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Patient Medical History</title>
+        <link rel="stylesheet" type="text/css" href="/static/dashboard.css">
+        <link rel="stylesheet" type="text/css" href="/static/update_med_hx.css">
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+        <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+        <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    </head>
+
+
+<body>
+    <div class="update-form">
+        <h2>Update Medical History</h2>
+        <p class="small-text">Patient: {{ patient.first_name }} {{ patient.last_name }}</p>
+        
+        <form method="POST" action="{{ url_for('dashboard.update_medical_history', patient_id=patient.id) }}">
+            <!-- Allergies Section -->
+            <h3>Allergies</h3>
+            {% for i in range(1, 16) %}
+            <div class="form-section">
+                <div class="form-group">
+                    <label>Allergy {{ i }}:</label>
+                    <input type="text" name="allergy_{{ i }}" 
+                           value="{{ patient.medical_history.allergies[i-1].allergy_name if patient.medical_history and patient.medical_history.allergies|length >= i else '' }}">
+                </div>
+                <div class="form-group">
+                    <label>Severity:</label>
+                    <input type="text" name="allergy_severity_{{ i }}"
+                           value="{{ patient.medical_history.allergies[i-1].allergy_severity if patient.medical_history and patient.medical_history.allergies|length >= i else '' }}">
+                </div>
+                <div class="form-group">
+                    <label>Reaction:</label>
+                    <input type="text" name="allergy_reaction_{{ i }}"
+                           value="{{ patient.medical_history.allergies[i-1].reaction if patient.medical_history and patient.medical_history.allergies|length >= i else '' }}">
+                </div>
+            </div>
+            {% endfor %}
+
+            <!-- Medical Conditions Section -->
+            <h3>Medical Conditions</h3>
+            {% for i in range(1, 11) %}
+            <div class="form-section">
+                <div class="form-group">
+                    <label>Condition {{ i }}:</label>
+                    <input type="text" name="condition_{{ i }}"
+                        value="{{ patient.medical_history.medical_conditions[i-1].condition_name if patient.medical_history and patient.medical_history.medical_conditions|length >= i else '' }}">
+                </div>
+            </div>
+            {% endfor %}
+
+            <!-- Diagnoses Section -->
+            
+                <h3>Accepted Body Parts</h3>
+                <div class="form-group">
+                    <h4>Current Diagnoses:</h4><br
+                    {% if patient_diagnoses %}
+                        {% for diagnosis in patient_diagnoses %}
+                        <div class="diagnosis-row">
+                            <strong><div class="diagnosis-code" >{{ diagnosis.code }}</div></strong>
+                            <strong><div class="diagnosis-description">{{ diagnosis.description }}</div></strong>
+                        </div><br
+                        {% endfor %}
+                    {% else %}
+                        <p>No diagnoses recorded</p>
+                    {% endif %}
+
+                    <h4>Add/Update Diagnoses:</h4>
+                    <select name="diagnoses" multiple class="form-select">
+                        {% for code in icd10_codes %}
+                            <option value="{{ code.id }}"
+                                {% if patient.diagnoses and code in patient.diagnoses %}selected{% endif %}>
+                                {{ code.description }} ({{ code.code }})
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+            
+
+            <!-- Surgeries Section -->
+            <h3>Surgeries</h3>
+            {% for i in range(1, 11) %}
+            <div class="form-section">
+                <div class="form-group">
+                    <label>Surgery {{ i }}:</label>
+                    <input type="text" name="surgery_{{ i }}"
+                           value="{{ patient.medical_history.surgeries[i-1].surgery_name if patient.medical_history and patient.medical_history.surgeries|length >= i else '' }}">
+                </div>
+                <div class="form-group">
+                    <label>Date:</label>
+                    <input type="date" name="surgery_date_{{ i }}"
+                           value="{{ patient.medical_history.surgeries[i-1].surgery_date.strftime('%Y-%m-%d') if patient.medical_history and patient.medical_history.surgeries|length >= i and patient.medical_history.surgeries[i-1].surgery_date else '' }}">
+                </div>
+            </div>
+            {% endfor %}
+
+            <!-- Medications Section -->
+            <h3>Medications</h3>
+            {% for i in range(1, 11) %}
+            <div class="form-section">
+                <div class="form-group">
+                    <label>Medication {{ i }}:</label>
+                    <input type="text" name="medication_{{ i }}"
+                           value="{{ patient.medical_history.medications[i-1].medication_name if patient.medical_history and patient.medical_history.medications|length >= i else '' }}">
+                </div>
+                <div class="form-group">
+                    <label>Dosage:</label>
+                    <input type="text" name="dosage_{{ i }}"
+                           value="{{ patient.medical_history.medications[i-1].dosage if patient.medical_history and patient.medical_history.medications|length >= i else '' }}">
+                </div>
+                <div class="form-group">
+                    <label>Frequency:</label>
+                    <input type="text" name="frequency_{{ i }}"
+                           value="{{ patient.medical_history.medications[i-1].frequency if patient.medical_history and patient.medical_history.medications|length >= i else '' }}">
+                </div>
+            </div>
+            {% endfor %}
+
+            <!-- Smoking History -->
+            <h3>Smoking History</h3>
+            <div class="form-section">
+                <div class="form-group">
+                    <input type="checkbox" name="current_smoker" 
+                           {{ 'checked' if patient.medical_history and patient.medical_history.current_smoker }}>
+                    <label>Current Smoker</label>
+                </div>
+                <div class="form-group">
+                    <input type="checkbox" name="former_smoker"
+                           {{ 'checked' if patient.medical_history and patient.medical_history.former_smoker }}>
+                    <label>Former Smoker</label>
+                </div>
+                <div class="form-group">
+                    <label>Quit Date:</label>
+                    <input type="date" name="quit_date"
+                           value="{{ patient.medical_history.quit_date.strftime('%Y-%m-%d') if patient.medical_history and patient.medical_history.quit_date else '' }}">
+                </div>
+                <div class="form-group">
+                    <input type="checkbox" name="never_smoker"
+                           {{ 'checked' if patient.medical_history and patient.medical_history.never_smoker }}>
+                    <label>Never Smoker</label>
+                </div>
+                <div class="form-group">
+                    <input type="checkbox" name="passive_smoker"
+                           {{ 'checked' if patient.medical_history and patient.medical_history.passive_smoker }}>
+                    <label>Passive Smoker</label>
+                </div>
+                <div class="form-group">
+                    <input type="checkbox" name="vaping"
+                           {{ 'checked' if patient.medical_history and patient.medical_history.vaping }}>
+                    <label>Vaping</label>
+                </div>
+            </div>
+
+            <!-- Alcohol Consumption -->
+            <h3>Alcohol Consumption</h3>
+            <div class="form-section">
+                <div class="form-group">
+                    <label>Wine per Week:</label>
+                    <input type="number" name="wine_per_week"
+                           value="{{ patient.medical_history.wine_per_week if patient.medical_history else '' }}">
+                </div>
+                <div class="form-group">
+                    <label>Beer per Week:</label>
+                    <input type="number" name="beer_per_week"
+                           value="{{ patient.medical_history.beer_per_week if patient.medical_history else '' }}">
+                </div>
+                <div class="form-group">
+                    <label>Liquor per Week:</label>
+                    <input type="number" name="liquor_per_week"
+                           value="{{ patient.medical_history.liquor_per_week if patient.medical_history else '' }}">
+                </div>
+            </div>
+
+            <!-- Substance Use -->
+            <h3>Substance Use</h3>
+            <div class="form-section">
+                <div class="form-group">
+                    <input type="checkbox" name="marijuana"
+                           {{ 'checked' if patient.medical_history and patient.medical_history.marijuana }}>
+                    <label>Marijuana</label>
+                </div>
+                <div class="form-group">
+                    <input type="checkbox" name="cocaine"
+                           {{ 'checked' if patient.medical_history and patient.medical_history.cocaine }}>
+                    <label>Cocaine</label>
+                </div>
+                <div class="form-group">
+                    <input type="checkbox" name="meth"
+                           {{ 'checked' if patient.medical_history and patient.medical_history.meth }}>
+                    <label>Meth</label>
+                </div>
+                <div class="form-group">
+                    <input type="checkbox" name="iv_drugs"
+                           {{ 'checked' if patient.medical_history and patient.medical_history.iv_drugs }}>
+                    <label>IV Drugs</label>
+                </div>
+            </div>
+
+            <div class="buttons">
+                <button type="submit" class="save-btn">Save Changes</button>
+                <a href="{{ url_for('dashboard.patient_detail', patient_id=patient.id) }}" class="cancel-btn">Cancel</a>
+            </div>
+        </form>
+    </div>
+    <script>
+        $(document).ready(function() {
+            $('.form-select').select2({
+                placeholder: 'Select diagnoses',
+                allowClear: true,
+                width: '100%'
+            });
+        });
+        </script>
+</body>
+</html>
