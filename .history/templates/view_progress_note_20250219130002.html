@@ -1,0 +1,162 @@
+
+
+<body class="pr2-document">
+    <div class="pr2-container">
+        <div class="pr2-form">
+            <div class="pr2-header">
+                <h2>STATE OF CALIFORNIA</h2>
+                <h3>PRIMARY TREATING PHYSICIAN'S PROGRESS REPORT (PR-2)</h3>
+            </div>
+
+            <!-- Report Type Section -->
+            <div class="checkbox-grid">
+                <div class="checkbox-item">
+                    <input type="checkbox" disabled {% if progress_note.is_periodic_report %}checked{% endif %}>
+                    <label>Periodic Report (45 days)</label>
+                </div>
+                <div class="checkbox-item">
+                    <input type="checkbox" disabled {% if progress_note.is_change_in_treatment %}checked{% endif %}>
+                    <label>Change in Treatment Plan</label>
+                </div>
+                <div class="checkbox-item">
+                    <input type="checkbox" disabled {% if progress_note.is_release_from_care %}checked{% endif %}>
+                    <label>Release from Care</label>
+                </div>
+                <div class="checkbox-item">
+                    <input type="checkbox" disabled {% if progress_note.is_change_in_work_status %}checked{% endif %}>
+                    <label>Change in Work Status</label>
+                </div>
+                <div class="checkbox-item">
+                    <input type="checkbox" disabled {% if progress_note.is_need_for_referral %}checked{% endif %}>
+                    <label>Need for Referral</label>
+                </div>
+                <div class="checkbox-item">
+                    <input type="checkbox" disabled {% if progress_note.is_response_to_request %}checked{% endif %}>
+                    <label>Response to Request</label>
+                </div>
+                <div class="checkbox-item">
+                    <input type="checkbox" disabled {% if progress_note.is_need_for_surgery %}checked{% endif %}>
+                    <label>Need for Surgery</label>
+                </div>
+                <div class="checkbox-item">
+                    <input type="checkbox" disabled {% if progress_note.is_request_for_authorization %}checked{% endif %}>
+                    <label>Request for Authorization</label>
+                </div>
+                {% if progress_note.other_reason %}
+                <div class="checkbox-item">
+                    <label>Other: {{ progress_note.other_reason }}</label>
+                </div>
+                {% endif %}
+            </div>
+
+            <!-- Patient Information -->
+            <div class="patient-info-grid">
+                <div class="form-field">
+                    <label>Patient Name:</label>
+                    <div class="read-only-field">{{ patient.patient_last_name }}, {{ patient.patient_first_name }}</div>
+                </div>
+                <div class="form-field">
+                    <label>Date of Birth:</label>
+                    <div class="read-only-field">{{ patient.patient_date_of_birth.strftime('%m/%d/%Y') }}</div>
+                </div>
+                <div class="form-field">
+                    <label>Claim Number:</label>
+                    <div class="read-only-field">{{ patient.patient_claim_number }}</div>
+                </div>
+                <div class="form-field">
+                    <label>Date of Injury:</label>
+                    <div class="read-only-field">{{ patient.patient_date_of_injury.strftime('%m/%d/%Y') }}</div>
+                </div>
+            </div>
+
+            <!-- Clinical Information -->
+            <div class="text-area-field">
+                <label>Subjective Complaints:</label>
+                <div class="read-only-text">{{ progress_note.subjective_complaints }}</div>
+            </div>
+
+            <div class="text-area-field">
+                <label>Objective Findings:</label>
+                <div class="read-only-text">{{ progress_note.objective_findings }}</div>
+            </div>
+
+           
+          
+            <!-- Accepted Body Parts (ICD10) -->
+            <div class="diagnoses-section">
+                <h4>Accepted Body Parts:</h4>
+                {% if patient.diagnoses %}
+                    {% for diagnosis in patient.diagnoses %}
+                    <div class="diagnosis-row">
+                        <div class="read-only-field">
+                            <strong>{{ diagnosis.code }}</strong> - {{ diagnosis.description }}
+                        </div>
+                    </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="diagnosis-row">
+                        <div class="read-only-field">No ICD10 codes recorded</div>
+                    </div>
+                {% endif %}
+            </div>
+
+            <!-- Treatment Plan -->
+            <div class="text-area-field">
+                <label>Treatment Plan:</label>
+                <div class="read-only-text">{{ progress_note.treatment_plan }}</div>
+            </div>
+
+            {% if progress_note.treatment_changes %}
+            <div class="text-area-field">
+                <label>Changes to Treatment Plan:</label>
+                <div class="read-only-text">{{ progress_note.treatment_changes }}</div>
+            </div>
+            {% endif %}
+
+            <!-- Work Status -->
+<div class="work-status-section">
+    <h4>Work Status:</h4>
+    <div class="work-status-display">
+        {% if progress_note.work_status == 'full_duty' %}
+            Return to full duty on {{ progress_note.full_duty_date.strftime('%m/%d/%Y') if progress_note.full_duty_date }}
+        {% elif progress_note.work_status == 'modified' %}
+            Return to modified work on {{ progress_note.modified_work_date.strftime('%m/%d/%Y') if progress_note.modified_work_date }}
+            {% if progress_note.work_restrictions %}
+            <div class="work-restrictions">
+                <label>Restrictions:</label>
+                <div class="read-only-text">{{ progress_note.work_restrictions }}</div>
+            </div>
+            {% endif %}
+        {% elif progress_note.work_status == 'off_work' %}
+            Remain off work until {{ progress_note.off_work_until.strftime('%m/%d/%Y') if progress_note.off_work_until }}
+        {% endif %}
+    </div>
+</div>
+
+            <!-- Provider Information -->
+            <div class="provider-section">
+                <div class="form-row">
+                    <div class="form-field">
+                        <label>Provider Name:</label>
+                        <div class="read-only-field">{{ current_user.first_name }} {{ current_user.last_name }}, {{ current_user.medical_title }}</div>
+                    </div>
+                    <div class="form-field">
+                        <label>License Number:</label>
+                        <div class="read-only-field">{{ current_user.medical_license }}</div>
+                    </div>
+                </div>
+                <div class="form-field">
+                    <label>Date of Examination:</label>
+                    <div class="read-only-field">{{ progress_note.date_of_exam.strftime('%m/%d/%Y') if progress_note.date_of_exam }}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Print button only shows on screen, not in print -->
+    <div class="no-print print-controls">
+        <button onclick="window.print()" class="print-btn">Print</button>
+        <a href="{{ url_for('pr2.progress_notes', patient_id=patient.id) }}" class="back-btn">Back</a>
+    </div>
+</body>
+</html>

@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+    <!-- Keep head section exactly the same -->
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Update Patient</title>
+        <link rel="stylesheet" type="text/css" href="/static/dashboard.css">
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='create_patient.css') }}">        
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+        <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+        <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    </head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+          <div class="logo">Holliston EHR</div>
+          <div class="logged-user">
+               {{ current_user.first_name }} {{ current_user.last_name }}, {{ current_user.medical_title }}
+              <a href="{{ url_for('dashboard.logout') }}" class="logout-link">
+                  <i class="fas fa-sign-out-alt"></i> Logout
+              </a>
+          </div>
+          <nav>
+              <!-- rest of your navigation -->
+              <ul>
+                  <li class="active">
+                      <a href="{{ url_for('dashboard.my_patients') }}">
+                          <i class="fas fa-user-injured"></i>My Patients
+                      </a>
+                  </li>
+              </ul>
+              <br>
+          
+              <ul>
+                  <li class="active">
+                      <a href="{{ url_for('dashboard.create_patient') }}">
+                          <i class="fas fa-user-plus"></i>Create New Patient
+                      </a>
+                  </li>
+              </ul>
+              <br>
+              <ul>
+                  <li class="active"><a href=""><i class="fas fa-calendar-alt"></i>Office Schedule</a></li>
+              </ul>
+              <br>
+              
+              <ul>
+                  <li class="active"><a href=""><i class="fas fa-procedures"></i>OR Schedule</a></li>
+              </ul>
+              <br>
+              
+              <ul>
+                  <li class="active"><a href=""><i class="fas fa-dollar-sign"></i>Billing</a></li>
+              </ul>
+              <br>
+              
+              <ul>
+                  <li class="active">
+                      <a href="{{ url_for('cpt.cpt_codes') }}">
+                          <i class="fas fa-syringe"></i>CPT Codes
+                      </a>
+                  </li>
+              </ul>
+              <br>
+
+              <ul>
+                  <li class="active">
+                      <a href="{{ url_for('icd10.icd10_codes') }}">
+                          <i class="far fa-plus-square"></i>ICD 10 Codes
+                      </a>
+                  </li>
+              </ul>
+              <br>
+              
+              <ul>
+                  <li class="active">
+                      <a href="{{ url_for('dashboard.my_info') }}">
+                          <i class="fas fa-user-md"></i>My Info
+                      </a>
+                  </li>
+              </ul>
+          </nav>
+      </aside>
+            <!-- Content Area -->
+            <div class="content">
+                <div class="toolbar">
+                    {% with messages = get_flashed_messages(with_categories=true) %}
+                        {% if messages %}
+                            <ul>
+                                {% for category, message in messages %}
+                                    <div class="{{ category }}">{{ message }}</div>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                    {% endwith %}
+                </div>
+
+                <!-- Patient Update Form -->
+                <div class="registration-container">
+                    <h2>Update Patient Information</h2>
+                    <form method="POST">
+                        <!-- Patient Information -->
+                        <fieldset>
+                            <legend>Patient Information</legend>
+                            <div class="form-group">
+                                <label>First Name</label><br>
+                                <input type="text" name="patient_first_name" class="form-input" value="{{ patient.patient_first_name }}">
+                            </div>
+                            <div class="form-group">
+                                <label>Last Name</label><br>
+                                <input type="text" name="patient_last_name" class="form-input" value="{{ patient.patient_last_name }}">
+                            </div>
+                            <div class="form-group">
+                                <label>Occupation</label><br>
+                                <input type="text" name="patient_occupation" class="form-input" value="{{ patient.patient_occupation}}">
+                            </div>
+                            <div class="form-group">
+                                <label>Last Name</label><br>
+                                <input type="text" name="patient_last_name" class="form-input" value="{{ patient.patient_last_name }}">
+                            </div>
+                            <div class="form-group">
+                                <label>Address</label><br>
+                                <input type="text" name="patient_address" class="form-input" value="{{ patient.patient_address }}">
+                            </div>
+                            <div class="form-group">
+                                <label>City</label><br>
+                                <input type="text" name="patient_city" class="form-input" value="{{ patient.patient_city }}">
+                            </div>
+                            <div class="form-group">
+                                <label>ZIP Code</label><br>
+                                <input type="text" name="patient_zip_code" class="form-input" value="{{ patient.patient_zip_code }}">
+                            </div>
+                            <div class="form-group">
+                                <label>State</label><br>
+                                <input type="text" name="patient_state" class="form-input" value="{{ patient.patient_state }}">
+                            </div>
+                        </fieldset>
+
+                        <!-- Date of Birth -->
+                        <fieldset>
+                            <legend>Date of Birth</legend>
+                            <div class="form-group date-group">
+                                <input type="text" name="dob_month" class="form-input" placeholder="MM" value="{{ patient.patient_date_of_birth.month }}">
+                                <input type="text" name="dob_day" class="form-input" placeholder="DD" value="{{ patient.patient_date_of_birth.day }}">
+                                <input type="text" name="dob_year" class="form-input" placeholder="YYYY" value="{{ patient.patient_date_of_birth.year }}">
+                            </div>
+                        </fieldset>
+
+                        <!-- Date of Injury -->
+                        <fieldset>
+                            <legend>Date of Injury</legend>
+                            <div class="form-group date-group">
+                                <input type="text" name="doi_month" class="form-input" placeholder="MM" value="{{ patient.patient_date_of_injury.month }}">
+                                <input type="text" name="doi_day" class="form-input" placeholder="DD" value="{{ patient.patient_date_of_injury.day }}">
+                                <input type="text" name="doi_year" class="form-input" placeholder="YYYY" value="{{ patient.patient_date_of_injury.year }}">
+                            </div>
+                        </fieldset>
+
+                        <!-- Medical Conditions -->
+                        <fieldset>
+                            <legend>Medical Conditions</legend>
+                            {% for i in range(1, 7) %}
+                            <div class="form-group">
+                                <label>Medical Condition {{ i }}</label><br>
+                                <input type="text" name="medical_condition_{{ i }}" class="form-input" 
+                                       value="{{ patient.medical_history.medical_conditions[i-1].condition_name if patient.medical_history and patient.medical_history.medical_conditions|length >= i else '' }}">
+                            </div>
+                            {% endfor %}
+                        </fieldset>
+
+                        <!-- Diagnoses -->
+                        <fieldset>
+                            <legend>Diagnoses</legend>
+                            <div class="form-group">
+                                <label>Select Diagnoses:</label><br>
+                                <select name="diagnoses" multiple class="form-select" style="width: 100%;">
+                                    {% for code in icd10_codes %}
+                                        <option value="{{ code.id }}" 
+                                            {% if patient.diagnoses and code in patient.diagnoses %}selected{% endif %}>
+                                            {{ code.description }} ({{ code.code }})
+                                        </option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </fieldset>
+
+                        <!-- Claim Information -->
+                        <fieldset>
+                            <legend>Claim Information</legend>
+                            <div class="form-group">
+                                <label>Claim Number</label><br>
+                                <input type="text" name="patient_claim_number" class="form-input" value="{{ patient.patient_claim_number }}">
+                            </div>
+                        </fieldset>
+
+                        <!-- Employer Information -->
+                        <fieldset>
+                            <legend>Employer Information</legend>
+                            <div class="form-group">
+                                <label>Employer Name</label><br>
+                                <input type="text" name="employer" class="form-input" value="{{ patient.employer.employer_name if patient.employer else '' }}">
+                            </div>
+                            <div class="form-group">
+                                <label>Employer Address</label><br>
+                                <input type="text" name="employer_address" class="form-input" value="{{ patient.employer.employer_address if patient.employer else '' }}">
+                            </div>
+                            <div class="form-group">
+                                <label>Employer City</label><br>
+                                <input type="text" name="employer_city" class="form-input" value="{{ patient.employer.employer_city if patient.employer else '' }}">
+                            </div>
+                            <div class="form-group">
+                                <label>Employer State</label><br>
+                                <input type="text" name="employer_state" class="form-input" value="{{ patient.employer.employer_state if patient.employer else '' }}">
+                            </div>
+                            <div class="form-group">
+                                <label>Employer ZIP Code</label><br>
+                                <input type="text" name="employer_zip_code" class="form-input" value="{{ patient.employer.employer_zip_code if patient.employer else '' }}">
+                            </div>
+                            <div class="form-group">
+                                <label>Employer Phone</label><br>
+                                <input type="text" name="employer_phone" class="form-input" value="{{ patient.employer.employer_phone if patient.employer else '' }}">
+                            </div>
+                            <div class="form-group">
+                                <label>Employer Fax</label><br>
+                                <input type="text" name="employer_fax" class="form-input" value="{{ patient.employer.employer_fax if patient.employer else '' }}">
+                            </div>
+                        </fieldset>
+
+                        <!-- Claims Administrator -->
+                        <fieldset>
+                            <legend>Claims Administrator</legend>
+                            <div class="form-group">
+                                <label>Administrator Name</label><br>
+                                <input type="text" name="admin_name" class="form-input" value="{{ patient.claims_admin.admin_name if patient.claims_admin else '' }}">
+                            </div>
+                            <div class="form-group">
+                                <label>Adjustor Name</label><br>
+                                <input type="text" name="adjustor" class="form-input" value="{{ patient.claims_admin.adjustor if patient.claims_admin else '' }}">
+                            </div>
+                            <div class="form-group">
+                                <label>Adjustor Address</label><br>
+                                <input type="text" name="adjustor_address" class="form-input" value="{{ patient.claims_admin.adjustor_address if patient.claims_admin else '' }}">
+                            </div>
+                            <div class="form-group">
+                                <label>Adjustor City</label><br>
+                                <input type="text" name="adjustor_city" class="form-input" value="{{ patient.claims_admin.adjustor_city if patient.claims_admin else '' }}">
+                            </div>
+                            <div class="form-group">
+                                <label>Adjustor State</label><br>
+                                <input type="text" name="adjustor_state" class="form-input" value="{{ patient.claims_admin.adjustor_state if patient.claims_admin else '' }}">
+                            </div>
+                            <div class="form-group">
+                                <label>Adjustor ZIP Code</label><br>
+                                <input type="text" name="adjustor_zip_code" class="form-input" value="{{ patient.claims_admin.adjustor_zip_code if patient.claims_admin else '' }}">
+                            </div>
+                            <div class="form-group">
+                                <label>Adjustor Phone</label><br>
+                                <input type="text" name="adjustor_phone" class="form-input" value="{{ patient.claims_admin.adjustor_phone if patient.claims_admin else '' }}">
+                            </div>
+                            <div class="form-group">
+                                <label>Adjustor Fax</label><br>
+                                <input type="text" name="adjustor_fax" class="form-input" value="{{ patient.claims_admin.adjustor_fax if patient.claims_admin else '' }}">
+                            </div>
+                            <div class="form-group">
+                                <label>Adjustor Email</label><br>
+                                <input type="text" name="adjustor_email" class="form-input" value="{{ patient.claims_admin.adjustor_email if patient.claims_admin else '' }}">
+                            </div>
+                        </fieldset>
+
+                        <!-- Lawyer Information -->
+                        <fieldset>
+                            <legend>Legal Representation (Optional)</legend>
+                            <div class="form-group">
+                                <label>Lawyer Name</label><br>
+                                <input type="text" name="lawyer_name" class="form-input" value="{{ patient.lawyer.lawyer_name if patient.lawyer else '' }}">
+                            </div>
+                            <div class="form-group">
+                                <label>Lawyer Address</label><br>
+                                <input type="text" name="lawyer_address" class="form-input" value="{{ patient.lawyer.lawyer_address if patient.lawyer else '' }}">
+                            </div>
+                            <div class="form-group">
+                                <label>Lawyer City</label><br>
+                                <input type="text" name="lawyer_city" class="form-input" value="{{ patient.lawyer.lawyer_city if patient.lawyer else '' }}">
+                            </div>
+                            <div class="form-group">
+                                <label>Lawyer State</label><br>
+                                <input type="text" name="lawyer_state" class="form-input" value="{{ patient.lawyer.lawyer_state if patient.lawyer else '' }}">
+                            </div>
+                            <div class="form-group">
+                                <label>Lawyer ZIP Code</label><br>
+                                <input type="text" name="lawyer_zip_code" class="form-input" value="{{ patient.lawyer.lawyer_zip_code if patient.lawyer else '' }}">
+                            </div>
+                            <div class="form-group">
+                                <label>Lawyer Phone</label><br>
+                                <input type="text" name="lawyer_phone" class="form-input" value="{{ patient.lawyer.lawyer_phone if patient.lawyer else '' }}">
+                            </div>
+                            <div class="form-group">
+                                <label>Lawyer Fax</label><br>
+                                <input type="text" name="lawyer_fax" class="form-input" value="{{ patient.lawyer.lawyer_fax if patient.lawyer else '' }}">
+                            </div>
+                            <div class="form-group">
+                                <label>Lawyer Email</label><br>
+                                <input type="text" name="lawyer_email" class="form-input" value="{{ patient.lawyer.lawyer_email if patient.lawyer else '' }}">
+                            </div>
+                        </fieldset>
+
+                        <div class="buttons">
+                            <button type="submit" class="save-btn">Update Patient</button>
+                            <a href="{{ url_for('dashboard.patient_detail', patient_id=patient.id) }}" class="cancel-btn">Cancel</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            $('.form-select').select2({
+                placeholder: 'Select diagnoses',
+                allowClear: true,
+                width: '100%'
+            });
+        });
+    </script>
+</body>
+</html>
