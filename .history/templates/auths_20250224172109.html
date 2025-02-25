@@ -90,7 +90,7 @@
             <!-- Patient Tabs -->
             <div class="patient-tabs">
                 <a href="{{ url_for('dashboard.patient_detail', patient_id=patient.id) }}" class="tab">Patient Info</a>
-                <a href="{{ url_for('dashboard.patient_medical_history', patient_id=patient.id) }}" class="tab">Medical Hx</a>
+                <a href="{{ url_for('dashboard.patient_medical_history', patient_id=patient.id) }}" class="tab">Medical Hxy</a>
                 <a href="{{ url_for('pr2.progress_notes', patient_id=patient.id) }}" class="tab active">Progress Notes</a>
                 <a href="{{ url_for('labs.patient_labs', patient_id=patient.id) }}" class="tab">Labs</a>
                 <a href="{{ url_for('imaging.patient_imaging', patient_id=patient.id) }}" class="tab">Imaging Reports</a>
