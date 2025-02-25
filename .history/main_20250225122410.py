@@ -37,21 +37,7 @@ from routes.wc_patient_portal_routes import wc_patient_portal_bp
 app = Flask(__name__)
                 
           
-# Create instance directory
-if not os.path.exists('instance'):
-    os.makedirs('instance')
-
-app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'torito')
-
-# Simple database configuration
-if os.environ.get('DATABASE_URL'):
-    # Use PostgreSQL on Render when DATABASE_URL is set
-    app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL').replace('postgres://', 'postgresql://')
-else:
-    # Use SQLite otherwise (both locally and on Render when no DATABASE_URL)
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///provider_info_db.db'
-
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+#
 
 # Initialize db
 db.init_app(app)
