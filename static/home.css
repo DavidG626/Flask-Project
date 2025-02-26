@@ -26,7 +26,7 @@ h1 {
     font-size: 2.5rem;
 }
 
-a {
+.button {
     display: inline-block;
     text-decoration: none;
     background-color: #1a73e8;
@@ -38,11 +38,21 @@ a {
     transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
-a:hover {
+.button:hover {
     background-color: #185abc;
     transform: scale(1.05);
 }
-
+.register-link, .register-link:visited {
+    color: #1a73e8;
+    text-decoration: none;
+    
+    text-align: center;
+    display: block;
+  }
+  
+  .register-link:hover {
+    color: #185abc;
+  }
 /* Responsive adjustments */
 @media (max-width: 1600px) {
     html {

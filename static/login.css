@@ -106,6 +106,17 @@ p a, body > a:last-child {
 p a:hover, body > a:last-child:hover {
     text-decoration: underline;
 }
+.register-link, .register-link:visited {
+    color: #1a73e8;
+    text-decoration: none;
+    
+    text-align: center;
+    display: block;
+  }
+  
+  .register-link:hover {
+    color: #185abc;
+  }
 
 /* Responsive adjustments */
 @media (max-width: 1600px) {
