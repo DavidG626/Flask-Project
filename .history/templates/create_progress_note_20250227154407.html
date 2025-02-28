@@ -288,15 +288,9 @@
                     </div><br>
         
                     <div class="form-buttons">
-                        <button type="submit" class="save-btn" onclick="return confirmCreate()">Create Progress Note</button>
+                        <button type="submit" class="save-btn" title="Warning: Once created, this note cannot be deleted or edited.">Create Progress Note</button>
                         <a href="{{ url_for('pr2.progress_notes', patient_id=patient.id) }}" class="cancel-btn">Cancel</a>
                     </div>
-                    
-                    <script>
-                    function confirmCreate() {
-                        return confirm("IMPORTANT! Once created, this progress note cannot be deleted or edited. Do you want to proceed?");
-                    }
-                    </script>
                 </form>
             </div>
         </div>
