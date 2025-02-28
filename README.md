@@ -1,6 +1,6 @@
 # Medical Office EMR System
 
-A Flask-based Electronic Health Records (EHR) system designed for medical offices to manage patient information, progress notes, medical history, and workers' compensation documentation.
+A Flask-based Electronic Medical Records (EMR) system designed for medical offices to manage patient information, progress notes, medical history, and workers' compensation documentation.
 
 ## Features
 
