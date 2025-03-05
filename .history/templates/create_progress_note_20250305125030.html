@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<!-- Head section remains unchanged -->
+<head>
+   <!-- Your existing head content -->
+</head>
+<body>
+   <div class="container">
+       <!-- Sidebar remains unchanged -->
+       <aside class="sidebar">
+           <!-- Your existing sidebar content -->
+       </aside>
+
+       <!-- Main Content -->
+       <main>
+           <!-- Header and tabs remain unchanged -->
+           <header>
+               <!-- Your existing header content -->
+           </header>
+
+           <!-- Patient Tabs -->
+           <div class="patient-tabs">
+               <!-- Your existing patient tabs -->
+           </div>
+
+           <div class="content">
+            <div class="pr2-form">
+                <div class="pr2-header">
+                    <h2>STATE OF CALIFORNIA</h2>
+                    <h3>PRIMARY TREATING PHYSICIAN'S PROGRESS REPORT (PR-2)</h3>
+                </div>
+        
+                <form method="POST">
+                    <!-- Your existing PR-2 form content -->
+                    <!-- Report Type Section -->
+                    <div class="checkbox-grid">
+                        <!-- Your existing checkbox items -->
+                    </div>
+        
+                    <!-- Patient Information Section -->
+                    <div class="patient-info-grid">
+                        <!-- Your existing patient info fields -->
+                    </div>
+        
+                    <!-- Subjective Section -->
+                    <div class="text-area-field">
+                        <label>Subjective Complaints:</label>
+                        <textarea name="subjective_complaints" required></textarea>
+                    </div>
+        
+                    <!-- Objective Section -->
+                    <div class="text-area-field">
+                        <label>Objective Findings:</label>
+                        <textarea name="objective_findings" required></textarea>
+                    </div>
+        
+                    <!-- Accepted Body Parts -->
+                    <fieldset>
+                        <legend>Accepted Body Parts</legend>
+                        <div class="form-group">
+                            {% if patient.diagnoses %}
+                                {% for diagnosis in patient.diagnoses %}
+                                    <div class="info-item">
+                                        <strong>{{ diagnosis.code }}</strong> - {{ diagnosis.description }}
+                                    </div>
+                                {% endfor %}
+                            {% else %}
+                                <div class="info-item">No Diagnoses recorded</div>
+                            {% endif %}
+                        </div>
+                    </fieldset>
+        
+                    <!-- Treatment Plan Section -->
+                    <div class="text-area-field">
+                        <label>Treatment Plan:</label>
+                        <textarea name="treatment_plan" required></textarea>
+                    </div>
+                   
+                    <!-- CPT Code Selection - 4 boxes in a row -->
+                    <div class="form-group mt-3">
+                        <label>CPT Codes:</label>
+                        <div class="row">
+                            <div class="col-3">
+                                <select class="form-control" name="cpt_codes">
+                                    <option value="">Select CPT Code</option>
+                                    {% for cpt in cpt_codes %}
+                                    <option value="{{ cpt.id }}">{{ cpt.code }} - {{ cpt.description }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="col-3">
+                                <select class="form-control" name="cpt_codes">
+                                    <option value="">Select CPT Code</option>
+                                    {% for cpt in cpt_codes %}
+                                    <option value="{{ cpt.id }}">{{ cpt.code }} - {{ cpt.description }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="col-3">
+                                <select class="form-control" name="cpt_codes">
+                                    <option value="">Select CPT Code</option>
+                                    {% for cpt in cpt_codes %}
+                                    <option value="{{ cpt.id }}">{{ cpt.code }} - {{ cpt.description }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="col-3">
+                                <select class="form-control" name="cpt_codes">
+                                    <option value="">Select CPT Code</option>
+                                    {% for cpt in cpt_codes %}
+                                    <option value="{{ cpt.id }}">{{ cpt.code }} - {{ cpt.description }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+        
+                    <!-- Work Status Section -->
+                    <div class="work-status-section">
+                        <!-- Your existing work status fields -->
+                    </div>
+        
+                    <!-- Provider Information Section -->
+                    <div class="provider-section">
+                        <!-- Your existing provider fields -->
+                    </div>
+                    
+                    <!-- Divider to separate PR-2 from RFA -->
+                    <hr class="my-4">
+                    
+                    <!-- RFA Section - will be shown/hidden with JavaScript -->
+                    <div id="rfa_section" style="display: none;" class="pr2-form">
+                        <div class="pr2-header">
+                            <h3>REQUEST FOR AUTHORIZATION (RFA)</h3>
+                        </div>
+                        <div class="checkbox-grid">
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="is_new_request" name="is_new_request" checked>
+                                <label for="is_new_request">New Request</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="is_resubmission" name="is_resubmission">
+                                <label for="is_resubmission">Resubmission - Change in Material Facts</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="is_expedited" name="is_expedited">
+                                <label for="is_expedited">Expedited Review</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="is_oral_confirmation" name="is_oral_confirmation">
+                                <label for="is_oral_confirmation">Written confirmation of prior oral request</label>
+                            </div>
+                        </div>
+                        
+                        <!-- RFA Diagnosis Selection -->
+                        <div class="text-area-field">
+                            <label for="rfa_diagnosis">Diagnosis for Authorization:</label>
+                            <select name="rfa_diagnosis" id="rfa_diagnosis" class="form-control" required>
+                                <option value="">Select a diagnosis</option>
+                                {% for diag in patient_diagnoses %}
+                                <option value="{{ diag.id }}">{{ diag.code }} - {{ diag.description }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        
+                        <!-- Additional Information -->
+                        <div class="text-area-field">
+                            <label for="rfa_other_info">Other Information (Frequency, Duration, Quantity):</label>
+                            <textarea name="rfa_other_info" id="rfa_other_info" rows="2"></textarea>
+                        </div>
+                    </div>
+        
+                    <!-- Form buttons - using your existing styling -->
+                    <div class="form-buttons">
+                        <button type="submit" class="save-btn" onclick="return confirmCreate()">Create Progress Note</button>
+                        <a href="{{ url_for('pr2.progress_notes', patient_id=patient.id) }}" class="cancel-btn">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- JavaScript at the end of the main content -->
+        <script>
+            function confirmCreate() {
+                return confirm("IMPORTANT! Once created, this progress note cannot be deleted or edited. Do you want to proceed?");
+            }
+            
+            document.addEventListener('DOMContentLoaded', function() {
+                // Get all CPT code select elements
+                const cptSelects = document.querySelectorAll('select[name="cpt_codes"]');
+                const rfaSection = document.getElementById('rfa_section');
+                
+                // Function to check if any CPT code is selected
+                function checkForCptCodes() {
+                    let hasSelection = false;
+                    
+                    // Check each select element
+                    cptSelects.forEach(function(select) {
+                        if (select.value) {
+                            hasSelection = true;
+                        }
+                    });
+                    
+                    // Show or hide RFA section
+                    if (hasSelection) {
+                        rfaSection.style.display = 'block';
+                    } else {
+                        rfaSection.style.display = 'none';
+                    }
+                }
+                
+                // Add change event listeners to all CPT selects
+                cptSelects.forEach(function(select) {
+                    select.addEventListener('change', checkForCptCodes);
+                });
+                
+                // Initial check in case CPT codes are pre-selected
+                checkForCptCodes();
+                
+                // Select2 initialization
+                $('.form-select').select2({
+                    placeholder: 'Select diagnoses to add',
+                    allowClear: true,
+                    width: '100%'
+                });
+            });
+        </script>
+       </main>
+   </div>
+</body>
+</html>

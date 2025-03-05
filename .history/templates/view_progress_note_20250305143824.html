@@ -359,49 +359,6 @@
 </div>
 {% endif %}
 
-<div class="no-print print-controls">
-    <!-- Print current document -->
-    <button onclick="window.print()" class="edit-btn">
-        <i class="fas fa-print"></i> Print
-    </button>
-    
-    <!-- Print separate RFA form -->
-    {% if rfa %}
-    <a href="{{ url_for('pr2.print_rfa', rfa_id=rfa.id) }}" class="edit-btn">
-        <i class="fas fa-file-medical"></i> Print RFA Form
-    </a>
-    {% endif %}
-    
-    <!-- Download as PDF -->
-    <button onclick="generatePDF()" class="edit-btn">
-        <i class="fas fa-download"></i> Download PDF
-    </button>
-    
-    <!-- Back button -->
-    <a href="{{ url_for('pr2.progress_notes', patient_id=patient.id) }}" class="edit-btn">
-        <i class="fas fa-arrow-left"></i> Back
-    </a>
-</div>
 
-<!-- Add these scripts at the end of the body for PDF download -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-<script>
-function generatePDF() {
-    // Get the content to convert to PDF
-    const element = document.querySelector('.content');
-    
-    // Options for the PDF
-    const options = {
-        margin: 10,
-        filename: 'progress_note_{{ progress_note.id }}.pdf',
-        image: { type: 'jpeg', quality: 0.98 },
-        html2canvas: { scale: 2 },
-        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
-    };
-    
-    // Generate PDF
-    html2pdf().set(options).from(element).save();
-}
-</script>
 </body>
 </html>

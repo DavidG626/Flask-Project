@@ -393,69 +393,66 @@
                 <textarea name="rfa_other_info" id="rfa_other_info" rows="2"></textarea>
             </div>
         </div>
-                            
-                    <!-- JavaScript at the end of the main content -->
-        <script>
-            document.addEventListener('DOMContentLoaded', function() {
-    // Get all CPT code select elements
-    const cptSelects = document.querySelectorAll('select[name="cpt_codes"]');
-    const rfaSection = document.getElementById('rfa_section');
-    const rfaCptCodesDisplay = document.getElementById('rfa_cpt_codes_display');
-    
-    // Function to check if any CPT code is selected and update the RFA section
-    function updateRfaSection() {
-        let hasSelection = false;
-        let selectedCptCodes = [];
-        
-        // Check each select element
-        cptSelects.forEach(function(select) {
-            if (select.value) {
-                hasSelection = true;
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get all CPT code select elements
+            const cptSelects = document.querySelectorAll('select[name="cpt_codes"]');
+            const rfaSection = document.getElementById('rfa_section');
+            const rfaCptCodesDisplay = document.getElementById('rfa_cpt_codes_display');
+            
+            // Function to check if any CPT code is selected and update the RFA section
+            function updateRfaSection() {
+                let hasSelection = false;
+                let selectedCptCodes = [];
                 
-                // Get CPT code details
-                const cptId = select.value;
-                const cptText = select.options[select.selectedIndex].text;
+                // Check each select element
+                cptSelects.forEach(function(select) {
+                    if (select.value) {
+                        hasSelection = true;
+                        
+                        // Get CPT code details
+                        const cptId = select.value;
+                        const cptText = select.options[select.selectedIndex].text;
+                        
+                        // Add to array if not already included
+                        if (!selectedCptCodes.some(code => code.id === cptId)) {
+                            selectedCptCodes.push({
+                                id: cptId,
+                                text: cptText
+                            });
+                        }
+                    }
+                });
                 
-                // Add to array if not already included
-                if (!selectedCptCodes.some(code => code.id === cptId)) {
-                    selectedCptCodes.push({
-                        id: cptId,
-                        text: cptText
+                // Show or hide RFA section
+                if (hasSelection) {
+                    rfaSection.style.display = 'block';
+                    
+                    // Update the CPT codes display
+                    rfaCptCodesDisplay.innerHTML = '';
+                    selectedCptCodes.forEach(function(cpt) {
+                        const cptItem = document.createElement('div');
+                        cptItem.className = 'info-item';
+                        cptItem.innerHTML = `
+                            <input type="hidden" name="rfa_cpt_ids[]" value="${cpt.id}">
+                            ${cpt.text}
+                        `;
+                        rfaCptCodesDisplay.appendChild(cptItem);
                     });
+                } else {
+                    rfaSection.style.display = 'none';
+                    rfaCptCodesDisplay.innerHTML = '<div class="info-item text-muted">CPT codes will appear here when selected</div>';
                 }
             }
-        });
-        
-        // Show or hide RFA section
-        if (hasSelection) {
-            rfaSection.style.display = 'block';
             
-            // Update the CPT codes display
-            rfaCptCodesDisplay.innerHTML = '';
-            selectedCptCodes.forEach(function(cpt) {
-                const cptItem = document.createElement('div');
-                cptItem.className = 'info-item';
-                cptItem.innerHTML = `
-                    <input type="hidden" name="rfa_cpt_ids[]" value="${cpt.id}">
-                    ${cpt.text}
-                `;
-                rfaCptCodesDisplay.appendChild(cptItem);
+            // Add change event listeners to all CPT selects
+            cptSelects.forEach(function(select) {
+                select.addEventListener('change', updateRfaSection);
             });
-        } else {
-            rfaSection.style.display = 'none';
-            rfaCptCodesDisplay.innerHTML = '<div class="info-item text-muted">CPT codes will appear here when selected</div>';
-        }
-    }
-    
-    // Add change event listeners to all CPT selects
-    cptSelects.forEach(function(select) {
-        select.addEventListener('change', updateRfaSection);
-    });
-    
-    // Initial check in case CPT codes are pre-selected
-    updateRfaSection();
-});
-        </script>
+            
+            // Initial check in case CPT codes are pre-selected
+            updateRfaSection();
+        });
+                            
 
        </main>
        </body>

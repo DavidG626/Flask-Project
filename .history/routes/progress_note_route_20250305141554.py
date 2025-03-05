@@ -6,7 +6,7 @@ from models.provider_info_models import Provider
 from models.icd10_models import ICD10Code
 from models.cpt_model import CPTCode
 from models.wc_patient_models import PatientDiagnosis, ClaimsAdmin
-from models.pr2_model import ProgressNote, ProgressNoteCPT, RequestForAuthorization, RFAItem
+from models.pr2_model import ProgressNote, ProgressNoteCPT
 from datetime import datetime
 import os
 import io
@@ -169,88 +169,6 @@ def create_progress_note(patient_id):
                          cpt_codes=cpt_codes,
                          cpt_search_term=cpt_search_term)
 
-@progress_note_bp.route('/rfa/<int:rfa_id>')
-@login_required
-@check_session_timeout
-def view_rfa(rfa_id):
-    rfa = RequestForAuthorization.query.get_or_404(rfa_id)
-    patient = Patient.query.get(rfa.patient_id)
-    progress_note = ProgressNote.query.get(rfa.progress_note_id)
-    
-    if (patient.provider_first_name != current_user.first_name or 
-        patient.provider_last_name != current_user.last_name):
-        flash('You do not have permission to view this RFA.', 'error')
-        return redirect(url_for('dashboard.my_patients'))
-    
-    return render_template('view_rfa.html', rfa=rfa, patient=patient, progress_note=progress_note)
-
-@progress_note_bp.route('/patient/<int:patient_id>/rfas')
-@login_required
-@check_session_timeout
-def patient_rfas(patient_id):
-    patient = Patient.query.get_or_404(patient_id)
-    
-    if (patient.provider_first_name != current_user.first_name or 
-        patient.provider_last_name != current_user.last_name):
-        flash('You do not have permission to view this patient.', 'error')
-        return redirect(url_for('dashboard.my_patients'))
-    
-    rfas = RequestForAuthorization.query.filter_by(patient_id=patient_id).order_by(RequestForAuthorization.created_at.desc()).all()
-    
-    return render_template('patient_rfas.html', patient=patient, rfas=rfas)
-
-@progress_note_bp.route('/rfa/print/<int:rfa_id>')
-@login_required
-@check_session_timeout
-def print_rfa(rfa_id):
-    rfa = RequestForAuthorization.query.get_or_404(rfa_id)
-    patient = Patient.query.get(rfa.patient_id)
-    progress_note = ProgressNote.query.get(rfa.progress_note_id)
-    
-    if (patient.provider_first_name != current_user.first_name or 
-        patient.provider_last_name != current_user.last_name):
-        flash('You do not have permission to print this RFA.', 'error')
-        return redirect(url_for('dashboard.my_patients'))
-    
-    return render_template('print_rfa.html', rfa=rfa, patient=patient, progress_note=progress_note)
-
-
-
-
-
-@progress_note_bp.route('/progress_note/<int:note_id>')
-@login_required
-@check_session_timeout
-def view_progress_note(note_id):
-    progress_note = ProgressNote.query.get_or_404(note_id)
-    patient = Patient.query.get(progress_note.patient_id)
-    
-    if (patient.provider_first_name != current_user.first_name or 
-        patient.provider_last_name != current_user.last_name):
-        flash('You do not have permission to view this progress note.', 'error')
-        return redirect(url_for('dashboard.my_patients'))
-    
-    # Get CPT codes associated with this progress note
-    cpt_relations = ProgressNoteCPT.query.filter_by(progress_note_id=note_id).all()
-    cpt_codes = []
-    for rel in cpt_relations:
-        cpt = CPTCode.query.get(rel.cpt_id)
-        if cpt:
-            cpt_codes.append(cpt)
-    
-    # Get RFA if one exists for this progress note
-    rfa = RequestForAuthorization.query.filter_by(progress_note_id=note_id).first()
-    rfa_items = []
-    if rfa:
-        rfa_items = RFAItem.query.filter_by(rfa_id=rfa.id).all()
-    
-    return render_template('view_progress_note.html', 
-                          progress_note=progress_note, 
-                          patient=patient,
-                          cpt_codes=cpt_codes,
-                          rfa=rfa,
-                          rfa_items=rfa_items)
-
 # @progress_note_bp.route('/edit_progress_note/<int:note_id>', methods=['GET', 'POST'])
 # @login_required
 # @check_session_timeout
@@ -349,6 +267,21 @@ def view_progress_note(note_id):
 
 
 
+# View specific progress note
+@progress_note_bp.route('/progress_note/<int:note_id>')
+@login_required
+@check_session_timeout
+def view_progress_note(note_id):
+    progress_note = ProgressNote.query.get_or_404(note_id)
+    patient = Patient.query.get(progress_note.patient_id)
+    
+    
+    if (patient.provider_first_name != current_user.first_name or 
+        patient.provider_last_name != current_user.last_name):
+        flash('You do not have permission to view this progress note.', 'error')
+        return redirect(url_for('dashboard.my_patients'))
+    
+    return render_template('view_progress_note.html', progress_note=progress_note, patient=patient)
 
 
 

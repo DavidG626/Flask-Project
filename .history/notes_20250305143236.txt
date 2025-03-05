@@ -137,3 +137,10 @@ def create_progress_note(patient_id):
                          cpt_search_term=cpt_search_term)
 
 
+
+
+   <div class="no-print print-controls">
+                <button onclick="window.print()" class="edit-btn">Print</button>
+                {# <a href="{{ url_for('pr2.edit_progress_note', note_id=progress_note.id) }}" class="edit-btn">Edit</a> #}
+                <a href="{{ url_for('pr2.progress_notes', patient_id=patient.id) }}" class="edit-btn">Back</a>
+            </div>

@@ -14,7 +14,7 @@ from models.lab_model import LabResult
 from models.misc_model import Misc
 from models.operative_model import OperativeReport
 from models.patient_medical_hx_models import Allergy, MedicalCondition, Surgery, Medication, PastMedicalHistory
-from models.pr2_model import ProgressNote, ProgressNoteCPT, RequestForAuthorization, RFAItem
+from models.pr2_model import ProgressNote, ProgressNoteCPT, RequestForAuthorization, 
 from models.provider_info_models import Provider
 from models.wc_patient_models import Patient,  Employer, ClaimsAdmin, Lawyer
 

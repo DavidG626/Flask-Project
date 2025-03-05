@@ -278,130 +278,91 @@
                     </div>
                 </div>
             </div>
-           <!-- Replace the RFA section with this -->
+            <!-- Add this after the PR-2 content in your view_progress_note.html -->
 {% if rfa %}
-<div class="content">
-    <div class="pr2-form">
-        <div class="pr2-header">
-            <h2>STATE OF CALIFORNIA</h2>
-            <h3>REQUEST FOR AUTHORIZATION (RFA)</h3>
+<div class="rfa-section">
+    <div class="pr2-header">
+        <h3>REQUEST FOR AUTHORIZATION (RFA)</h3>
+    </div>
+    
+    <!-- RFA Options -->
+    <div class="checkbox-grid">
+        <div class="checkbox-item">
+            <input type="checkbox" disabled {% if rfa.is_new_request %}checked{% endif %}>
+            <label>New Request</label>
         </div>
-        
-        <!-- RFA Options -->
-        <div class="checkbox-grid">
-            <div class="checkbox-item">
-                <input type="checkbox" disabled {% if rfa.is_new_request %}checked{% endif %}>
-                <label>New Request</label>
-            </div>
-            <div class="checkbox-item">
-                <input type="checkbox" disabled {% if rfa.is_resubmission %}checked{% endif %}>
-                <label>Resubmission - Change in Material Facts</label>
-            </div>
-            <div class="checkbox-item">
-                <input type="checkbox" disabled {% if rfa.is_expedited %}checked{% endif %}>
-                <label>Expedited Review</label>
-            </div>
-            <div class="checkbox-item">
-                <input type="checkbox" disabled {% if rfa.is_oral_confirmation %}checked{% endif %}>
-                <label>Written confirmation of prior oral request</label>
-            </div>
+        <div class="checkbox-item">
+            <input type="checkbox" disabled {% if rfa.is_resubmission %}checked{% endif %}>
+            <label>Resubmission - Change in Material Facts</label>
         </div>
-        
-        <!-- RFA Items -->
-        <fieldset>
-            <legend>Requested Services:</legend>
-            <div class="rfa-items">
-                <table class="patient-table">
-                    <thead>
-                        <tr>
-                            <th>Diagnosis</th>
-                            <th>ICD Code</th>
-                            <th>Service/Good Requested</th>
-                            <th>CPT Code</th>
-                            <th>Other Information</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for item in rfa_items %}
-                        <tr>
-                            <td>{{ item.diagnosis }}</td>
-                            <td>{{ item.icd_code }}</td>
-                            <td>{{ item.service_requested }}</td>
-                            <td>{{ item.cpt_code }}</td>
-                            <td>{{ item.other_info }}</td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            </div>
-        </fieldset>
-        
-        <!-- Authorization Status -->
-        <div class="form-field">
-            <label>Status:</label>
-            <div class="read-only-field">{{ rfa.status|capitalize }}</div>
+        <div class="checkbox-item">
+            <input type="checkbox" disabled {% if rfa.is_expedited %}checked{% endif %}>
+            <label>Expedited Review</label>
         </div>
-        
-        {% if rfa.authorization_number %}
-        <div class="form-field">
-            <label>Authorization Number:</label>
-            <div class="read-only-field">{{ rfa.authorization_number }}</div>
+        <div class="checkbox-item">
+            <input type="checkbox" disabled {% if rfa.is_oral_confirmation %}checked{% endif %}>
+            <label>Written confirmation of prior oral request</label>
         </div>
-        {% endif %}
-        
-        {% if rfa.auth_date %}
-        <div class="form-field">
-            <label>Authorization Date:</label>
-            <div class="read-only-field">{{ rfa.auth_date.strftime('%m/%d/%Y') }}</div>
-        </div>
-        {% endif %}
+    </div>
+    
+    <!-- RFA Items -->
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Diagnosis</th>
+                <th>ICD Code</th>
+                <th>Service/Good Requested</th>
+                <th>CPT Code</th>
+                <th>Other Information</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in rfa_items %}
+            <tr>
+                <td>{{ item.diagnosis }}</td>
+                <td>{{ item.icd_code }}</td>
+                <td>{{ item.service_requested }}</td>
+                <td>{{ item.cpt_code }}</td>
+                <td>{{ item.other_info }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    
+    <!-- Authorization Status -->
+    <div class="form-field">
+        <label>Status:</label>
+        <div class="read-only-field">{{ rfa.status|capitalize }}</div>
+    </div>
+    
+    {% if rfa.authorization_number %}
+    <div class="form-field">
+        <label>Authorization Number:</label>
+        <div class="read-only-field">{{ rfa.authorization_number }}</div>
+    </div>
+    {% endif %}
+    
+    {% if rfa.auth_date %}
+    <div class="form-field">
+        <label>Authorization Date:</label>
+        <div class="read-only-field">{{ rfa.auth_date.strftime('%m/%d/%Y') }}</div>
+    </div>
+    {% endif %}
+    
+    <!-- Print RFA Button -->
+    <div class="form-buttons">
+        <a href="{{ url_for('pr2.print_rfa', rfa_id=rfa.id) }}" class="print-btn">            <i class="fas fa-print"></i> Print RFA Form
+        </a>
     </div>
 </div>
 {% endif %}
 
-<div class="no-print print-controls">
-    <!-- Print current document -->
-    <button onclick="window.print()" class="edit-btn">
-        <i class="fas fa-print"></i> Print
-    </button>
-    
-    <!-- Print separate RFA form -->
-    {% if rfa %}
-    <a href="{{ url_for('pr2.print_rfa', rfa_id=rfa.id) }}" class="edit-btn">
-        <i class="fas fa-file-medical"></i> Print RFA Form
-    </a>
-    {% endif %}
-    
-    <!-- Download as PDF -->
-    <button onclick="generatePDF()" class="edit-btn">
-        <i class="fas fa-download"></i> Download PDF
-    </button>
-    
-    <!-- Back button -->
-    <a href="{{ url_for('pr2.progress_notes', patient_id=patient.id) }}" class="edit-btn">
-        <i class="fas fa-arrow-left"></i> Back
-    </a>
-</div>
-
-<!-- Add these scripts at the end of the body for PDF download -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-<script>
-function generatePDF() {
-    // Get the content to convert to PDF
-    const element = document.querySelector('.content');
-    
-    // Options for the PDF
-    const options = {
-        margin: 10,
-        filename: 'progress_note_{{ progress_note.id }}.pdf',
-        image: { type: 'jpeg', quality: 0.98 },
-        html2canvas: { scale: 2 },
-        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
-    };
-    
-    // Generate PDF
-    html2pdf().set(options).from(element).save();
-}
-</script>
+            <div class="no-print print-controls">
+                <button onclick="window.print()" class="edit-btn">Print</button>
+                {# <a href="{{ url_for('pr2.edit_progress_note', note_id=progress_note.id) }}" class="edit-btn">Edit</a> #}
+                <a href="{{ url_for('pr2.progress_notes', patient_id=patient.id) }}" class="edit-btn">Back</a>
+            </div>
+        </main>
+    </div>
 </body>
 </html>

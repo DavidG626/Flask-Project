@@ -135,5 +135,3 @@ def create_progress_note(patient_id):
                          icd10_codes=icd10_codes,
                          cpt_codes=cpt_codes,
                          cpt_search_term=cpt_search_term)
-
-

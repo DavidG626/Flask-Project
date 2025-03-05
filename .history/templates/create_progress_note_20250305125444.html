@@ -335,127 +335,25 @@
                         <button type="submit" class="save-btn" onclick="return confirmCreate()">Create Progress Note</button>
                         <a href="{{ url_for('pr2.progress_notes', patient_id=patient.id) }}" class="cancel-btn">Cancel</a>
                     </div>
-
-                     <!-- RFA Section - will be shown/hidden with JavaScript -->
-        <div id="rfa_section" style="display: none;" class="pr2-form">
-            <div class="pr2-header">
-                <h3>REQUEST FOR AUTHORIZATION (RFA)</h3>
-            </div>
-            <div class="checkbox-grid">
-                <div class="checkbox-item">
-                    <input type="checkbox" id="is_new_request" name="is_new_request" checked>
-                    <label for="is_new_request">New Request</label>
-                </div>
-                <div class="checkbox-item">
-                    <input type="checkbox" id="is_resubmission" name="is_resubmission">
-                    <label for="is_resubmission">Resubmission - Change in Material Facts</label>
-                </div>
-                <div class="checkbox-item">
-                    <input type="checkbox" id="is_expedited" name="is_expedited">
-                    <label for="is_expedited">Expedited Review</label>
-                </div>
-                <div class="checkbox-item">
-                    <input type="checkbox" id="is_oral_confirmation" name="is_oral_confirmation">
-                    <label for="is_oral_confirmation">Written confirmation of prior oral request</label>
-                </div>
-            </div>
-            
-            <!-- Selected Diagnoses (auto-populated) -->
-            <div class="text-area-field">
-                <label>Selected Diagnoses:</label>
-                <div id="rfa_diagnoses_display" class="form-field">
-                    <!-- Will be populated based on patient diagnoses -->
-                    {% if patient.diagnoses %}
-                        {% for diagnosis in patient.diagnoses %}
-                        <div class="info-item">
-                            <input type="hidden" name="rfa_diagnosis_ids[]" value="{{ diagnosis.id }}">
-                            <strong>{{ diagnosis.code }}</strong> - {{ diagnosis.description }}
-                        </div>
-                        {% endfor %}
-                    {% else %}
-                        <div class="info-item">No Diagnoses recorded</div>
-                    {% endif %}
-                </div>
-            </div>
-            
-            <!-- Selected CPT Codes (auto-populated) -->
-            <div class="text-area-field">
-                <label>Selected CPT Codes:</label>
-                <div id="rfa_cpt_codes_display" class="form-field">
-                    <!-- Will be populated dynamically by JavaScript -->
-                    <div class="info-item text-muted">CPT codes will appear here when selected</div>
-                </div>
-            </div>
-            
-            <!-- Additional Information -->
-            <div class="text-area-field">
-                <label for="rfa_other_info">Other Information (Frequency, Duration, Quantity):</label>
-                <textarea name="rfa_other_info" id="rfa_other_info" rows="2"></textarea>
+                    
+                    <script>
+                    function confirmCreate() {
+                        return confirm("IMPORTANT! Once created, this progress note cannot be deleted or edited. Do you want to proceed?");
+                    }
+                    </script>
+                </form>
             </div>
         </div>
-                            
-                    <!-- JavaScript at the end of the main content -->
+        
         <script>
-            document.addEventListener('DOMContentLoaded', function() {
-    // Get all CPT code select elements
-    const cptSelects = document.querySelectorAll('select[name="cpt_codes"]');
-    const rfaSection = document.getElementById('rfa_section');
-    const rfaCptCodesDisplay = document.getElementById('rfa_cpt_codes_display');
-    
-    // Function to check if any CPT code is selected and update the RFA section
-    function updateRfaSection() {
-        let hasSelection = false;
-        let selectedCptCodes = [];
-        
-        // Check each select element
-        cptSelects.forEach(function(select) {
-            if (select.value) {
-                hasSelection = true;
-                
-                // Get CPT code details
-                const cptId = select.value;
-                const cptText = select.options[select.selectedIndex].text;
-                
-                // Add to array if not already included
-                if (!selectedCptCodes.some(code => code.id === cptId)) {
-                    selectedCptCodes.push({
-                        id: cptId,
-                        text: cptText
-                    });
-                }
-            }
-        });
-        
-        // Show or hide RFA section
-        if (hasSelection) {
-            rfaSection.style.display = 'block';
-            
-            // Update the CPT codes display
-            rfaCptCodesDisplay.innerHTML = '';
-            selectedCptCodes.forEach(function(cpt) {
-                const cptItem = document.createElement('div');
-                cptItem.className = 'info-item';
-                cptItem.innerHTML = `
-                    <input type="hidden" name="rfa_cpt_ids[]" value="${cpt.id}">
-                    ${cpt.text}
-                `;
-                rfaCptCodesDisplay.appendChild(cptItem);
+            $(document).ready(function() {
+                $('.form-select').select2({
+                    placeholder: 'Select diagnoses to add',
+                    allowClear: true,
+                    width: '100%'
+                });
             });
-        } else {
-            rfaSection.style.display = 'none';
-            rfaCptCodesDisplay.innerHTML = '<div class="info-item text-muted">CPT codes will appear here when selected</div>';
-        }
-    }
-    
-    // Add change event listeners to all CPT selects
-    cptSelects.forEach(function(select) {
-        select.addEventListener('change', updateRfaSection);
-    });
-    
-    // Initial check in case CPT codes are pre-selected
-    updateRfaSection();
-});
-        </script>
+            </script>
 
        </main>
        </body>
