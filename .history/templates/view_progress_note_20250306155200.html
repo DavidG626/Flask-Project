@@ -9,151 +9,6 @@
    <link rel="stylesheet" type="text/css" href="/static/pr2.css">
    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
    <style>
-      /* PR-2 Official Form Styles */
-      .official-pr2 {
-         font-family: Arial, sans-serif;
-         max-width: 8.5in;
-         margin: 0 auto;
-         padding: 0.5in;
-         border: 1px solid #000;
-      }
-      .official-pr2 h1, .official-pr2 h2, .official-pr2 h3 {
-         text-align: center;
-         margin: 5px 0;
-      }
-      .official-pr2 h1 {
-         font-size: 18px;
-         font-weight: bold;
-      }
-      .official-pr2 h2 {
-         font-size: 14px;
-         font-weight: bold;
-      }
-      .official-pr2 .checkbox-row {
-         display: flex;
-         flex-wrap: wrap;
-         margin-bottom: 15px;
-      }
-      .official-pr2 .checkbox-item {
-         margin-right: 15px;
-         margin-bottom: 5px;
-         display: flex;
-         align-items: center;
-      }
-      .official-pr2 .checkbox-item input {
-         margin-right: 5px;
-      }
-      .official-pr2 .form-section {
-         margin-bottom: 15px;
-      }
-      .official-pr2 .section-heading {
-         font-weight: bold;
-         margin-bottom: 5px;
-         text-align: center;
-      }
-      .official-pr2 .patient-info {
-         display: grid;
-         grid-template-columns: repeat(3, 1fr);
-         gap: 10px;
-         margin-bottom: 15px;
-      }
-      .official-pr2 .form-field {
-         margin-bottom: 10px;
-      }
-      .official-pr2 .form-field label {
-         display: block;
-         font-weight: bold;
-         font-size: 12px;
-      }
-      .official-pr2 .form-field .data {
-         border: 1px solid #999;
-         padding: 5px;
-         min-height: 20px;
-      }
-      .official-pr2 .admin-info {
-         display: grid;
-         grid-template-columns: repeat(3, 1fr);
-         gap: 10px;
-      }
-      .official-pr2 .text-section {
-         margin-bottom: 15px;
-      }
-      .official-pr2 .text-section label {
-         display: block;
-         font-weight: bold;
-         margin-bottom: 5px;
-      }
-      .official-pr2 .text-area {
-         border: 1px solid #000;
-         padding: 10px;
-         min-height: 100px;
-      }
-      .official-pr2 .diagnoses-grid {
-         display: grid;
-         grid-template-columns: 1fr 1fr;
-         gap: 10px;
-      }
-      .official-pr2 .diagnosis-row {
-         display: flex;
-         align-items: center;
-         margin-bottom: 5px;
-      }
-      .official-pr2 .diagnosis-row .number {
-         width: 20px;
-      }
-      .official-pr2 .diagnosis-row .description {
-         flex: 1;
-         border: 1px solid #999;
-         padding: 5px;
-         min-height: 20px;
-      }
-      .official-pr2 .diagnosis-row .code-label {
-         width: 60px;
-         text-align: right;
-         padding-right: 5px;
-      }
-      .official-pr2 .diagnosis-row .code {
-         width: 100px;
-         border: 1px solid #999;
-         padding: 5px;
-         min-height: 20px;
-      }
-      .official-pr2 .work-status {
-         margin-bottom: 15px;
-      }
-      .official-pr2 .work-option {
-         display: flex;
-         align-items: center;
-         margin-bottom: 10px;
-      }
-      .official-pr2 .work-option input {
-         margin-right: 5px;
-      }
-      .official-pr2 .work-restrictions {
-         border: 1px solid #000;
-         padding: 10px;
-         min-height: 100px;
-         margin-top: 5px;
-      }
-      .official-pr2 .physician-section {
-         margin-top: 20px;
-      }
-      .official-pr2 .signature-row {
-         display: grid;
-         grid-template-columns: 1fr 1fr;
-         gap: 10px;
-         margin-bottom: 10px;
-      }
-      .official-pr2 .footer {
-         font-size: 10px;
-         margin-top: 20px;
-      }
-      .official-pr2 .sheet-number {
-         text-align: right;
-         font-size: 10px;
-         margin-top: 10px;
-      }
-      
       /* RFA Styles */
       .rfa-header {
          text-align: center;
@@ -161,10 +16,8 @@
       }
       .rfa-form {
          width: 100%;
-         max-width: 8.5in;
-         margin: 30px auto;
+         margin: 30px 0;
          border: 1px solid #000;
-         padding: 0.5in;
       }
       .form-section {
          padding: 10px;
@@ -317,21 +170,22 @@
             </div>
 
             <div class="content">
-                <!-- PR-2 FORM THAT MATCHES OFFICIAL FORMAT -->
-                <div class="official-pr2">
-                    <h2>State of California</h2>
-                    <h1>PRIMARY TREATING PHYSICIAN'S PROGRESS REPORT (PR-2)</h1>
-                    
-                    <p>Check the boxes which indicate why you are submitting a report at this time. If the patient is "Permanent and Stationary" (i.e., has reached maximum medical improvement), do not use this form. You may use DWC Forms PR-3 or PR-4.</p>
-                    
-                    <div class="checkbox-row">
+                <!-- PR-2 FORM -->
+                <div class="pr2-form">
+                    <div class="pr2-header">
+                        <h2>STATE OF CALIFORNIA</h2>
+                        <h3>PRIMARY TREATING PHYSICIAN'S PROGRESS REPORT (PR-2)</h3>
+                    </div>
+
+                    <!-- Report Type Section -->
+                    <div class="checkbox-grid">
                         <div class="checkbox-item">
                             <input type="checkbox" disabled {% if progress_note.is_periodic_report %}checked{% endif %}>
-                            <label>Periodic Report (Required 45 days after last report)</label>
+                            <label>Periodic Report (45 days)</label>
                         </div>
                         <div class="checkbox-item">
                             <input type="checkbox" disabled {% if progress_note.is_change_in_treatment %}checked{% endif %}>
-                            <label>Change in treatment plan</label>
+                            <label>Change in Treatment</label>
                         </div>
                         <div class="checkbox-item">
                             <input type="checkbox" disabled {% if progress_note.is_release_from_care %}checked{% endif %}>
@@ -339,301 +193,155 @@
                         </div>
                         <div class="checkbox-item">
                             <input type="checkbox" disabled {% if progress_note.is_change_in_work_status %}checked{% endif %}>
-                            <label>Change in work status</label>
+                            <label>Change in Work Status</label>
                         </div>
                         <div class="checkbox-item">
                             <input type="checkbox" disabled {% if progress_note.is_need_for_referral %}checked{% endif %}>
-                            <label>Need for referral or consultation</label>
+                            <label>Need for Referral</label>
                         </div>
                         <div class="checkbox-item">
                             <input type="checkbox" disabled {% if progress_note.is_response_to_request %}checked{% endif %}>
-                            <label>Response to request for information</label>
+                            <label>Response to Request</label>
                         </div>
                         <div class="checkbox-item">
                             <input type="checkbox" disabled {% if progress_note.is_change_in_condition %}checked{% endif %}>
-                            <label>Change in patient's condition</label>
+                            <label>Change in Patient's Condition</label>
                         </div>
                         <div class="checkbox-item">
                             <input type="checkbox" disabled {% if progress_note.is_need_for_surgery %}checked{% endif %}>
-                            <label>Need for surgery or hospitalization</label>
+                            <label>Need for Surgery</label>
                         </div>
                         <div class="checkbox-item">
                             <input type="checkbox" disabled {% if progress_note.is_request_for_authorization %}checked{% endif %}>
-                            <label>Request for authorization</label>
-                        </div>
-                    </div>
-                    
-                    <div class="section-heading">Patient</div>
-                    
-                    <div class="patient-info">
-                        <div class="form-field">
-                            <label>Patient last name:</label>
-                            <div class="data">{{ patient.patient_last_name }}</div>
-                        </div>
-                        <div class="form-field">
-                            <label>Patient first name:</label>
-                            <div class="data">{{ patient.patient_first_name }}</div>
-                        </div>
-                        <div class="form-field">
-                            <label>MI</label>
-                            <div class="data">{{ patient.patient_middle_initial }}</div>
-                        </div>
-                        <div class="form-field">
-                            <label>Patient Street Address/PO Box</label>
-                            <div class="data">{{ patient.patient_address }}</div>
-                        </div>
-                        <div class="form-field">
-                            <label>Patient City</label>
-                            <div class="data">{{ patient.patient_city }}</div>
-                        </div>
-                        <div class="form-field">
-                            <label>State</label>
-                            <div class="data">{{ patient.patient_state }}</div>
-                        </div>
-                        <div class="form-field">
-                            <label>Zip Code</label>
-                            <div class="data">{{ patient.patient_zip_code }}</div>
-                        </div>
-                        <div class="form-field">
-                            <label>Sex</label>
-                            <div class="data">{{ patient.patient_sex }}</div>
-                        </div>
-                        <div class="form-field">
-                            <label>Occupation</label>
-                            <div class="data">{{ patient.patient_occupation }}</div>
-                        </div>
-                        <div class="form-field">
-                            <label>Phone Number</label>
-                            <div class="data">{{ patient.patient_phone }}</div>
-                        </div>
-                        <div class="form-field">
-                            <label>Date of Birth</label>
-                            <div class="data">{{ patient.patient_date_of_birth.strftime('%m/%d/%Y') if patient.patient_date_of_birth }}</div>
-                        </div>
-                        <div class="form-field">
-                            <label>Date of Injury</label>
-                            <div class="data">{{ patient.patient_date_of_injury.strftime('%m/%d/%Y') if patient.patient_date_of_injury }}</div>
+                            <label>Request for Authorization</label>
                         </div>
                     </div>
 
-                    <div class="section-heading">Claims Administrator</div>
-                    
-                    <div class="admin-info">
+                    <!-- Patient Information Section -->
+                    <div class="patient-info-grid">
                         <div class="form-field">
-                            <label>Claims Administrator Name</label>
-                            <div class="data">{{ patient.claims_admin.admin_name if patient.claims_admin else '' }}</div>
+                            <label>Patient Name:</label>
+                            <div class="read-only-field">{{ patient.patient_last_name }}, {{ patient.patient_first_name }}</div>
                         </div>
                         <div class="form-field">
-                            <label>Claim number</label>
-                            <div class="data">{{ patient.patient_claim_number }}</div>
+                            <label>Occupation:</label>
+                            <div class="read-only-field">{{ patient.patient_occupation }}</div>
                         </div>
                         <div class="form-field">
-                            <label>Claims Administrator Street Address</label>
-                            <div class="data">{{ patient.claims_admin.address if patient.claims_admin else '' }}</div>
+                            <label>Sex:</label>
+                            <div class="read-only-field">{{ patient.patient_sex }}</div>
                         </div>
                         <div class="form-field">
-                            <label>Claims Administrator City</label>
-                            <div class="data">{{ patient.claims_admin.adjustor_city if patient.claims_admin else '' }}</div>
+                            <label>Address:</label>
+                            <div class="read-only-field">{{ patient.patient_address }}, {{ patient.patient_city }}, {{ patient.patient_state }}, {{ patient.patient_zip_code }}</div>
                         </div>
                         <div class="form-field">
-                            <label>State</label>
-                            <div class="data">{{ patient.claims_admin.adjustor_state if patient.claims_admin else '' }}</div>
+                            <label>Date of Birth:</label>
+                            <div class="read-only-field">{{ patient.patient_date_of_birth.strftime('%m/%d/%Y') }}</div>
                         </div>
                         <div class="form-field">
-                            <label>Zip Code</label>
-                            <div class="data">{{ patient.claims_admin.zip_code if patient.claims_admin else '' }}</div>
+                            <label>Claim Number:</label>
+                            <div class="read-only-field">{{ patient.patient_claim_number }}</div>
                         </div>
                         <div class="form-field">
-                            <label>Phone Number</label>
-                            <div class="data">{{ patient.claims_admin.adjustor_phone if patient.claims_admin else '' }}</div>
-                        </div>
-                        <div class="form-field">
-                            <label>Fax Number</label>
-                            <div class="data">{{ patient.claims_admin.adjustor_fax if patient.claims_admin else '' }}</div>
-                        </div>
-                        <div class="form-field">
-                            <label>Employer Name</label>
-                            <div class="data">{{ patient.employer.employer_name if patient.employer else '' }}</div>
-                        </div>
-                        <div class="form-field">
-                            <label>Phone Number</label>
-                            <div class="data">{{ patient.employer.employer_phone if patient.employer else '' }}</div>
+                            <label>Date of Injury:</label>
+                            <div class="read-only-field">{{ patient.patient_date_of_injury.strftime('%m/%d/%Y') }}</div>
                         </div>
                     </div>
-                    
-                    <div class="text-section">
-                        <label>Subjective Complaints (The information below must be provided. You may use this form or you may substitute or append a narrative report):</label>
-                        <div class="text-area">{{ progress_note.subjective_complaints }}</div>
-                    </div>
-                    
-                    <div class="text-section">
-                        <label>Objective findings: (Include significant physical examination, laboratory, imaging, or other diagnostic findings.)</label>
-                        <div class="text-area">{{ progress_note.objective_findings }}</div>
-                    </div>
-                    
-                    <label>Diagnoses:</label>
-                    <div class="diagnoses-grid">
-                        {% if patient.diagnoses %}
-                            {% for i in range(6) %}
-                                {% if i < patient.diagnoses|length %}
-                                    <div class="diagnosis-row">
-                                        <span class="number">{{ i+1 }}.</span>
-                                        <div class="description">{{ patient.diagnoses[i].description }}</div>
-                                        <span class="code-label">ICD-10</span>
-                                        <div class="code">{{ patient.diagnoses[i].code }}</div>
+
+                    <!-- Clinical Information -->
+                    <fieldset>
+                        <legend>Subjective Complaints:</legend>
+                        <div class="text-area-field">
+                            <div class="read-only-text">{{ progress_note.subjective_complaints }}</div>
+                        </div>
+                    </fieldset>
+                    <fieldset>
+                        <legend>Objective Findings:</legend>
+                        <div class="text-area-field">
+                            <div class="read-only-text">{{ progress_note.objective_findings }}</div>
+                        </div>
+                    </fieldset>
+
+                    <!-- Diagnoses -->
+                    <fieldset>
+                        <legend>Accepted Body Parts:</legend>
+                        <div class="form-group">
+                            {% if patient.diagnoses %}
+                                {% for diagnosis in patient.diagnoses %}
+                                    <div class="info-item">
+                                        <strong>{{ diagnosis.code }}</strong> - {{ diagnosis.description }}
                                     </div>
-                                {% else %}
-                                    <div class="diagnosis-row">
-                                        <span class="number">{{ i+1 }}.</span>
-                                        <div class="description"></div>
-                                        <span class="code-label">ICD-10</span>
-                                        <div class="code"></div>
-                                    </div>
-                                {% endif %}
-                            {% endfor %}
-                            
-                            <!-- Second column of diagnoses -->
-                            {% for i in range(6, 12) %}
-                                {% if i < patient.diagnoses|length %}
-                                    <div class="diagnosis-row">
-                                        <span class="number">{{ i+1 }}.</span>
-                                        <div class="description">{{ patient.diagnoses[i].description }}</div>
-                                        <span class="code-label">ICD-10</span>
-                                        <div class="code">{{ patient.diagnoses[i].code }}</div>
-                                    </div>
-                                {% else %}
-                                    <div class="diagnosis-row">
-                                        <span class="number">{{ i+1 }}.</span>
-                                        <div class="description"></div>
-                                        <span class="code-label">ICD-10</span>
-                                        <div class="code"></div>
-                                    </div>
-                                {% endif %}
-                            {% endfor %}
-                        {% else %}
-                            <!-- Empty diagnoses grid if no diagnoses -->
-                            {% for i in range(12) %}
-                                <div class="diagnosis-row">
-                                    <span class="number">{{ i+1 }}.</span>
-                                    <div class="description"></div>
-                                    <span class="code-label">ICD-10</span>
-                                    <div class="code"></div>
-                                </div>
-                            {% endfor %}
-                        {% endif %}
-                    </div>
-                    
-                    <div class="sheet-number">DWC Form PR-2 (Rev. 10/2015) Sheet 1 of 2</div>
-                    
-                    <!-- Page break for print -->
-                    <div style="page-break-before: always;"></div>
-                    
-                    <div class="text-section">
-                        <label>Treatment Plan: Include treatment rendered to date. List methods, frequency and duration of planned treatment(s). Specify consultation/referral, surgery, and hospitalization. Identify each physician and non-physician provider. Specify type, frequency and duration of physical medicine services (e.g., physical therapy, manipulation, acupuncture). Use of CPT codes is encouraged. Have there been any changes in treatment plan? If so, why?</label>
-                        <div class="text-area">{{ progress_note.treatment_plan }}</div>
-                    </div>
-                    
-                    <!-- CPT Codes Section - Added to Treatment Plan -->
-                    {% if progress_note.cpt_codes_rel %}
-                        <div class="text-section">
-                            <label>CPT Codes:</label>
-                            <div class="text-area">
-                                {% for cpt_rel in progress_note.cpt_codes_rel %}
-                                    {{ cpt_rel.cpt_code.code }} - {{ cpt_rel.cpt_code.description }}<br>
                                 {% endfor %}
+                            {% else %}
+                                <div class="info-item">No Diagnoses recorded</div>
+                            {% endif %}
+                        </div>
+                    </fieldset>
+
+                    <!-- Treatment Plan -->
+                    <fieldset>
+                        <legend>Treatment Plan:</legend>
+                        <div class="text-area-field">
+                            <div class="read-only-text">{{ progress_note.treatment_plan }}</div>
+                        </div>
+                    </fieldset>
+
+                    <!-- CPT Codes -->
+                    <fieldset>
+                        <legend>Requesting CPT Codes:</legend>
+                        <div class="cpt-codes-display">
+                            {% if progress_note.cpt_codes_rel %}
+                                {% for cpt_rel in progress_note.cpt_codes_rel %}
+                                    <div class="cpt-code-item">
+                                        <strong>{{ cpt_rel.cpt_code.code }}</strong> - {{ cpt_rel.cpt_code.description }}
+                                    </div>
+                                {% endfor %}
+                            {% else %}
+                                <div class="info-item">No CPT codes specified</div>
+                            {% endif %}
+                        </div>
+                    </fieldset>
+
+                    <!-- Work Status -->
+                    <fieldset>
+                        <legend>Work Status:</legend>
+                        <div class="text-area-field">
+                            <div>
+                                {% if progress_note.work_status == 'full_duty' %}
+                                    Return to full duty on {{ progress_note.full_duty_date.strftime('%m/%d/%Y') if progress_note.full_duty_date }}
+                                {% elif progress_note.work_status == 'modified' %}
+                                    Return to modified work on {{ progress_note.modified_work_date.strftime('%m/%d/%Y') if progress_note.modified_work_date }}
+                                    {% if progress_note.work_restrictions %}
+                                    <div class="work-restrictions">
+                                        <label>Restrictions:</label>
+                                        <div class="read-only-text">{{ progress_note.work_restrictions }}</div>
+                                    </div>
+                                    {% endif %}
+                                {% elif progress_note.work_status == 'off_work' %}
+                                    Remain off work until {{ progress_note.off_work_until.strftime('%m/%d/%Y') if progress_note.off_work_until }}
+                                {% endif %}
                             </div>
                         </div>
-                    {% endif %}
-                    
-                    <div class="work-status">
-                        <label>Work Status: This patient has been instructed to:</label>
-                        
-                        <div class="work-option">
-                            <input type="radio" disabled {% if progress_note.work_status == 'off_work' %}checked{% endif %}>
-                            <label>Remain off-work until</label>
-                            <span>{{ progress_note.off_work_until.strftime('%m/%d/%Y') if progress_note.off_work_until else '' }}</span>
+                    </fieldset>
+
+                    <!-- Provider Information -->
+                    <div class="provider-section">
+                        <div class="form-row">
+                            <div class="form-field">
+                                <label>Provider Name:</label>
+                                <div class="read-only-field">{{ current_user.first_name }} {{ current_user.last_name }}, {{ current_user.medical_title }}</div>
+                            </div>
+                            <div class="form-field">
+                                <label>License Number:</label>
+                                <div class="read-only-field">{{ current_user.medical_license }}</div>
+                            </div>
                         </div>
-                        
-                        <div class="work-option">
-                            <input type="radio" disabled {% if progress_note.work_status == 'modified' %}checked{% endif %}>
-                            <label>Return to modified work on</label>
-                            <span>{{ progress_note.modified_work_date.strftime('%m/%d/%Y') if progress_note.modified_work_date else '' }}</span>
-                            <label>with the following limitations or restrictions. (List all specific restrictions re: standing, sitting, bending, use of hands, etc.):</label>
-                        </div>
-                        
-                        {% if progress_note.work_status == 'modified' and progress_note.work_restrictions %}
-                            <div class="work-restrictions">{{ progress_note.work_restrictions }}</div>
-                        {% else %}
-                            <div class="work-restrictions"></div>
-                        {% endif %}
-                        
-                        <div class="work-option">
-                            <input type="radio" disabled {% if progress_note.work_status == 'full_duty' %}checked{% endif %}>
-                            <label>Return to full duty on</label>
-                            <span>{{ progress_note.full_duty_date.strftime('%m/%d/%Y') if progress_note.full_duty_date else '' }}</span>
-                            <label>with no limitations or restrictions.</label>
+                        <div class="form-field">
+                            <label>Date of Examination:</label>
+                            <div class="read-only-field">{{ progress_note.date_of_exam.strftime('%m/%d/%Y') if progress_note.date_of_exam }}</div>
                         </div>
                     </div>
-                    
-                    <div class="physician-section">
-                        <label>Primary Treating Physician: (original signature, do not stamp)</label>
-                        <div class="form-field" style="text-align: right;">
-                            <label>Date of Exam</label>
-                            <div class="data" style="display: inline-block; width: 200px;">{{ progress_note.date_of_exam.strftime('%m/%d/%Y') if progress_note.date_of_exam }}</div>
-                        </div>
-                        
-                        <p>I declare under penalty of perjury that this report is true and correct to the best of my knowledge and that I have not violated Labor Code section 139.3.</p>
-                        
-                        <div class="signature-row">
-                            <div class="form-field">
-                                <label>Physician signature</label>
-                                <div class="data">{{ current_user.first_name }} {{ current_user.last_name }}</div>
-                            </div>
-                            <div class="form-field">
-                                <label>Cal. License Number:</label>
-                                <div class="data">{{ current_user.medical_license }}</div>
-                            </div>
-                        </div>
-                        
-                        <div class="signature-row">
-                            <div class="form-field">
-                                <label>Executed at:</label>
-                                <div class="data">{{ progress_note.executed_at }}</div>
-                            </div>
-                            <div class="form-field">
-                                <label>Date (mm/dd/yyyy):</label>
-                                <div class="data">{{ progress_note.date_of_exam.strftime('%m/%d/%Y') if progress_note.date_of_exam }}</div>
-                            </div>
-                        </div>
-                        
-                        <div class="signature-row">
-                            <div class="form-field">
-                                <label>Physician Name</label>
-                                <div class="data">{{ current_user.first_name }} {{ current_user.last_name }}</div>
-                            </div>
-                            <div class="form-field">
-                                <label>Specialty:</label>
-                                <div class="data">{{ current_user.specialty }}</div>
-                            </div>
-                        </div>
-                        
-                        <div class="signature-row">
-                            <div class="form-field">
-                                <label>Physician address:</label>
-                                <div class="data">{{ current_user.address }}, {{ current_user.city }}, {{ current_user.state }} {{ current_user.zip_code }}</div>
-                            </div>
-                            <div class="form-field">
-                                <label>Phone Number</label>
-                                <div class="data">{{ current_user.phone }}</div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="footer">
-                        PRIVACY NOTICE: A statement of current data collection and use policies and certain privacy rights of injured workers may be found at the following website: http://www.dir.ca.gov/od_pub/privacy.html.
-                    </div>
-                    
-                    <div class="sheet-number">DWC Form PR-2 (Rev. 10/2015) Sheet 2 of 2</div>
                 </div>
 
                 <!-- RFA FORM -->
@@ -676,7 +384,8 @@
                             </div>
                             <div class="form-field">
                                 <label>Date of Birth:</label>
-                                <div>{{ patient.patient_date_of_birth.strftime('%m/%d/%Y') }}</div>                            </div>
+                                <div>{{ patient.patient_date_of_birth.strftime('%m/%d/%Y') }}</div>
+                            </div>
                             <div class="form-field">
                                 <label>Claim Number:</label>
                                 <div>{{ patient.patient_claim_number }}</div>
@@ -760,11 +469,11 @@
                             </div>
                             <div class="form-field">
                                 <label>Phone:</label>
-                                <div>{{ patient.claims_admin.adjustor_phone }}</div>
+                                <div>{{ patient.claims_admin.phone }}</div>
                             </div>
                             <div class="form-field">
                                 <label>Fax Number:</label>
-                                <div>{{ patient.claims_admin.adjustor_fax }}</div>
+                                <div>{{ patient.claims_admin.fax }}</div>
                             </div>
                             {% else %}
                             <div>No claims administrator information available</div>
@@ -857,7 +566,7 @@
         </main>
     </div>
 
-    <!-- PDF generation script -->
+    <!-- Add these scripts at the end of the body for PDF download -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <script>
     function generatePDF() {
@@ -867,7 +576,7 @@
         // Options for the PDF
         const options = {
             margin: 10,
-            filename: 'PR2_{{ progress_note.id }}.pdf',
+            filename: 'progress_note_{{ progress_note.id }}.pdf',
             image: { type: 'jpeg', quality: 0.98 },
             html2canvas: { scale: 2 },
             jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }

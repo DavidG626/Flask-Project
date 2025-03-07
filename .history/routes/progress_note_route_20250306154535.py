@@ -251,7 +251,31 @@ def view_progress_note(note_id):
                           rfa=rfa,
                           rfa_items=rfa_items)
 
-
+@progress_note_bp.route('/print_rfa/<int:rfa_id>')
+@login_required
+@check_session_timeout
+def print_rfa(rfa_id):
+    rfa = RequestForAuthorization.query.get_or_404(rfa_id)
+    patient = Patient.query.get(rfa.patient_id)
+    progress_note = ProgressNote.query.get(rfa.progress_note_id)
+    
+    if (patient.provider_first_name != current_user.first_name or 
+        patient.provider_last_name != current_user.last_name):
+        flash('You do not have permission to view this RFA.', 'error')
+        return redirect(url_for('dashboard.my_patients'))
+    
+    # Get RFA items
+    rfa_items = RFAItem.query.filter_by(rfa_id=rfa.id).all()
+    
+    # Get claims admin info
+    claims_admin = ClaimsAdmin.query.filter_by(patient_id=patient.id).first()
+    
+    return render_template('print_rfa.html', 
+                          rfa=rfa, 
+                          patient=patient, 
+                          progress_note=progress_note,
+                          rfa_items=rfa_items,
+                          claims_admin=claims_admin)
 
 # @progress_note_bp.route('/edit_progress_note/<int:note_id>', methods=['GET', 'POST'])
 # @login_required

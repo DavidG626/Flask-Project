@@ -455,12 +455,14 @@
     // Initial check in case CPT codes are pre-selected
     updateRfaSection();
 });
-
+<script>
 function confirmCreate() {
     return confirm("IMPORTANT: Once created, this progress note cannot be deleted or edited due to HITECH regulations. If changes are needed later, you must create an addendum. Do you want to proceed?");
 }
+</script>
 
-
+<!-- Then modify your submit button to include the function -->
+<button type="submit" class="save-btn" onclick="return confirmCreate()">Create Progress Note</button>
         </script>
 
        </main>
