@@ -1,0 +1,141 @@
+@progress_note_bp.route('/patient/<int:patient_id>/create_progress_note', methods=['GET', 'POST'])
+@login_required
+@check_session_timeout
+def create_progress_note(patient_id):
+    patient = Patient.query.get_or_404(patient_id)
+    
+    # Get patient's existing diagnoses
+    patient_diagnoses = PatientDiagnosis.query.filter_by(patient_id=patient_id).all()
+    diagnoses_details = []
+    for diag in patient_diagnoses:
+        icd10_code = ICD10Code.query.get(diag.icd10_id)
+        if icd10_code:
+            diagnoses_details.append(icd10_code)
+
+    # Get ICD-10 codes ordered by description
+    icd10_codes = ICD10Code.query.order_by(ICD10Code.description).all()
+
+    # Get CPT codes for dropdown based on search term
+    cpt_search_term = request.args.get('cpt_search', '')
+    if cpt_search_term:
+        cpt_codes = CPTCode.query.filter(
+            (CPTCode.code.ilike(f'%{cpt_search_term}%')) |
+            (CPTCode.description.ilike(f'%{cpt_search_term}%'))
+        ).order_by(CPTCode.description).limit(50).all()
+    else:
+        # Without a search term, just get a few codes or none
+        cpt_codes = CPTCode.query.order_by(CPTCode.code).limit(20).all()
+   
+    if (patient.provider_first_name != current_user.first_name or 
+        patient.provider_last_name != current_user.last_name):
+        flash('You do not have permission to create progress notes for this patient.', 'error')
+        return redirect(url_for('dashboard.my_patients'))
+    
+    if request.method == 'POST':
+        progress_note = ProgressNote(
+            patient_id=patient_id,
+            date_of_exam=datetime.strptime(request.form.get('date_of_exam'), '%Y-%m-%d').date(),
+            subjective_complaints=request.form.get('subjective_complaints'),
+            objective_findings=request.form.get('objective_findings'),
+            diagnoses=request.form.get('diagnoses'), 
+            treatment_plan=request.form.get('treatment_plan'),
+            work_status=request.form.get('work_status'),
+            work_restrictions=request.form.get('work_restrictions'),
+            provider_signature=current_user.first_name + " " + current_user.last_name,
+            license_number=current_user.medical_license,
+            executed_at=request.form.get('executed_at'),
+            provider_specialty=current_user.specialty,
+            provider_phone=current_user.phone,
+            
+            # Form checkboxes
+            is_periodic_report=bool(request.form.get('is_periodic_report')),
+            is_change_in_treatment=bool(request.form.get('is_change_in_treatment')),
+            is_release_from_care=bool(request.form.get('is_release_from_care')),
+            is_change_in_work_status=bool(request.form.get('is_change_in_work_status')),
+            is_need_for_referral=bool(request.form.get('is_need_for_referral')),
+            is_response_to_request=bool(request.form.get('is_response_to_request')),
+            is_change_in_condition=bool(request.form.get('is_change_in_condition')),
+            is_need_for_surgery=bool(request.form.get('is_need_for_surgery')),
+            is_request_for_authorization=bool(request.form.get('is_request_for_authorization'))
+        )
+        
+        try:
+            db.session.add(progress_note)
+            db.session.commit()
+
+            # Add CPT codes to the progress note
+            cpt_code_ids = request.form.getlist('cpt_codes')
+            has_cpt_codes = False
+            selected_cpt_codes = []
+            
+            if cpt_code_ids:
+                for cpt_code_id in cpt_code_ids:
+                    if cpt_code_id:  # Skip empty values
+                        has_cpt_codes = True
+                        progress_note_cpt = ProgressNoteCPT(
+                            progress_note_id=progress_note.id,
+                            cpt_id=int(cpt_code_id)
+                        )
+                        db.session.add(progress_note_cpt)
+                        
+                        # Get the CPT code for RFA
+                        cpt = CPTCode.query.get(int(cpt_code_id))
+                        if cpt:
+                            selected_cpt_codes.append(cpt)
+                            
+                db.session.commit()
+            
+            # If CPT codes were selected, create an RFA
+            if has_cpt_codes and 'rfa_other_info' in request.form:
+                # Create RFA
+                rfa = RequestForAuthorization(
+                    progress_note_id=progress_note.id,
+                    patient_id=patient_id,
+                    is_new_request=bool(request.form.get('is_new_request', True)),
+                    is_resubmission=bool(request.form.get('is_resubmission')),
+                    is_expedited=bool(request.form.get('is_expedited')),
+                    is_oral_confirmation=bool(request.form.get('is_oral_confirmation'))
+                )
+                db.session.add(rfa)
+                db.session.commit()
+                
+                # Get diagnosis info from patient
+                other_info = request.form.get('rfa_other_info', '')
+                
+                # Add RFA items for each CPT code
+                for cpt in selected_cpt_codes:
+                    # For each diagnosis, add an RFA item
+                    for diag in diagnoses_details:
+                        rfa_item = RFAItem(
+                            rfa_id=rfa.id,
+                            diagnosis=diag.description,
+                            icd_code=diag.code,
+                            service_requested=cpt.description,
+                            cpt_code=cpt.code,
+                            other_info=other_info
+                        )
+                        db.session.add(rfa_item)
+                
+                db.session.commit()
+                
+                flash('Progress note created with authorization request!', 'success')
+                return redirect(url_for('progress_note_bp.view_rfa', rfa_id=rfa.id))
+
+            flash('Progress note created successfully!', 'success')
+            return redirect(url_for('pr2.progress_notes', patient_id=patient_id))
+        except Exception as e:
+            db.session.rollback()
+            flash(f'Error creating progress note: {str(e)}', 'error')
+            return redirect(request.url)
+    
+    # Return template with all necessary variables
+    return render_template('create_progress_note.html', 
+                         patient=patient,
+                         patient_diagnoses=diagnoses_details,
+                         icd10_codes=icd10_codes,
+                         cpt_codes=cpt_codes,
+                         cpt_search_term=cpt_search_term)
+
+
+Progress note created with authorization request!
+Error creating progress note: Could not build url for endpoint 'progress_note_bp.view_rfa' with values ['rfa_id']. Did you mean 'pr2.view_rfa' instead?

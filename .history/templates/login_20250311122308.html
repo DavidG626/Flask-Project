@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="/static/login.css">
+   
+    <title>Login</title>
+    
+</head>
+<body>
+    <!-- Navigation -->
+    <a class=home href="{{ url_for('home') }}">Home</a>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      <ul>
+        {% for category, message in messages %}
+          <div class="{{ category }}">{{ message }}</div>
+        {% endfor %}
+      </ul>
+    {% endif %}
+  {% endwith %}<br>
+    <!-- Login Form -->
+    <h1>Login</h1>
+    <h3>Still in Production</h3><br>
+    <p>Note: This app is not meant for mobile use due to HIPAA violations</p><br>
+    
+    
+    <form method="POST" action="">
+        {{ form.hidden_tag() }}
+        
+        <legend>Login</legend>
+          <!-- Render Username Field -->
+          <h4>Use username asdf or register</h4>
+          <div>
+            {{ form.username.label(class="form-label") }}
+            {{ form.username(class="form-input", placeholder="use asdf or register") }}
+            
+        </div>
+
+         <!-- Render Password Field -->
+         <h4>Password</h4>
+         <div>
+            {{ form.password.label(class="form-label") }}
+            {{ form.password(class="form-input", placeholder="use asdf or register") }}
+            
+        </div>
+
+        <div>
+            {{ form.submit(class="form-button") }}
+        </div>
+    </form>
+    <!-- Forgot Password Link -->
+    <p>Forgot your password? <a href="#">Click here</a></p>
+
+    <!-- Registration Link -->
+    <p>Don't have an account?</p>
+    <a href="{{ url_for('login_register.register') }}" class="register-link">Register here</a>
+     
+   
+
+    <br><br><br><br><br><br><br>
+
+    <footer>
+      <div >
+          &copy; 2025 Holliston Electronic Medical Records | Created by David Gutierrez
+          
+      </div>
+      <div >
+          <a href="https://github.com/DavidG626/Flask-Project" class="register-link" target="_blank">Visit My Portfolio</a>
+      </div>
+    </footer> 
+</body>
+
+
+</html>

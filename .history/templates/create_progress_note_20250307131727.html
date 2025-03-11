@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Create Progress Note</title>
+   <link rel="stylesheet" type="text/css" href="/static/dashboard.css">
+   <link rel="stylesheet" type="text/css" href="/static/patient_info.css">
+   <link rel="stylesheet" type="text/css" href="/static/pr2.css">
+   <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+   <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+   <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+   <div class="container">
+       <!-- Sidebar -->
+       <aside class="sidebar">
+           <div class="logo">Holliston EMR</div>
+           <div class="logged-user">
+               {{ current_user.first_name }} {{ current_user.last_name }}, {{ current_user.medical_title }}
+               <a href="{{ url_for('dashboard.logout') }}" class="logout-link">
+                   <i class="fas fa-sign-out-alt"></i> Logout
+               </a>
+           </div>
+           <nav>
+               <ul>
+                   <li class="active">
+                       <a href="{{ url_for('dashboard.my_patients') }}">
+                           <i class="fas fa-user-injured"></i>My Patients
+                       </a>
+                   </li>
+               </ul>
+               <br>
+               <ul>
+                   <li class="active">
+                       <a href="{{ url_for('dashboard.create_patient') }}">
+                           <i class="fas fa-user-plus"></i>Create New Patient
+                       </a>
+                   </li>
+               </ul>
+               <br>
+               <ul>
+                   <li class="active"><a href=""><i class="fas fa-calendar-alt"></i>Office Schedule</a></li>
+               </ul>
+               <br>
+               <ul>
+                   <li class="active"><a href=""><i class="fas fa-procedures"></i>OR Schedule</a></li>
+               </ul>
+               <br>
+               <ul>
+                   <li class="active"><a href=""><i class="fas fa-dollar-sign"></i>Billing</a></li>
+               </ul>
+               <br>
+               <ul>
+                   <li class="active">
+                       <a href="{{ url_for('cpt.cpt_codes') }}">
+                           <i class="fas fa-syringe"></i>CPT
+                       </a>
+                   </li>
+               </ul>
+               <br>
+               <ul>
+                   <li class="active">
+                       <a href="{{ url_for('icd10.icd10_codes') }}">
+                           <i class="far fa-plus-square"></i>ICD 10 Codes
+                       </a>
+                   </li>
+               </ul>
+               <br>
+               <ul>
+                   <li class="active">
+                       <a href="{{ url_for('dashboard.my_info') }}">
+                           <i class="fas fa-user-md"></i>My Info
+                       </a>
+                   </li>
+               </ul>
+           </nav>
+       </aside>
+
+       <!-- Main Content -->
+       <main>
+           <header>
+               <div class="search-bar">
+                   <i class="fas fa-search"></i>
+                   <form action="{{ url_for('dashboard.my_patients') }}" method="get">
+                       <input type="text" name="search" placeholder="Search Patients or Claim Number">
+                   </form>
+               </div>
+           </header>
+
+           <!-- Patient Tabs -->
+           <div class="patient-tabs">
+                <a href="{{ url_for('dashboard.patient_detail', patient_id=patient.id) }}" class="tab">Patient Info</a>
+                <a href="{{ url_for('dashboard.patient_medical_history', patient_id=patient.id) }}" class="tab">Medical Hx</a>
+                <a href="{{ url_for('pr2.progress_notes', patient_id=patient.id) }}" class="tab active">Progress Notes</a>
+                <a href="{{ url_for('labs.patient_labs', patient_id=patient.id) }}" class="tab">Labs</a>
+                <a href="{{ url_for('imaging.patient_imaging', patient_id=patient.id) }}" class="tab">Imaging Reports</a>
+                <a href="{{ url_for('operative.patient_operative_reports', patient_id=patient.id) }}" class="tab">Operative Reports</a>
+                <a href="{{ url_for('auth.patient_authorizations', patient_id=patient.id) }}" class="tab">Authorizations</a>
+                <a href="{{ url_for('misc.patient_misc', patient_id=patient.id) }}" class="tab">Misc.</a>
+            </div>
+
+           <div class="content">
+            <div class="pr2-form">
+                <div class="pr2-header">
+                    <h2>STATE OF CALIFORNIA</h2>
+                    <h3>PRIMARY TREATING PHYSICIAN'S PROGRESS REPORT (PR-2)</h3>
+                </div>
+        
+                <form method="POST">
+                    <!-- Report Type Section -->
+                    <div class="checkbox-grid">
+                        <div class="checkbox-item">
+                            <input type="checkbox" name="is_periodic_report" id="periodic">
+                            <label for="periodic">Periodic Report (45 days)</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" name="is_change_in_treatment" id="treatment">
+                            <label for="treatment">Change in Treatment</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" name="is_release_from_care" id="release">
+                            <label for="release">Release From Care</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" name="is_change_in_work_status" id="work">
+                            <label for="work">Change in Work Status</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" name="is_need_for_referral" id="referral">
+                            <label for="referral">Need for Referral</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" name="is_need_for_referral" id="referral">
+                            <label for="referral">Response to request for info</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" name="is_need_for_referral" id="referral">
+                            <label for="referral">Change in patient's condition</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" name="is_need_for_referral" id="referral">
+                            <label for="referral">Need for surgery or hospitalization</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" name="is_need_for_referral" id="referral">
+                            <label for="referral">Request for authorization</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" name="is_need_for_referral" id="referral">
+                            <label for="referral">Other</label>
+                            <input type="text">
+                        </div>
+                    </div>
+        
+                    <!-- Patient Information Section -->
+                    <div class="patient-info-grid">
+                        <div class="form-field">
+                            <label>Patient Name:</label>
+                            <input type="text" value="{{ patient.patient_last_name }}, {{ patient.patient_first_name }}" readonly>
+                        </div>
+                        <div class='form-field'>
+                            <label>Occupation</label>
+                            <input type="text" value="{{ patient.patient_occupation }}" readonly>
+                        </div>
+                      
+                        <div class='form-field'>
+                            <label>Sex</label>
+                            <input type="text" value="{{ patient.patient_sex }}" readonly>
+                        </div>
+                        <div class="form-field">
+                            <label>Patient Address:</label>
+                            <input type="text" value="{{ patient.patient_address }}, {{ patient.patient_city }}, {{ patient.patient_state }}, {{ patient.patient_zip_code }}" readonly>
+                        </div>
+                        <div class='form-field'>
+                            <label>Phone Number</label>
+                            <input type="text" value="{{ patient.patient_occupation }}" readonly>
+                        </div>
+                        <div class="form-field">
+                            <label>Date of Birth:</label>
+                            <input type="text" value="{{ patient.patient_date_of_birth.strftime('%m/%d/%Y') }}" readonly>
+                        </div>
+                        <div class="form-field">
+                            <label>Claim Number:</label>
+                            <input type="text" value="{{ patient.patient_claim_number }}" readonly>
+                        </div>
+                        <div class="form-field">
+                            <label>Date of Injury:</label>
+                            <input type="text" value="{{ patient.patient_date_of_injury.strftime('%m/%d/%Y') }}" readonly>
+                        </div>
+                        <div class="form-field">
+                            <label>Claims Administrator:</label>
+                            <input type="text" value="{{ patient.claims_admin.admin_name if patient.claims_admin else '' }}" readonly>
+                        </div>
+                        <div class="form-field">
+                            <label>Adjustor:</label>
+                            <input type="text" value="{{ patient.claims_admin.adjustor if patient.claims_admin else '' }}" readonly>
+                        </div>
+                        <div class="form-field">
+                            <label>Adjustor City:</label>
+                            <input type="text" value="{{ patient.claims_admin.adjustor_city if patient.claims_admin else '' }}" readonly>
+                        </div>
+                    </div>
+        
+                    <!-- Subjective Section -->
+                    <div class="text-area-field">
+                        <label>Subjective Complaints:</label>
+                        <textarea name="subjective_complaints" required></textarea>
+                    </div>
+        
+                    <!-- Objective Section -->
+                    <div class="text-area-field">
+                        <label>Objective Findings:</label>
+                        <textarea name="objective_findings" required></textarea>
+                    </div>
+        
+                
+                    <fieldset>
+                        <legend>Accepted Body Parts</legend>
+                        <div class="form-group">
+                            {% if patient.diagnoses %}
+                                {% for diagnosis in patient.diagnoses %}
+                                    <div class="info-item">
+                                        <strong>{{ diagnosis.code }}</strong> - {{ diagnosis.description }}
+                                    </div>
+                                {% endfor %}
+                            {% else %}
+                                <div class="info-item">No Diagnoses recorded</div>
+                            {% endif %}
+                        </div>
+                    </fieldset>
+
+                  
+                    
+
+
+        
+                    <!-- Treatment Plan Section -->
+                    <div class="text-area-field">
+                        <label>Treatment Plan:</label>
+                        <textarea name="treatment_plan" required></textarea>
+                    </div>
+                   
+                   
+
+
+                    <!-- CPT Code Selection - 4 boxes in a row -->
+                    <div class="form-group mt-3">
+                     
+                            
+                            <!-- 4 CPT Code dropdown boxes -->
+                            <div class="col-3">
+                                <select class="form-control" name="cpt_codes">
+                                    <option value="">Select CPT Code</option>
+                                    {% for cpt in cpt_codes %}
+                                    <option value="{{ cpt.id }}">{{ cpt.code }} - {{ cpt.description }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="col-3">
+                                <select class="form-control" name="cpt_codes">
+                                    <option value="">Select CPT Code</option>
+                                    {% for cpt in cpt_codes %}
+                                    <option value="{{ cpt.id }}">{{ cpt.code }} - {{ cpt.description }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="col-3">
+                                <select class="form-control" name="cpt_codes">
+                                    <option value="">Select CPT Code</option>
+                                    {% for cpt in cpt_codes %}
+                                    <option value="{{ cpt.id }}">{{ cpt.code }} - {{ cpt.description }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="col-3">
+                                <select class="form-control" name="cpt_codes">
+                                    <option value="">Select CPT Code</option>
+                                    {% for cpt in cpt_codes %}
+                                    <option value="{{ cpt.id }}">{{ cpt.code }} - {{ cpt.description }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                    </div>
+               
+    
+        
+                    <!-- Work Status Section -->
+                    <div class="work-status-section">
+                        <h4>Work Status:</h4>
+                        <div class="work-status-options">
+                            <div class="radio-item">
+                                <input type="radio" name="work_status" value="full_duty" id="full_duty">
+                                <label for="full_duty">Return to Full Duty</label>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" name="work_status" value="modified" id="modified">
+                                <label for="modified">Modified Duty</label>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" name="work_status" value="off_work" id="off_work">
+                                <label for="off_work">Off Work</label>
+                            </div>
+                        </div>
+                        <div class="form-field">
+                            <label>Date:</label>
+                            <input type="date" name="work_status_date">
+                        </div>
+                        <div class="text-area-field" id="work-restrictions">
+                            <label>Work Restrictions:</label>
+                            <textarea name="work_restrictions"></textarea>
+                        </div>
+                    </div>
+        
+                    <!-- Provider Information Section -->
+                    <div class="provider-section">
+                        <div class="form-row">
+                            <div class="form-field">
+                                <label>Provider Name:</label>
+                                <input type="text" value="{{ current_user.first_name }} {{ current_user.last_name }}, {{ current_user.medical_title }}" readonly>
+                            </div>
+                            <div class="form-field">
+                                <label>License Number:</label>
+                                <input type="text" value="{{ current_user.medical_license }}" readonly>
+                            </div>
+                        </div>
+                        <div class="form-field">
+                            <label>Date of Examination:</label>
+                            <input type="date" name="date_of_exam" required>
+                        </div>
+                    </div><br>
+        
+                    <div class="form-buttons">
+    <button type="submit" class="save-btn" onclick="return confirmCreate()">Create Progress Note</button>
+    <a href="{{ url_for('progress_notes', patient_id=patient.id) }}" class="cancel-btn">Cancel</a>
+</div>
+
+                     <!-- RFA Section - will be shown/hidden with JavaScript -->
+        <div id="rfa_section" style="display: none;" class="pr2-form">
+            <div class="pr2-header">
+                <h3>REQUEST FOR AUTHORIZATION (RFA)</h3>
+            </div>
+            <div class="checkbox-grid">
+                <div class="checkbox-item">
+                    <input type="checkbox" id="is_new_request" name="is_new_request" checked>
+                    <label for="is_new_request">New Request</label>
+                </div>
+                <div class="checkbox-item">
+                    <input type="checkbox" id="is_resubmission" name="is_resubmission">
+                    <label for="is_resubmission">Resubmission - Change in Material Facts</label>
+                </div>
+                <div class="checkbox-item">
+                    <input type="checkbox" id="is_expedited" name="is_expedited">
+                    <label for="is_expedited">Expedited Review</label>
+                </div>
+                <div class="checkbox-item">
+                    <input type="checkbox" id="is_oral_confirmation" name="is_oral_confirmation">
+                    <label for="is_oral_confirmation">Written confirmation of prior oral request</label>
+                </div>
+            </div>
+            
+            <!-- Selected Diagnoses (auto-populated) -->
+            <div class="text-area-field">
+                <label>Selected Diagnoses:</label>
+                <div id="rfa_diagnoses_display" class="form-field">
+                    <!-- Will be populated based on patient diagnoses -->
+                    {% if patient.diagnoses %}
+                        {% for diagnosis in patient.diagnoses %}
+                        <div class="info-item">
+                            <input type="hidden" name="rfa_diagnosis_ids[]" value="{{ diagnosis.id }}">
+                            <strong>{{ diagnosis.code }}</strong> - {{ diagnosis.description }}
+                        </div>
+                        {% endfor %}
+                    {% else %}
+                        <div class="info-item">No Diagnoses recorded</div>
+                    {% endif %}
+                </div>
+            </div>
+            
+            <!-- Selected CPT Codes (auto-populated) -->
+            <div class="text-area-field">
+                <label>Selected CPT Codes:</label>
+                <div id="rfa_cpt_codes_display" class="form-field">
+                    <!-- Will be populated dynamically by JavaScript -->
+                    <div class="info-item text-muted">CPT codes will appear here when selected</div>
+                </div>
+            </div>
+            
+            <!-- Additional Information -->
+            <div class="text-area-field">
+                <label for="rfa_other_info">Other Information (Frequency, Duration, Quantity):</label>
+                <textarea name="rfa_other_info" id="rfa_other_info" rows="2"></textarea>
+            </div>
+        </div>
+                            
+                    <!-- JavaScript at the end of the main content -->
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+    // Get all CPT code select elements
+    const cptSelects = document.querySelectorAll('select[name="cpt_codes"]');
+    const rfaSection = document.getElementById('rfa_section');
+    const rfaCptCodesDisplay = document.getElementById('rfa_cpt_codes_display');
+    
+    // Function to check if any CPT code is selected and update the RFA section
+    function updateRfaSection() {
+        let hasSelection = false;
+        let selectedCptCodes = [];
+        
+        // Check each select element
+        cptSelects.forEach(function(select) {
+            if (select.value) {
+                hasSelection = true;
+                
+                // Get CPT code details
+                const cptId = select.value;
+                const cptText = select.options[select.selectedIndex].text;
+                
+                // Add to array if not already included
+                if (!selectedCptCodes.some(code => code.id === cptId)) {
+                    selectedCptCodes.push({
+                        id: cptId,
+                        text: cptText
+                    });
+                }
+            }
+        });
+        
+        // Show or hide RFA section
+        if (hasSelection) {
+            rfaSection.style.display = 'block';
+            
+            // Update the CPT codes display
+            rfaCptCodesDisplay.innerHTML = '';
+            selectedCptCodes.forEach(function(cpt) {
+                const cptItem = document.createElement('div');
+                cptItem.className = 'info-item';
+                cptItem.innerHTML = `
+                    <input type="hidden" name="rfa_cpt_ids[]" value="${cpt.id}">
+                    ${cpt.text}
+                `;
+                rfaCptCodesDisplay.appendChild(cptItem);
+            });
+        } else {
+            rfaSection.style.display = 'none';
+            rfaCptCodesDisplay.innerHTML = '<div class="info-item text-muted">CPT codes will appear here when selected</div>';
+        }
+    }
+    
+    // Add change event listeners to all CPT selects
+    cptSelects.forEach(function(select) {
+        select.addEventListener('change', updateRfaSection);
+    });
+    
+    // Initial check in case CPT codes are pre-selected
+    updateRfaSection();
+});
+
+function confirmCreate() {
+    return confirm("IMPORTANT: Once created, this progress note cannot be deleted or edited due to HITECH regulations. If changes are needed later, you must create an addendum. Do you want to proceed?");
+}
+
+
+        </script>
+
+       </main>
+       </body>
