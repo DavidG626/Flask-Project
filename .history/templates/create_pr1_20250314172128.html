@@ -1,0 +1,395 @@
+
+{% block content %}
+<div class="container mt-4">
+    <div class="card">
+        <div class="card-header bg-primary text-white">
+            <h3>Create PR-1 Report for {{ patient.first_name }} {{ patient.last_name }}</h3>
+        </div>
+        <div class="card-body">
+            <form method="POST" id="pr1Form">
+                <!-- PR1 Basic Information Section -->
+                <div class="card mb-4">
+                    <div class="card-header bg-secondary text-white">
+                        <h4>PR-1 Report Information</h4>
+                    </div>
+                    <div class="card-body">
+                        <!-- Report Type Checkboxes -->
+                        <div class="row mb-3">
+                            <div class="col-12">
+                                <h5>Report Type</h5>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="is_request_for_authorization" id="is_request_for_authorization">
+                                    <label class="form-check-label" for="is_request_for_authorization">
+                                        Request for Authorization
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="is_progress_report" id="is_progress_report">
+                                    <label class="form-check-label" for="is_progress_report">
+                                        Progress Report
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="is_response_to_request" id="is_response_to_request">
+                                    <label class="form-check-label" for="is_response_to_request">
+                                        Response to Request for Information
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="is_expedited_request" id="is_expedited_request">
+                                    <label class="form-check-label" for="is_expedited_request">
+                                        Expedited Request for Authorization
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="is_change_in_work_status" id="is_change_in_work_status">
+                                    <label class="form-check-label" for="is_change_in_work_status">
+                                        Change in Work Status
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="is_change_in_patient_condition" id="is_change_in_patient_condition">
+                                    <label class="form-check-label" for="is_change_in_patient_condition">
+                                        Change in Patient's Condition
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="is_change_in_treatment_plan" id="is_change_in_treatment_plan">
+                                    <label class="form-check-label" for="is_change_in_treatment_plan">
+                                        Change in Treatment Plan
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="is_released_from_care" id="is_released_from_care">
+                                    <label class="form-check-label" for="is_released_from_care">
+                                        Released from Care
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="is_other" id="is_other">
+                                    <label class="form-check-label" for="is_other">
+                                        Other
+                                    </label>
+                                </div>
+                                <div class="form-group mt-2" id="otherReasonDiv" style="display: none;">
+                                    <input type="text" class="form-control" name="other_reason" id="other_reason" placeholder="Specify other reason">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Basic PR1 Fields -->
+                        <div class="row mb-3">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="date_of_injury">Date of Injury</label>
+                                    <input type="date" class="form-control" name="date_of_injury" id="date_of_injury" required>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="claim_number">Claim Number</label>
+                                    <input type="text" class="form-control" name="claim_number" id="claim_number">
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="employer">Employer</label>
+                                    <input type="text" class="form-control" name="employer" id="employer">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Narrative Report Section -->
+                <div class="card mb-4">
+                    <div class="card-header bg-info text-white">
+                        <h4>Narrative Report</h4>
+                    </div>
+                    <div class="card-body">
+                        <!-- Report Metadata -->
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="report_date">Report Date</label>
+                                    <input type="date" class="form-control" name="report_date" id="report_date" value="{{ today_date }}" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="report_type">Report Type</label>
+                                    <select class="form-control" name="report_type" id="report_type">
+                                        <option value="Initial">Initial</option>
+                                        <option value="Progress">Progress</option>
+                                        <option value="Permanent and Stationary">Permanent and Stationary</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- History of Present Illness -->
+                        <div class="form-group mb-3">
+                            <label for="history_present_illness"><h5>History of Present Illness</h5></label>
+                            <textarea class="form-control" name="history_present_illness" id="history_present_illness" rows="5" placeholder="Describe the history of the present illness including mechanism of injury, pain characteristics, and prior treatment"></textarea>
+                        </div>
+
+                        <!-- Physical Examination -->
+                        <h5>Physical Examination</h5>
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="vital_signs">Vital Signs</label>
+                                    <textarea class="form-control" name="vital_signs" id="vital_signs" rows="3" placeholder="BP, HR, RR, Temp, Height, Weight"></textarea>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="general_appearance">General Appearance</label>
+                                    <textarea class="form-control" name="general_appearance" id="general_appearance" rows="3"></textarea>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mt-2">
+                                <div class="form-group">
+                                    <label for="gait">Gait</label>
+                                    <textarea class="form-control" name="gait" id="gait" rows="2"></textarea>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mt-2">
+                                <div class="form-group">
+                                    <label for="physical_exam">Physical Exam</label>
+                                    <textarea class="form-control" name="physical_exam" id="physical_exam" rows="2"></textarea>
+                                </div>
+                            </div>
+                            <div class="col-md-4 mt-2">
+                                <div class="form-group">
+                                    <label for="palpation_findings">Palpation Findings</label>
+                                    <textarea class="form-control" name="palpation_findings" id="palpation_findings" rows="2"></textarea>
+                                </div>
+                            </div>
+                            <div class="col-md-4 mt-2">
+                                <div class="form-group">
+                                    <label for="range_of_motion">Range of Motion</label>
+                                    <textarea class="form-control" name="range_of_motion" id="range_of_motion" rows="2"></textarea>
+                                </div>
+                            </div>
+                            <div class="col-md-4 mt-2">
+                                <div class="form-group">
+                                    <label for="neurological_exam">Neurological Exam</label>
+                                    <textarea class="form-control" name="neurological_exam" id="neurological_exam" rows="2"></textarea>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Diagnostic Studies -->
+                        <div class="form-group mb-3">
+                            <label for="diagnostic_studies"><h5>Diagnostic Studies</h5></label>
+                            <textarea class="form-control" name="diagnostic_studies" id="diagnostic_studies" rows="3" placeholder="X-rays, MRIs, CT scans, etc."></textarea>
+                        </div>
+
+                        <!-- Diagnoses -->
+                        <div class="mb-3">
+                            <h5>Diagnoses</h5>
+                            <div class="row">
+                                <div class="col-md-10">
+                                    <select class="form-control" id="diagnosis_select">
+                                        <option value="">-- Select Diagnosis --</option>
+                                        {% for code in icd10_codes %}
+                                        <option value="{{ code.id }}" data-code="{{ code.code }}" data-description="{{ code.description }}">
+                                            {{ code.code }} - {{ code.description }}
+                                        </option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div class="col-md-2">
+                                    <button type="button" class="btn btn-primary btn-block" id="addDiagnosisBtn">Add</button>
+                                </div>
+                            </div>
+                            <div class="mt-2">
+                                <table class="table table-bordered" id="diagnosesTable">
+                                    <thead>
+                                        <tr>
+                                            <th>ICD-10 Code</th>
+                                            <th>Description</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <!-- Diagnoses will be added here dynamically -->
+                                    </tbody>
+                                </table>
+                                <input type="hidden" name="diagnoses_json" id="diagnoses_json" value="[]">
+                            </div>
+                        </div>
+
+                        <!-- Causation Analysis -->
+                        <div class="form-group mb-3">
+                            <label for="causation_analysis"><h5>Causation Analysis</h5></label>
+                            <textarea class="form-control" name="causation_analysis" id="causation_analysis" rows="4" placeholder="Explain the causal relationship between the injury and work activities"></textarea>
+                        </div>
+
+                        <!-- Treatment -->
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="treatment_to_date"><h5>Treatment to Date</h5></label>
+                                    <textarea class="form-control" name="treatment_to_date" id="treatment_to_date" rows="4" placeholder="Describe treatments administered so far"></textarea>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="treatment_plan"><h5>Treatment Plan</h5></label>
+                                    <textarea class="form-control" name="treatment_plan" id="treatment_plan" rows="4" placeholder="Outline future treatment recommendations"></textarea>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Work Status -->
+                        <div class="form-group mb-3">
+                            <label for="work_status"><h5>Work Status</h5></label>
+                            <select class="form-control" name="work_status" id="work_status">
+                                <option value="">-- Select Work Status --</option>
+                                <option value="Full Duty">Full Duty</option>
+                                <option value="Modified Duty">Modified Duty</option>
+                                <option value="Off Work">Off Work</option>
+                            </select>
+                        </div>
+                        <div class="form-group mb-3" id="workRestrictionsDiv">
+                            <label for="work_restrictions">Work Restrictions</label>
+                            <textarea class="form-control" name="work_restrictions" id="work_restrictions" rows="3" placeholder="Specify any work restrictions"></textarea>
+                        </div>
+
+                        <!-- Functional Improvement -->
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="current_functional_status"><h5>Current Functional Status</h5></label>
+                                    <textarea class="form-control" name="current_functional_status" id="current_functional_status" rows="3"></textarea>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="functional_goals"><h5>Functional Goals</h5></label>
+                                    <textarea class="form-control" name="functional_goals" id="functional_goals" rows="3"></textarea>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Prognosis -->
+                        <div class="form-group mb-3">
+                            <label for="prognosis"><h5>Prognosis</h5></label>
+                            <textarea class="form-control" name="prognosis" id="prognosis" rows="3"></textarea>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="mmi_status" id="mmi_status">
+                                    <label class="form-check-label" for="mmi_status">
+                                        Maximum Medical Improvement (MMI) Reached
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group" id="anticipatedMMIDateDiv">
+                                    <label for="anticipated_mmi_date">Anticipated MMI Date</label>
+                                    <input type="date" class="form-control" name="anticipated_mmi_date" id="anticipated_mmi_date">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group text-center">
+                    <button type="submit" class="btn btn-success btn-lg">Submit PR-1 Report</button>
+                    <a href="{{ url_for('pr1.list_reports') }}" class="btn btn-secondary btn-lg ml-2">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- JavaScript for form functionality -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Show/hide other reason field
+    const isOtherCheckbox = document.getElementById('is_other');
+    const otherReasonDiv = document.getElementById('otherReasonDiv');
+    
+    isOtherCheckbox.addEventListener('change', function() {
+        otherReasonDiv.style.display = this.checked ? 'block' : 'none';
+    });
+
+    // Show/hide work restrictions field
+    const workStatusSelect = document.getElementById('work_status');
+    const workRestrictionsDiv = document.getElementById('workRestrictionsDiv');
+    
+    workStatusSelect.addEventListener('change', function() {
+        workRestrictionsDiv.style.display = this.value === 'Modified Duty' ? 'block' : 'none';
+    });
+
+    // Show/hide anticipated MMI date field
+    const mmiStatusCheckbox = document.getElementById('mmi_status');
+    const anticipatedMMIDateDiv = document.getElementById('anticipatedMMIDateDiv');
+    
+    mmiStatusCheckbox.addEventListener('change', function() {
+        anticipatedMMIDateDiv.style.display = this.checked ? 'none' : 'block';
+    });
+
+    // Handle diagnoses
+    const diagnoses = [];
+    const diagnosisSelect = document.getElementById('diagnosis_select');
+    const addDiagnosisBtn = document.getElementById('addDiagnosisBtn');
+    const diagnosesTable = document.getElementById('diagnosesTable').getElementsByTagName('tbody')[0];
+    const diagnosesJsonInput = document.getElementById('diagnoses_json');
+
+    addDiagnosisBtn.addEventListener('click', function() {
+        const selectedOption = diagnosisSelect.options[diagnosisSelect.selectedIndex];
+        if (selectedOption.value) {
+            const diagnosisId = selectedOption.value;
+            const code = selectedOption.dataset.code;
+            const description = selectedOption.dataset.description;
+            
+            // Add to diagnoses array
+            diagnoses.push({
+                id: diagnosisId,
+                icd10: code,
+                description: description
+            });
+            
+            // Update the hidden JSON input
+            diagnosesJsonInput.value = JSON.stringify(diagnoses);
+            
+            // Add row to table
+            const row = diagnosesTable.insertRow();
+            row.innerHTML = `
+                <td>${code}</td>
+                <td>${description}</td>
+                <td>
+                    <button type="button" class="btn btn-sm btn-danger" onclick="removeDiagnosis(${diagnoses.length - 1})">
+                        Remove
+                    </button>
+                </td>
+            `;
+        }
+    });
+
+    // Make removeDiagnosis function global
+    window.removeDiagnosis = function(index) {
+        diagnoses.splice(index, 1);
+        diagnosesJsonInput.value = JSON.stringify(diagnoses);
+        diagnosesTable.deleteRow(index);
+        
+        // Update the remaining row delete buttons with correct indices
+        for (let i = 0; i < diagnosesTable.rows.length; i++) {
+            const btn = diagnosesTable.rows[i].cells[2].getElementsByTagName('button')[0];
+            btn.setAttribute('onclick', `removeDiagnosis(${i})`);
+        }
+    };
+});
+</script>
+{% endblock %}

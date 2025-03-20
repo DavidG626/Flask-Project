@@ -1,0 +1,154 @@
+# WORKERS' COMPENSATION MEDICAL REPORT
+
+**Date of Report:** March 13, 2025  
+**Patient:** John Doe  
+**Date of Birth:** 06/15/1985  
+**Date of Injury:** 03/01/2024  
+**Claim Number:** WC-2024-38291  
+**Employer:** ABC Construction Company  
+**Insurance Carrier:** California Workers Comp Insurance Group  
+**Adjuster:** Jane Smith  
+
+## HISTORY OF PRESENT ILLNESS
+
+Mr. Doe is a 39-year-old construction worker who sustained an injury to his lower back on 03/01/2024 while lifting a heavy box of construction materials at work. He reports that he was lifting a box weighing approximately 75 pounds when he felt a sudden sharp pain in his lower back that radiated into his right leg. He immediately reported the injury to his supervisor and was sent for medical evaluation.
+
+The patient reports constant pain in the lower back rated at 7/10, which worsens with movement, especially bending and lifting. He describes the pain as sharp and occasionally radiating down his right leg to the knee. He denies any numbness or tingling in the extremities. The patient reports that the pain interferes with his sleep and activities of daily living.
+
+Prior to this injury, the patient had no significant history of back problems or injuries.
+
+## PAST MEDICAL HISTORY
+
+**Medical History:** 
+- Hypertension, controlled with medication
+- No prior back injuries or surgeries
+
+**Surgical History:**
+- Appendectomy, 2010
+- No spine surgeries
+
+**Current Medications:**
+- Lisinopril 10mg daily for hypertension
+- Ibuprofen 800mg TID for pain (prescribed post-injury)
+- Cyclobenzaprine 10mg QHS for muscle spasm (prescribed post-injury)
+
+**Allergies:** No known drug allergies
+
+**Social History:**
+- Denies tobacco use
+- Occasional alcohol use
+- Works as a construction worker for 12 years
+
+## PHYSICAL EXAMINATION
+
+**Vital Signs:**
+- Blood Pressure: 128/82 mmHg
+- Pulse: 76 bpm
+- Respiratory Rate: 16 breaths/min
+- Temperature: 98.6°F
+- Height: 5'10"
+- Weight: 185 lbs
+
+**General:** The patient is a well-developed, well-nourished male in moderate distress due to pain.
+
+**Gait:** Antalgic with favoring of the right lower extremity
+
+**Spine Inspection:** Normal spinal alignment with no visible deformities. Mild paraspinal muscle spasm noted in the lumbar region.
+
+**Palpation:** Tenderness to palpation at L4-L5 and L5-S1 levels with associated muscle spasm.
+
+**Range of Motion:**
+- Flexion: 45 degrees (normal 90) with pain
+- Extension: 10 degrees (normal 30) with pain
+- Lateral bending: Right 15 degrees, Left 20 degrees (normal 30) with pain
+- Rotation: Right 20 degrees, Left 25 degrees (normal 30) with pain
+
+**Neurological Examination:**
+- Motor strength: 5/5 throughout upper extremities, 4/5 in right lower extremity (quadriceps, hamstrings, ankle dorsiflexors), 5/5 in left lower extremity
+- Sensory: Intact to light touch and pinprick in all dermatomes
+- Reflexes: 2+ symmetrical in biceps, triceps, brachioradialis, knee, and ankle jerks
+- Straight leg raise: Positive at 45 degrees on right, negative on left
+- Femoral stretch test: Negative bilaterally
+
+## DIAGNOSTIC STUDIES
+
+**X-ray Lumbar Spine (03/02/2024):** Mild degenerative changes at L4-L5 and L5-S1 with mild disc space narrowing. No acute fracture or dislocation.
+
+**MRI Lumbar Spine (03/10/2024):** L4-L5 disc bulge with right lateral protrusion impinging on the right L5 nerve root. Mild facet arthropathy at L4-L5 and L5-S1 levels. No spinal stenosis.
+
+## DIAGNOSIS
+
+1. Acute lumbar strain/sprain with right-sided radiculopathy, L5 distribution (ICD-10: S33.5XXA)
+2. L4-L5 disc bulge with right lateral protrusion (ICD-10: M51.26)
+
+## CAUSATION ANALYSIS
+
+Based on the patient's history, physical examination, and diagnostic findings, it is my medical opinion that there is a direct causal relationship between the patient's current lumbar condition and the industrial incident that occurred on 03/01/2024. The mechanism of injury (lifting a heavy object) is consistent with the type of injury sustained. The temporal relationship between the onset of symptoms and the work activity supports this conclusion. There is no evidence of prior back problems or non-industrial factors that would significantly contribute to the current condition.
+
+This injury is work-related with reasonable medical probability (>50%).
+
+## TREATMENT TO DATE
+
+Since the injury occurred, the patient has received:
+1. Medication management with NSAID (Ibuprofen 800mg TID) and muscle relaxant (Cyclobenzaprine 10mg QHS)
+2. Physical therapy twice weekly for 2 weeks focusing on pain control, lumbar stabilization, and core strengthening
+3. Home exercise program
+4. Work activity modification
+5. Diagnostic imaging including X-rays and MRI
+
+## TREATMENT PLAN
+
+1. **Medication Management:**
+   - Continue Ibuprofen 800mg TID for 2 more weeks
+   - Continue Cyclobenzaprine 10mg QHS for 2 more weeks
+   - Add Gabapentin 300mg QHS, increasing to 300mg TID as tolerated for radicular symptoms
+
+2. **Physical Therapy:**
+   - Continue physical therapy twice weekly for 4 more weeks
+   - Focus on progressive core strengthening, lumbar stabilization, and functional rehabilitation
+
+3. **Home Exercise Program:**
+   - Daily exercises as instructed by physical therapist
+
+4. **Follow-up:**
+   - Re-evaluation in 4 weeks
+   - Consider epidural steroid injection if radicular symptoms persist despite conservative management
+
+## WORK STATUS
+
+The patient is unable to perform his usual and customary job duties at this time. Based on the physical examination and objective findings, the following work restrictions are recommended for 4 weeks:
+
+1. No lifting, pushing, or pulling more than 10 pounds
+2. No repetitive bending or twisting of the back
+3. Ability to change positions as needed for comfort (sit/stand option)
+4. No climbing ladders or scaffolding
+5. No operating heavy machinery while taking Cyclobenzaprine due to sedative effects
+6. Limited to 4-hour workday for 2 weeks, then progress to 6-hour workday for 2 weeks if tolerated
+
+## FUNCTIONAL IMPROVEMENT AND GOALS
+
+1. **Current Functional Status:**
+   - Unable to lift more than 10 pounds without pain
+   - Unable to sit or stand for more than 30 minutes without changing positions
+   - Difficulty with self-care activities requiring bending
+
+2. **Goals for Next Visit:**
+   - Increase pain-free lifting to 20 pounds
+   - Increase sitting/standing tolerance to 60 minutes
+   - Reduce pain level to 3/10 or less
+   - Improve ability to perform daily activities without significant pain
+
+## PROGNOSIS
+
+The prognosis for this patient is generally good. With appropriate conservative management including medications, physical therapy, and activity modification, I anticipate gradual improvement over the next 6-8 weeks. Maximum Medical Improvement (MMI) is expected within 3 months from the date of injury, assuming no complications.
+
+## CERTIFICATION
+
+I declare under penalty of perjury that this report is true and correct to the best of my knowledge and that I have not violated Labor Code section 139.3.
+
+Respectfully submitted,
+
+Dr. Jane Johnson, M.D.  
+Board Certified in Physical Medicine and Rehabilitation  
+License #: CA-12345  
+NPI: 1234567890
