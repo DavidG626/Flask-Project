@@ -34,33 +34,7 @@ def view_pr1(pr1_id):
         flash('You do not have permission to view this report.', 'error')
         return redirect(url_for('dashboard.my_patients'))
     
-    # Get CPT codes for this PR1 report
-    cpt_codes = []
-    pr1_cpt_relations = PR1CPT.query.filter_by(pr1_id=pr1_id).all()
-    for relation in pr1_cpt_relations:
-        cpt_codes.append(relation.cpt_code)
-    
-    # Get diagnoses if needed
-    diagnoses = []
-    if pr1_report.diagnoses:
-        # You'll need to implement logic here to parse the diagnoses
-        # This depends on how diagnoses are stored in your model
-        pass
-    
-    # Get RFA information if available
-    rfa = PR1Authorization.query.filter_by(pr1_id=pr1_id).first()
-    rfa_items = []
-    if rfa:
-        rfa_items = PR1RFAItem.query.filter_by(rfa_id=rfa.id).all()
-    
-    return render_template('view_pr1.html', 
-                          pr1_report=pr1_report, 
-                          patient=patient, 
-                          provider=current_user,
-                          cpt_codes=cpt_codes,
-                          diagnoses=diagnoses,
-                          rfa=rfa,
-                          rfa_items=rfa_items)
+    return render_template('view_pr1.html', pr1_report=pr1_report, patient=patient)
 
 @pr1_bp.route('/patient/<int:patient_id>/create_pr1', methods=['GET', 'POST'])
 @login_required

@@ -143,9 +143,7 @@
                                         <div>
                                             <span class="patient-name">PR-1 Initial Report</span>
                                             <div class="small-text">
-                                                <div class="small-text">
-                                                    Date: {{ pr1.date_of_exam.strftime('%m/%d/%Y') if pr1.date_of_exam else pr1.created_at.strftime('%m/%d/%Y') }}
-                                                </div>
+                                                Date: {{ pr1.date_of_exam.strftime('%m/%d/%Y') }}
                                             </div>
                                         </div>
                                     </a>

@@ -142,7 +142,7 @@
                         <label>Request for Authorization</label>
                     </div>
                     <div class="checkbox-item">
-                        <input type="checkbox" disabled {% if pr1_report.is_periodic_report %}checked{% endif %} class="readonly-checkbox">
+                        <input type="checkbox" disabled {% if pr1_report.is_progress_report %}checked{% endif %} class="readonly-checkbox">
                         <label>Progress Report</label>
                     </div>
                     <div class="checkbox-item">
@@ -150,28 +150,31 @@
                         <label>Response to Request for Information</label>
                     </div>
                     <div class="checkbox-item">
+                        <input type="checkbox" disabled {% if pr1_report.is_expedited_request %}checked{% endif %} class="readonly-checkbox">
+                        <label>Expedited Request for Authorization</label>
+                    </div>
+                    <div class="checkbox-item">
                         <input type="checkbox" disabled {% if pr1_report.is_change_in_work_status %}checked{% endif %} class="readonly-checkbox">
                         <label>Change in Work Status</label>
                     </div>
                     <div class="checkbox-item">
-                        <input type="checkbox" disabled {% if pr1_report.is_change_in_condition %}checked{% endif %} class="readonly-checkbox">
+                        <input type="checkbox" disabled {% if pr1_report.is_change_in_patient_condition %}checked{% endif %} class="readonly-checkbox">
                         <label>Change in Patient's Condition</label>
                     </div>
                     <div class="checkbox-item">
-                        <input type="checkbox" disabled {% if pr1_report.is_change_in_treatment %}checked{% endif %} class="readonly-checkbox">
+                        <input type="checkbox" disabled {% if pr1_report.is_change_in_treatment_plan %}checked{% endif %} class="readonly-checkbox">
                         <label>Change in Treatment Plan</label>
                     </div>
                     <div class="checkbox-item">
-                        <input type="checkbox" disabled {% if pr1_report.is_release_from_care %}checked{% endif %} class="readonly-checkbox">
+                        <input type="checkbox" disabled {% if pr1_report.is_released_from_care %}checked{% endif %} class="readonly-checkbox">
                         <label>Released from Care</label>
                     </div>
                     <div class="checkbox-item">
-                        <input type="checkbox" disabled {% if pr1_report.is_need_for_surgery %}checked{% endif %} class="readonly-checkbox">
-                        <label>Need for Surgery</label>
-                    </div>
-                    <div class="checkbox-item">
-                        <input type="checkbox" disabled {% if pr1_report.is_need_for_referral %}checked{% endif %} class="readonly-checkbox">
-                        <label>Need for Referral</label>
+                        <input type="checkbox" disabled {% if pr1_report.is_other %}checked{% endif %} class="readonly-checkbox">
+                        <label>Other: </label>
+                        {% if pr1_report.is_other and pr1_report.other_reason %}
+                            <span>{{ pr1_report.other_reason }}</span>
+                        {% endif %}
                     </div>
                 </div>
     
@@ -187,143 +190,156 @@
                     </div>
                     <div class="form-field">
                         <label>Date of Injury:</label>
-                        <input type="text" value="{% if patient.patient_date_of_injury %}{{ patient.patient_date_of_injury.strftime('%m/%d/%Y') }}{% else %}Not specified{% endif %}" readonly>
+                        <input type="text" value="{% if pr1_report.date_of_injury %}{{ pr1_report.date_of_injury.strftime('%m/%d/%Y') }}{% else %}Not specified{% endif %}" readonly>
                     </div>
                     <div class="form-field">
                         <label>Claim Number:</label>
-                        <input type="text" value="{{ patient.patient_claim_number }}" readonly>
+                        <input type="text" value="{{ pr1_report.claim_number }}" readonly>
                     </div>
                     <div class="form-field">
                         <label>Employer:</label>
-                        <input type="text" value="{{ patient.patient_employer }}" readonly>
+                        <input type="text" value="{{ pr1_report.employer }}" readonly>
                     </div>
                 </div>
                 
-                <!-- Narrative Report Section -->
-                <h4>Narrative Report Information</h4>
+                {% if pr1_report %}
+<!-- Narrative Report Section -->
+<h4>Narrative Report Information</h4>
 
-                <div class="form-field">
-                    <label>Report Date:</label>
-                    <input type="text" value="{{ pr1_report.date_of_exam.strftime('%m/%d/%Y') if pr1_report.date_of_exam else pr1_report.created_at.strftime('%m/%d/%Y') }}" readonly>
-                </div><br>
+<div class="form-field">
+    <label>Report Date:</label>
+    <input type="text" value="{{ pr1_report.date_of_exam.strftime('%m/%d/%Y') if pr1_report.date_of_exam else pr1_report.created_at.strftime('%m/%d/%Y') }}" readonly>
+</div><br>
 
-                <h4>Physical Examination</h4>
-                <div class="text-area-field">
-                    <label>Vital Signs:</label>
-                    <textarea readonly>{{ pr1_report.vital_signs }}</textarea>
+<h4>Physical Examination</h4>
+<div class="text-area-field">
+    <label>Vital Signs:</label>
+    <textarea readonly>{{ pr1_report.vital_signs }}</textarea>
+</div>
+
+<div class="text-area-field">
+    <label>General Appearance:</label>
+    <textarea readonly>{{ pr1_report.general_appearance }}</textarea>
+</div>
+
+<div class="text-area-field">
+    <label>Gait:</label>
+    <textarea readonly>{{ pr1_report.gait }}</textarea>
+</div>
+
+<div class="text-area-field">
+    <label>Physical Examination:</label>
+    <textarea readonly>{{ pr1_report.physical_exam }}</textarea>
+</div>
+
+<div class="text-area-field">
+    <label>Palpation Findings:</label>
+    <textarea readonly>{{ pr1_report.palpation_findings }}</textarea>
+</div>
+
+<div class="text-area-field">
+    <label>Range of Motion:</label>
+    <textarea readonly>{{ pr1_report.range_of_motion }}</textarea>
+</div>
+
+<div class="text-area-field">
+    <label>Neurological Examination:</label>
+    <textarea readonly>{{ pr1_report.neurological_exam }}</textarea>
+</div>
+
+<h4>Diagnostic Studies</h4>
+<div class="text-area-field">
+    <textarea readonly>{{ pr1_report.diagnostic_studies }}</textarea>
+</div>
+
+<h4>Assessment:</h4><br>
+<div class="form-field">
+    <div class="diagnoses-container">
+        {% if diagnoses %}
+            {% for diagnosis in diagnoses %}
+                <div class="info-item">
+                    <strong>{{ diagnosis.code if diagnosis.code else '' }}</strong> - {{ diagnosis.description if diagnosis.description else '' }}
                 </div>
+            {% endfor %}
+        {% else %}
+            <div class="info-item">No Diagnoses recorded</div>
+        {% endif %}
+    </div>
+</div>
 
-                <div class="text-area-field">
-                    <label>General Appearance:</label>
-                    <textarea readonly>{{ pr1_report.general_appearance }}</textarea>
-                </div>
+<div class="text-area-field">
+    <label>Subjective Complaints:</label>
+    <textarea readonly>{{ pr1_report.subjective_complaints }}</textarea>
+</div>
 
-                <div class="text-area-field">
-                    <label>Gait:</label>
-                    <textarea readonly>{{ pr1_report.gait }}</textarea>
-                </div>
+<div class="text-area-field">
+    <label>Objective Findings:</label>
+    <textarea readonly>{{ pr1_report.objective_findings }}</textarea>
+</div>
 
-                <div class="text-area-field">
-                    <label>Physical Examination:</label>
-                    <textarea readonly>{{ pr1_report.physical_exam }}</textarea>
-                </div>
+<div class="text-area-field">
+    <label>Causation Analysis:</label>
+    <textarea readonly>{{ pr1_report.causation_analysis }}</textarea>
+</div>
 
-                <div class="text-area-field">
-                    <label>Palpation Findings:</label>
-                    <textarea readonly>{{ pr1_report.palpation_findings }}</textarea>
-                </div>
+<h4>Treatment</h4>
+<div class="text-area-field">
+    <label>Treatment to Date:</label>
+    <textarea readonly>{{ pr1_report.treatment_to_date }}</textarea>
+</div>
 
-                <div class="text-area-field">
-                    <label>Range of Motion:</label>
-                    <textarea readonly>{{ pr1_report.range_of_motion }}</textarea>
-                </div>
+<div class="text-area-field">
+    <label>Treatment Plan:</label>
+    <textarea readonly>{{ pr1_report.treatment_plan }}</textarea>
+</div>
 
-                <div class="text-area-field">
-                    <label>Neurological Examination:</label>
-                    <textarea readonly>{{ pr1_report.neurological_exam }}</textarea>
-                </div>
+<!-- CPT Codes Section -->
+{% if cpt_codes %}
+<h4>Requested CPT Codes:</h4>
+<div class="form-field">
+    <div class="diagnoses-container">
+        {% for cpt in cpt_codes %}
+            <div class="info-item">
+                {{ cpt.code }} - {{ cpt.description }}
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endif %}
 
-                <h4>Diagnostic Studies</h4>
-                <div class="text-area-field">
-                    <textarea readonly>{{ pr1_report.diagnostic_studies }}</textarea>
-                </div>
+<!-- Work Status Section -->
+<div class="form-field">
+    <label>Work Status:</label>
+    <input type="text" value="{{ pr1_report.work_status }}" readonly>
+</div>
 
-                <h4>Assessment:</h4><br>
-                <div class="form-field">
-                    <div class="diagnoses-container">
-                        {% if diagnoses %}
-                            {% for diagnosis in diagnoses %}
-                                <div class="info-item">
-                                    <strong>{{ diagnosis.code if diagnosis.code else '' }}</strong> - {{ diagnosis.description if diagnosis.description else '' }}
-                                </div>
-                            {% endfor %}
-                        {% else %}
-                            <div class="info-item">No Diagnoses recorded</div>
-                        {% endif %}
-                    </div>
-                </div>
+{% if pr1_report.work_status == 'Modified Duty' %}
+<div class="text-area-field">
+    <label>Work Restrictions:</label>
+    <textarea readonly>{{ pr1_report.work_restrictions }}</textarea>
+</div>
+{% endif %}
 
-                <div class="text-area-field">
-                    <label>Subjective Complaints:</label>
-                    <textarea readonly>{{ pr1_report.subjective_complaints }}</textarea>
-                </div>
+<h4>Closing</h4>
+<div class="text-area-field">
+    <label>Prognosis:</label>
+    <textarea readonly>{{ pr1_report.prognosis }}</textarea>
+</div>
 
-                <div class="text-area-field">
-                    <label>Objective Findings:</label>
-                    <textarea readonly>{{ pr1_report.objective_findings }}</textarea>
-                </div>
-
-                <div class="text-area-field">
-                    <label>Causation Analysis:</label>
-                    <textarea readonly>{{ pr1_report.causation_analysis }}</textarea>
-                </div>
-
-                <h4>Treatment</h4>
-                <div class="text-area-field">
-                    <label>Treatment to Date:</label>
-                    <textarea readonly>{{ pr1_report.treatment_to_date }}</textarea>
-                </div>
-
-                <div class="text-area-field">
-                    <label>Treatment Plan:</label>
-                    <textarea readonly>{{ pr1_report.treatment_plan }}</textarea>
-                </div>
-
-                <!-- CPT Codes Section -->
-                {% if cpt_codes %}
-                <h4>Requested CPT Codes:</h4>
-                <div class="form-field">
-                    <div class="diagnoses-container">
-                        {% for cpt in cpt_codes %}
-                            <div class="info-item">
-                                {{ cpt.code }} - {{ cpt.description }}
-                            </div>
-                        {% endfor %}
-                    </div>
+{% else %}
+<div class="alert alert-warning">
+    <p>No report data found for this PR-1.</p>
+</div>
+{% endif %}
+                
+                {% else %}
+                <div class="alert alert-warning">
+                    <p>No narrative report found for this PR-1.</p>
                 </div>
                 {% endif %}
-
-                <!-- Work Status Section -->
-                <div class="form-field">
-                    <label>Work Status:</label>
-                    <input type="text" value="{{ pr1_report.work_status }}" readonly>
-                </div>
-
-                {% if pr1_report.work_status == 'Modified Duty' %}
-                <div class="text-area-field">
-                    <label>Work Restrictions:</label>
-                    <textarea readonly>{{ pr1_report.work_restrictions }}</textarea>
-                </div>
-                {% endif %}
-
-                <h4>Closing</h4>
-                <div class="text-area-field">
-                    <label>Prognosis:</label>
-                    <textarea readonly>{{ pr1_report.prognosis }}</textarea>
-                </div>
     
-                <!-- Provider Information Section -->
-                <div class="provider-section">
+                 <!-- Provider Information Section -->
+                 <div class="provider-section">
                     <div class="form-row">
                         <div class="form-field">
                             <label>Provider Name:</label>
@@ -336,7 +352,7 @@
                     </div>
                     <div class="form-field">
                         <label>Date of Examination:</label>
-                        <input type="text" value="{{ pr1_report.date_of_exam.strftime('%m/%d/%Y') if pr1_report.date_of_exam else pr1_report.created_at.strftime('%m/%d/%Y') }}" readonly>
+                        <input type="text" value="{{ narrative_report.created_at.strftime('%m/%d/%Y') if narrative_report else pr1_report.created_at.strftime('%m/%d/%Y') }}" readonly>
                     </div>
                 </div><br>
                 
@@ -379,7 +395,7 @@
                         </div>
                         <div class="form-field">
                             <label>Date of Injury:</label>
-                            <input type="text" value="{{ patient.patient_date_of_injury.strftime('%m/%d/%Y') if patient.patient_date_of_injury else 'Not specified' }}" readonly>
+                            <input type="text" value="{{ patient.patient_date_of_injury.strftime('%m/%d/%Y') }}" readonly>
                         </div>
                         <div class="form-field">
                             <label>Claim Number:</label>
@@ -410,7 +426,7 @@
                             {% if rfa_items %}
                                 {% for item in rfa_items %}
                                 <div class="info-item">
-                                    {{ item.cpt_code }} - {{ item.service_requested }}
+                                    {{ item.cpt_code.code }} - {{ item.cpt_code.description }}
                                 </div>
                                 {% endfor %}
                             {% else %}

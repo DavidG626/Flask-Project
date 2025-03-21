@@ -17,6 +17,7 @@ from models.patient_medical_hx_models import Allergy, MedicalCondition, Surgery,
 from models.pr2_model import ProgressNote, ProgressNoteCPT, RequestForAuthorization, RFAItem
 from models.provider_info_models import Provider
 from models.wc_patient_models import Patient,  Employer, ClaimsAdmin, Lawyer
+from models.pr1_model import PR1Report, PR1CPT, PR1Authorization, PR1RFAItem
 
 # routes
 from routes.auth_routes import auth_bp
@@ -30,6 +31,7 @@ from routes.misc_routes import misc_bp
 from routes.operative_routes import operative_bp
 from routes.progress_note_route import progress_note_bp
 from routes.wc_patient_portal_routes import wc_patient_portal_bp
+from routes.pr1_route import pr1_bp
 
 
 
@@ -81,6 +83,8 @@ app.register_blueprint(misc_bp, url_prefix='/misc')
 app.register_blueprint(operative_bp, url_prefix='/operative')  
 app.register_blueprint(progress_note_bp, url_prefix='/progress_note')
 app.register_blueprint(wc_patient_portal_bp, url_prefix='/wc_patient_portal')
+app.register_blueprint(pr1_bp, url_prefix='/pr1')
+
 
 # Home route
 @app.route("/")
@@ -93,5 +97,5 @@ with app.app_context():
 
 # Run the app
 if __name__ == "__main__":
-    port = int(os.environ.get('PORT', 5005))
+    port = int(os.environ.get('PORT', 5001))
     app.run(host='0.0.0.0', port=port, debug=True)
