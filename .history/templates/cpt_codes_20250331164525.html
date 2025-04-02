@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ICD-10 Codes</title>
+    <title>CPT Codes</title>
     <link rel="stylesheet" type="text/css" href="/static/dashboard.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 </head>
@@ -44,7 +44,7 @@
                 </ul>
                 <br>
                 <ul>
-                    <li class="active"><a href=""><i class="fas fa-dollar-sign"></i>Billing (under construction)</a></li>
+                    <li class="active"><a href=""><i class="fas fa-dollar-sign"></i>Billing</a></li>
                 </ul>
                 <br>
                 <ul>
@@ -78,19 +78,19 @@
             <header>
                 <div class="search-bar">
                     <i class="fas fa-search"></i>
-                    <form action="{{ url_for('icd10.icd10_codes') }}" method="get">
-                        <input type="text" name="search" placeholder="Search ICD-10 Codes" value="{{ search_query or '' }}">
+                    <form action="{{ url_for('cpt.cpt_codes') }}" method="get">
+                        <input type="text" name="search" placeholder="Search CPT Codes" value="{{ search_query or '' }}">
                     </form>
                 </div>
             </header>
 
             <div class="content">
-                <!-- Add New ICD-10 Code Form -->
+                <!-- Add New CPT Code Form -->
                 <div class="update-form">
-                    <h2>Add New ICD-10 Code</h2>
-                    <form action="{{ url_for('icd10.add_icd10') }}" method="POST">
+                    <h2>Add New CPT Code</h2>
+                    <form action="{{ url_for('cpt.add_cpt') }}" method="POST">
                         <div class="form-group">
-                            <label>ICD-10 Code:</label>
+                            <label>CPT Code:</label>
                             <input type="text" name="code" required>
                         </div>
                         <div class="form-group">
@@ -98,14 +98,16 @@
                             <input type="text" name="description" required>
                         </div>
                         <div class="form-group">
+                            <label>Price:</label>
+                            <input type="number" name="price" step="0.01">
+                        </div>
+                        <div class="form-group">
                             <label>Category:</label>
                             <select name="category">
-                                <option value="Musculoskeletal">Musculoskeletal</option>
-                                <option value="Neurological">Neurological</option>
-                                <option value="Cardiovascular">Cardiovascular</option>
-                                <option value="Respiratory">Respiratory</option>
-                                <option value="Digestive">Digestive</option>
-                                <option value="Other">Other</option>
+                                <option value="Surgery">Surgery</option>
+                                <option value="Evaluation">Evaluation</option>
+                                <option value="Radiology">Radiology</option>
+                                <option value="Laboratory">Laboratory</option>
                             </select>
                         </div>
                         <div class="buttons">
@@ -114,23 +116,24 @@
                     </form>
                 </div>
 
-                <!-- ICD-10 Codes Table -->
+                <!-- CPT Codes Table -->
                 <div class="patient-list">
-                    <h2>ICD-10 Codes</h2>
+                    <h2>CPT Codes</h2>
                     <div class="patients-grid">
-                        {% for code in icd10_codes %}
+                        {% for code in cpt_codes %}
                         <div class="patient-card">
                             <div>
                                 <span class="patient-name">{{ code.code }}</span>
                                 <div class="small-text">{{ code.description }}</div>
                                 <div class="small-text">Category: {{ code.category }}</div>
+                                <div class="small-text">Price: ${{ "%.2f"|format(code.price or 0) }}</div>
                             </div>
                             <div class="patient-details">
-                                <a href="{{ url_for('icd10.edit_icd10', code_id=code.id) }}" class="view-link">
+                                <a href="{{ url_for('cpt.edit_cpt', code_id=code.id) }}" class="view-link">
                                     <i class="fas fa-edit"></i> Edit
                                 </a>
-                                <form action="{{ url_for('icd10.delete_icd10', code_id=code.id) }}" method="POST" style="display: inline;">
-                                    <button type="submit" class="view-link delete" onclick="return confirm('Are you sure you want to delete this ICD-10 code?');">
+                                <form action="{{ url_for('cpt.delete_cpt', code_id=code.id) }}" method="POST" style="display: inline;">
+                                    <button type="submit" class="view-link delete" onclick="return confirm('Are you sure you want to delete this CPT code?');">
                                         <i class="fas fa-trash"></i> Delete
                                     </button>
                                 </form>

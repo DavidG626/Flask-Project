@@ -137,7 +137,7 @@ def create_progress_note(patient_id):
                 db.session.commit()
             
             # Simple data reference from PR2 to RFA
-            if has_cpt_codes and 'rfa_other_info' in request.form:
+            if has_cpt_codes:
                 
                 # Create RFA
                 rfa = RequestForAuthorization(

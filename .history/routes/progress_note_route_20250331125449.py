@@ -79,6 +79,7 @@ def create_progress_note(patient_id):
     if request.method == 'POST':
         
         progress_note = ProgressNote(
+        progress_note = ProgressNote(
             # Form checkboxes
             is_periodic_report=bool(request.form.get('is_periodic_report')),
             is_change_in_treatment=bool(request.form.get('is_change_in_treatment')),
@@ -137,7 +138,7 @@ def create_progress_note(patient_id):
                 db.session.commit()
             
             # Simple data reference from PR2 to RFA
-            if has_cpt_codes and 'rfa_other_info' in request.form:
+            if has_cpt_codes:
                 
                 # Create RFA
                 rfa = RequestForAuthorization(
